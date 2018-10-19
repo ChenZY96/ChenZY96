@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="国民大可爱、">
 <meta property="og:description" content="聚类分析聚类分析算法K-MeansK值选取算法步骤聚类质量的度量聚类算法的评价实例：航空公司客户价值分析">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-10-16T13:48:53.958Z">
+<meta property="og:updated_time" content="2018-10-19T08:47:56.718Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="聚类算法">
 <meta name="twitter:description" content="聚类分析聚类分析算法K-MeansK值选取算法步骤聚类质量的度量聚类算法的评价实例：航空公司客户价值分析">
@@ -276,6 +276,16 @@
 
           
             
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/10/16/聚类算法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/10/16/聚类算法/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -375,6 +385,9 @@
 
           
 
+  
+    <div class="comments" id="comments">
+    </div>
   
 
 
@@ -662,6 +675,28 @@
 
 
 
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'KSn8wT5RN2dHd9qrxrtR3e0g-gzGzoHsz',
+        appKey: 'DezWAMrdLtNBOzESQv1mlViN',
+        placeholder: '你也上网冲浪呀',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
 
 
   
@@ -680,6 +715,28 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
 
   
 
