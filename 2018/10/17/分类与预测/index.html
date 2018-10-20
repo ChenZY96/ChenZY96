@@ -81,7 +81,7 @@
 
 <meta name="description" content="分类即构造一个分类模型，将每个样本映射到预先定义好的类别，输入样本的属性特征，输出类别。分类模型建立在已有类标的数据集上，属于有监督的学习。    下图是分类算法与分类模型的过程。预测模型与之相似，首先通过训练机建立预测属性的函数模型，然后在模型通过检验后进行预测或控制。 常用的分类与预测算法 回归分析 决策树 人工神经网络 贝叶斯网络 支持向量机  回归分析回归分析是确定两种或两种以上变量间相互">
 <meta property="og:type" content="article">
-<meta property="og:title" content="分类与预测">
+<meta property="og:title" content="分类与预测之回归分析">
 <meta property="og:url" content="http://yoursite.com/2018/10/17/分类与预测/index.html">
 <meta property="og:site_name" content="国民大可爱、">
 <meta property="og:description" content="分类即构造一个分类模型，将每个样本映射到预先定义好的类别，输入样本的属性特征，输出类别。分类模型建立在已有类标的数据集上，属于有监督的学习。    下图是分类算法与分类模型的过程。预测模型与之相似，首先通过训练机建立预测属性的函数模型，然后在模型通过检验后进行预测或控制。 常用的分类与预测算法 回归分析 决策树 人工神经网络 贝叶斯网络 支持向量机  回归分析回归分析是确定两种或两种以上变量间相互">
@@ -90,9 +90,9 @@
 <meta property="og:image" content="http://yoursite.com/2018/10/17/分类与预测/Logistic.png">
 <meta property="og:image" content="http://yoursite.com/2018/10/17/分类与预测/银行贷款数据.jpg">
 <meta property="og:image" content="http://yoursite.com/2018/10/17/分类与预测/银行代码结果.jpg">
-<meta property="og:updated_time" content="2018-10-19T08:23:26.322Z">
+<meta property="og:updated_time" content="2018-10-20T06:44:42.566Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="分类与预测">
+<meta name="twitter:title" content="分类与预测之回归分析">
 <meta name="twitter:description" content="分类即构造一个分类模型，将每个样本映射到预先定义好的类别，输入样本的属性特征，输出类别。分类模型建立在已有类标的数据集上，属于有监督的学习。    下图是分类算法与分类模型的过程。预测模型与之相似，首先通过训练机建立预测属性的函数模型，然后在模型通过检验后进行预测或控制。 常用的分类与预测算法 回归分析 决策树 人工神经网络 贝叶斯网络 支持向量机  回归分析回归分析是确定两种或两种以上变量间相互">
 <meta name="twitter:image" content="http://yoursite.com/2018/10/17/分类与预测/分类模型的实现步骤.png">
 
@@ -130,7 +130,7 @@
 
 
 
-  <title>分类与预测 | 国民大可爱、</title>
+  <title>分类与预测之回归分析 | 国民大可爱、</title>
   
 
 
@@ -254,7 +254,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">分类与预测</h1>
+          <h1 class="post-title" itemprop="name headline">分类与预测之回归分析</h1>
         
 
         <div class="post-meta">
@@ -401,7 +401,7 @@ Scikit-Learn中提供了RFE、RFECV,可以进行交叉验证。
 Scikit-Learn在Lasso和RLR中都有稳定性选择的实现。
 </code></pre><p>基于决策树的特征选择:可以算特征的重要程度，所以反过来也可以去除不相关的特征<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.ensemble <span class="keyword">import</span> ExtraTreesClassifier</span><br><span class="line"><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> load_iris</span><br><span class="line"><span class="keyword">from</span> sklearn.feature_selection <span class="keyword">import</span> SelectFromModel</span><br><span class="line">iris = load_iris()</span><br><span class="line">x,y = iris.data,iris.target</span><br><span class="line"><span class="comment">#print(x.shape) #(150,4)</span></span><br><span class="line">clf = ExtraTreesClassifier()</span><br><span class="line">clf = clf.fit(x,y)</span><br><span class="line"><span class="comment">#print(clf.feature_importances_) #[0.04973085 0.05026085 0.49297071 0.4070376 ]</span></span><br><span class="line">model = SelectFromModel(clf,prefit = true)</span><br><span class="line">x_new = model.transform(x)</span><br><span class="line"><span class="comment">#print(x.shape) #(150,2)</span></span><br></pre></td></tr></table></figure></p>
 <p><strong>逻辑回归本质上依然属于线性模型，被筛选掉的特征只是与结果不具有较强的线性关系而已，可能会具有非线性关系，具体问题具体分析。<br>对于非线性变量的筛选可以依靠决策树、神经网络等</strong></p>
-<h1 id="决策树"><a href="#决策树" class="headerlink" title="决策树"></a>决策树</h1><h1 id="人工神经网络"><a href="#人工神经网络" class="headerlink" title="人工神经网络"></a>人工神经网络</h1><h1 id="分类与预测算法评价"><a href="#分类与预测算法评价" class="headerlink" title="分类与预测算法评价"></a>分类与预测算法评价</h1>
+
       
     </div>
     
@@ -563,7 +563,7 @@ Scikit-Learn在Lasso和RLR中都有稳定性选择的实现。
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#分类"><span class="nav-number">1.</span> <span class="nav-text">分类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#常用的分类与预测算法"><span class="nav-number">1.1.</span> <span class="nav-text">常用的分类与预测算法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#回归分析"><span class="nav-number">2.</span> <span class="nav-text">回归分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#线性回归-Linear-Regression"><span class="nav-number">2.1.</span> <span class="nav-text">线性回归 Linear Regression</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Logistic回归"><span class="nav-number">2.2.</span> <span class="nav-text">Logistic回归</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Logistic函数"><span class="nav-number">2.2.1.</span> <span class="nav-text">Logistic函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Logistic回归模型"><span class="nav-number">2.2.2.</span> <span class="nav-text">Logistic回归模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Logistic回归建模"><span class="nav-number">2.2.3.</span> <span class="nav-text">Logistic回归建模</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实例：降低银行贷款拖欠率"><span class="nav-number">2.2.4.</span> <span class="nav-text">实例：降低银行贷款拖欠率</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#决策树"><span class="nav-number">3.</span> <span class="nav-text">决策树</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#人工神经网络"><span class="nav-number">4.</span> <span class="nav-text">人工神经网络</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#分类与预测算法评价"><span class="nav-number">5.</span> <span class="nav-text">分类与预测算法评价</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#分类"><span class="nav-number">1.</span> <span class="nav-text">分类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#常用的分类与预测算法"><span class="nav-number">1.1.</span> <span class="nav-text">常用的分类与预测算法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#回归分析"><span class="nav-number">2.</span> <span class="nav-text">回归分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#线性回归-Linear-Regression"><span class="nav-number">2.1.</span> <span class="nav-text">线性回归 Linear Regression</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Logistic回归"><span class="nav-number">2.2.</span> <span class="nav-text">Logistic回归</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Logistic函数"><span class="nav-number">2.2.1.</span> <span class="nav-text">Logistic函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Logistic回归模型"><span class="nav-number">2.2.2.</span> <span class="nav-text">Logistic回归模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Logistic回归建模"><span class="nav-number">2.2.3.</span> <span class="nav-text">Logistic回归建模</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实例：降低银行贷款拖欠率"><span class="nav-number">2.2.4.</span> <span class="nav-text">实例：降低银行贷款拖欠率</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
