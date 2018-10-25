@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="亲和性分析定义：根据样本个体之间的相似度，确定关系的亲疏。 应用场景投放广告、推荐商品、寻找有亲缘关系的人 实例：商品推荐向上销售：向已经购买商品的顾客推荐另一种商品。规则：如果一个人买了商品X,那么很有可能购买商品Y判断规则的优劣：支持度(support)和置信度(confidence)支持度：指数据集中规则应验的次数，也就是给定规则应验的比例，有时候还要进行规范化，即除以规则有效前提下的数量置">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python数据分析与挖掘实战——学习笔记(1)">
+<meta property="og:url" content="http://yoursite.com/2018/10/23/python数据分析与挖掘实战——学习笔记-1/index.html">
+<meta property="og:site_name" content="国民大可爱、">
+<meta property="og:description" content="亲和性分析定义：根据样本个体之间的相似度，确定关系的亲疏。 应用场景投放广告、推荐商品、寻找有亲缘关系的人 实例：商品推荐向上销售：向已经购买商品的顾客推荐另一种商品。规则：如果一个人买了商品X,那么很有可能购买商品Y判断规则的优劣：支持度(support)和置信度(confidence)支持度：指数据集中规则应验的次数，也就是给定规则应验的比例，有时候还要进行规范化，即除以规则有效前提下的数量置">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-10-25T11:21:07.621Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="python数据分析与挖掘实战——学习笔记(1)">
+<meta name="twitter:description" content="亲和性分析定义：根据样本个体之间的相似度，确定关系的亲疏。 应用场景投放广告、推荐商品、寻找有亲缘关系的人 实例：商品推荐向上销售：向已经购买商品的顾客推荐另一种商品。规则：如果一个人买了商品X,那么很有可能购买商品Y判断规则的优劣：支持度(support)和置信度(confidence)支持度：指数据集中规则应验的次数，也就是给定规则应验的比例，有时候还要进行规范化，即除以规则有效前提下的数量置">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/10/23/python数据分析与挖掘实战——学习笔记-1/"/>
+
+
+
+
+
+  <title>python数据分析与挖掘实战——学习笔记(1) | 国民大可爱、</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">国民大可爱、</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Book思议在划水</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/23/python数据分析与挖掘实战——学习笔记-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Chen Zhaoyun">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="国民大可爱、">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">python数据分析与挖掘实战——学习笔记(1)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-23T19:56:32+08:00">
+                2018-10-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/10/23/python数据分析与挖掘实战——学习笔记-1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/10/23/python数据分析与挖掘实战——学习笔记-1/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="亲和性分析"><a href="#亲和性分析" class="headerlink" title="亲和性分析"></a>亲和性分析</h1><p>定义：根据样本个体之间的相似度，确定关系的亲疏。</p>
+<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><p>投放广告、推荐商品、寻找有亲缘关系的人</p>
+<h2 id="实例：商品推荐"><a href="#实例：商品推荐" class="headerlink" title="实例：商品推荐"></a>实例：商品推荐</h2><p>向上销售：向已经购买商品的顾客推荐另一种商品。<br>规则：如果一个人买了商品X,那么很有可能购买商品Y<br>判断规则的优劣：支持度(support)和置信度(confidence)<br><strong>支持度：</strong>指数据集中规则应验的次数，也就是给定规则应验的比例，有时候还要进行规范化，即除以规则有效前提下的数量<br><strong>置信度：</strong>指规则的准确率，即符合给定条件(也就是规则中的“如果”)的所有规则里，跟当前规则结论一致的比例有多大。<br>首先看一下本实例的部分数据集：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>面包</th>
+<th>牛奶</th>
+<th>奶酪</th>
+<th>苹果</th>
+<th>香蕉</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="实现简单的排序规则"><a href="#实现简单的排序规则" class="headerlink" title="实现简单的排序规则"></a>实现简单的排序规则</h3><p>找出“如果顾客购买了商品X，那么他们可能愿意购买商品Y”这样的规则【一条规则由前提条件和结论组成】<br>找出这些规则后，再按照上文提到的支持度和置信度来判断规则的优劣，然后进行排序，挑选好的规则进行使用。<br>下面找出所有的规则，并计算每条规则的support和confidence<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">file = <span class="string">'/Chapter 1/affinity_dataset.txt'</span></span><br><span class="line">data = np.loadtxt(file)</span><br><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> defaultdict</span><br><span class="line"><span class="comment">#当字典中的key不存在时，返回默认值，这里是int，也就是0</span></span><br><span class="line">valid_rules = defaultdict(int) <span class="comment"># 有效规则，例如：如果顾客买了商品X,也会买商品Y</span></span><br><span class="line">invalid_rules = defaultdict(int) <span class="comment"># 无效规则，例如：如果顾客买了商品X，也会买商品X或value[Y]==0</span></span><br><span class="line">num_occurances = defaultdict(int) <span class="comment"># 条件相同的规则</span></span><br><span class="line"></span><br><span class="line">features = [<span class="string">'bread'</span>,<span class="string">'milk'</span>,<span class="string">'cheese'</span>,<span class="string">'apple'</span>,<span class="string">'banana'</span>]</span><br><span class="line">num_features = len(features)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> eachdata <span class="keyword">in</span> data:</span><br><span class="line">    <span class="keyword">for</span> premise <span class="keyword">in</span> range(num_features):</span><br><span class="line">        <span class="keyword">if</span> eachdata[premise] == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">continue</span> <span class="comment">#只计算"前提条件"有真实交易的规则</span></span><br><span class="line">        num_occurances[premise] += <span class="number">1</span></span><br><span class="line">        <span class="keyword">for</span> conclusion <span class="keyword">in</span> range(num_features):</span><br><span class="line">            <span class="keyword">if</span> premise == conclusion:</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            <span class="keyword">if</span> eachdata[conclusion] == <span class="number">1</span>:</span><br><span class="line">                valid_rules[(premise,conclusion)] += <span class="number">1</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                invalid_rules[(premise,conclusion)] += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">confidence = defaultdict(float)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> premise,conclusion <span class="keyword">in</span> valid_rules.keys():</span><br><span class="line">    confidence[(premise,conclusion)] = valid_rules[(premise,conclusion)]/num_occurances[premise]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> premise,conclusion <span class="keyword">in</span> confidence:</span><br><span class="line">    premise_name = features[premise]</span><br><span class="line">    conclusion_name = features[conclusion]</span><br><span class="line">    print(<span class="string">'如果买%s,也会买%s'</span> % (premise_name,conclusion_name))</span><br><span class="line">    print(<span class="string">'--support:'</span>,valid_rules[(premise,conclusion)])</span><br><span class="line">    print(<span class="string">'--confidence:'</span>,confidence[(premise,conclusion)])</span><br><span class="line">    print(<span class="string">''</span>)</span><br></pre></td></tr></table></figure></p>
+<p>找到所有规则后，我们要挑选出最佳的规则，这只要根据支持度或置信度进行排序即可：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''根据支持度排序'''</span></span><br><span class="line"><span class="keyword">from</span> operator <span class="keyword">import</span> itemgetter</span><br><span class="line">support = valid_rules</span><br><span class="line">sorted_support = sorted(support.items(),key = itemgetter(<span class="number">1</span>),reverse = <span class="keyword">True</span>)</span><br><span class="line"><span class="comment"># 输出支持度最高的五条规则</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">5</span>):</span><br><span class="line">    print(<span class="string">"Rule "</span>,i+<span class="number">1</span>)</span><br><span class="line">    premise,conclusion = sorted_support[i][<span class="number">0</span>]</span><br><span class="line">    print(<span class="string">'如果买%s,也会买%s'</span> % (features[premise],features[conclusion]))</span><br><span class="line">    print(<span class="string">'--support:'</span>,valid_rules[(premise,conclusion)])</span><br><span class="line">    print(<span class="string">'--confidence:'</span>, confidence[(premise, conclusion)])</span><br><span class="line">Rule  <span class="number">1</span></span><br><span class="line"><span class="comment"># 如果买cheese,也会买banana</span></span><br><span class="line"><span class="comment"># --support: 27</span></span><br><span class="line"><span class="comment"># --confidence: 0.6585365853658537</span></span><br><span class="line"><span class="comment"># Rule  2</span></span><br><span class="line"><span class="comment"># 如果买banana,也会买cheese</span></span><br><span class="line"><span class="comment"># --support: 27</span></span><br><span class="line"><span class="comment"># --confidence: 0.4576271186440678</span></span><br><span class="line"><span class="comment"># Rule  3</span></span><br><span class="line"><span class="comment"># 如果买cheese,也会买apple</span></span><br><span class="line"><span class="comment"># --support: 25</span></span><br><span class="line"><span class="comment"># --confidence: 0.6097560975609756</span></span><br><span class="line"><span class="comment"># Rule  4</span></span><br><span class="line"><span class="comment"># 如果买apple,也会买cheese</span></span><br><span class="line"><span class="comment"># --support: 25</span></span><br><span class="line"><span class="comment"># --confidence: 0.6944444444444444</span></span><br><span class="line"><span class="comment"># Rule  5</span></span><br><span class="line"><span class="comment"># 如果买apple,也会买banana</span></span><br><span class="line"><span class="comment"># --support: 21</span></span><br><span class="line"><span class="comment"># --confidence: 0.5833333333333334</span></span><br></pre></td></tr></table></figure></p>
+<p>同理，根据置信度confidence排序<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> operator <span class="keyword">import</span> itemgetter</span><br><span class="line">sorted_confidence = sorted(confidence.items(),key = itemgetter(<span class="number">1</span>),reverse = <span class="keyword">True</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">5</span>):</span><br><span class="line">    print(<span class="string">"Rule "</span>,i+<span class="number">1</span>)</span><br><span class="line">    premise,conclusion = sorted_confidence[i][<span class="number">0</span>]</span><br><span class="line">    print(<span class="string">'如果买%s,也会买%s'</span> % (features[premise],features[conclusion]))</span><br><span class="line">    print(<span class="string">'--support:'</span>,valid_rules[(premise,conclusion)])</span><br><span class="line">    print(<span class="string">'--confidence:'</span>, confidence[(premise, conclusion)])</span><br></pre></td></tr></table></figure></p>
+<p>根据结果，我们可以看到顾客同时购买banbana和cheese的support和confidence都很高，应用到实际场景中，这两样商品没必要捆绑促销，因为就算不促销，购买的人也很多。</p>
+<h1 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h1><p>亲和性分析关注的是不同变量的相关性，分类关注的是类别目标这个变量。<br>分类的目标是，根据已知类别的数据集，经过训练得到分类模型，然后对未知类别的数据进行分类。</p>
+<h2 id="实例：Iris植物分类"><a href="#实例：Iris植物分类" class="headerlink" title="实例：Iris植物分类"></a>实例：Iris植物分类</h2><p>这是一个经典数据集，一共有150条植物数据，每条数据都给出了四个特征：sepal length；sepal width;petal length;petal width。该数据集一共有三个类别：Iris Setosa;Iris Versicolour;Iris Virginica。我们的目标就是根据植物的特征推测它的种类。</p>
+<p>这里用的是<strong>OneR算法(one rule)</strong>，一条规则，也就是只根据训练集中的<strong>一个特征</strong>实现对数据的分类。注意，这样的准确度不会很高，但是对于某些特定的数据集来说，准确度也是可观的。</p>
+<p>这个算法很简单，简单的说就是找到一个特征，根据这个特征进行分类的时候有最高的准确率。具体到实现上，算法要遍历每一个特征的每一个取值，对于每个特征值，统计它在各个类别中出现的次数，找到它出现次数最多的类别，并统计它在其他类别中出现的次数，计算正确分类的准确度，然后对每个特征的准确度进行比较，选取准确度最高的作为分类依据。【值得注意的是，该算法要求特征值都为离散值，所以拿到数据后，对于连续特征值要进行数据离散化。】<br>下面通过一个例子来具体说明该算法的流程。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>身高</th>
+<th>眼睛大小</th>
+<th>肤色</th>
+<th>性别</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>正常</td>
+<td>偏白</td>
+<td>男</td>
+</tr>
+<tr>
+<td>1</td>
+<td>较大</td>
+<td>偏黑</td>
+<td>男</td>
+</tr>
+<tr>
+<td>1</td>
+<td>正常</td>
+<td>偏黑</td>
+<td>男</td>
+</tr>
+<tr>
+<td>1</td>
+<td>较大</td>
+<td>偏黑</td>
+<td>女</td>
+</tr>
+<tr>
+<td>0</td>
+<td>正常</td>
+<td>偏白</td>
+<td>女</td>
+</tr>
+<tr>
+<td>0</td>
+<td>较大</td>
+<td>偏白</td>
+<td>女</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>身高作为分类特征：该特征下有0、1两种特征值。特征值为1时，对应的分类为{男，男，男，女}，选择划分样本最多的类别作为特征值1的结果，也就是性别为男，但我们明显看到特征值为1时，也有分类结果为女的数据，所以说存在错误率；特征值为0时，划分结果全为女性，可以简单的认为该特征值下的分类结果全为女，该结论可能不正确，但在这里是正确的。<br>下面计算准确度，按照身高进行划分,0为女，1为男，准确率为$\frac{5}{6}=0.833$<br>眼睛大小作为分类特征：特征值为正常时，两男一女，我们认为特征值为正常时，分类结果为男性；特征值为较大时，一男两女，我们认为该值的分类结果为女性。准确率为$\frac{4}{6}=0.667$<br>肤色作为分类特征：特征值为偏白时，一男两女，我们认为特征值为偏白时，分类结果为女性；特征值为偏黑时，两男一女，我们认为该值的分类结果为男性。准确率为$\frac{4}{6}=0.667$</p>
+<p>了解了该算法的基本思想后，我们实现该算法并针对本植物数据集进行分类预测。<br>(1)首先要对数据集的特征值进行离散化处理<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''导入数据集'''</span></span><br><span class="line"><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> load_iris</span><br><span class="line">dataset = load_iris()</span><br><span class="line">data = dataset.data</span><br><span class="line">target = dataset.target</span><br><span class="line"><span class="string">'''数据离散化'''</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">attribute_means = data.mean(axis = <span class="number">0</span>) <span class="comment"># 以平均值作为阈值</span></span><br><span class="line">new_data = np.array(data&gt;attribute_means,dtype = <span class="string">'int'</span>)</span><br></pre></td></tr></table></figure></p>
+<p>(2)计算对某个特征的特征值进行分类和计算错误个数<br>计算某个特征等于目标特征值时最可能的所属分类，以及错误率<br>传参：数据集、分类结果、特征下标、特征值<br>返回：最有可能的分类结果，归类错误的数量<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> defaultdict</span><br><span class="line"><span class="keyword">from</span> operator <span class="keyword">import</span> itemgetter</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">feature_value_count</span><span class="params">(new_data,target,feature_index,value)</span>:</span></span><br><span class="line">    class_counts = defaultdict(int)</span><br><span class="line">    <span class="keyword">for</span> eachdata,label <span class="keyword">in</span> zip(new_data,target):</span><br><span class="line">        <span class="keyword">if</span> eachdata[feature_index] == value:</span><br><span class="line">            class_counts[label] += <span class="number">1</span></span><br><span class="line">    <span class="comment"># 将分类的值从大到小排序</span></span><br><span class="line">    sorted_class_counts = sorted(class_counts.items(),key = itemgetter(<span class="number">1</span>),reverse = <span class="keyword">True</span>)</span><br><span class="line">    most_class = sorted_class_counts[<span class="number">0</span>][<span class="number">0</span>] <span class="comment">#该分类就是目标分类</span></span><br><span class="line">    <span class="comment"># 计算错误分类的数量</span></span><br><span class="line">    sum = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,len(sorted_class_counts)):</span><br><span class="line">        sum += sorted_class_counts[i][<span class="number">1</span>]</span><br><span class="line">    error_counts = sum</span><br><span class="line">    <span class="keyword">return</span> most_class,error_counts</span><br><span class="line"><span class="comment">#特征下标为0，特征值为0时，最有可能的所属分类</span></span><br><span class="line">a = feature_value_count(new_data,target,<span class="number">0</span>,<span class="number">0</span>)</span><br><span class="line">print(a)</span><br><span class="line"><span class="comment">#0,30 #最有可能属于0类，这一情况下有30条数据错误归类</span></span><br></pre></td></tr></table></figure></p>
+<p>(3)计算某个特征划分的正确率(即错误率最低的特征)<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">min_error</span><span class="params">(new_data,target,feature_index)</span>:</span></span><br><span class="line">    feature_set = set(new_data[:,feature_index]) <span class="comment"># 得到该特征的所有特征值取值，set无重复</span></span><br><span class="line">    predictors = &#123;&#125; <span class="comment"># 存放该特征下，所有特征值的预测分类</span></span><br><span class="line">    errors = [] <span class="comment">#存放错误个数</span></span><br><span class="line">    <span class="keyword">for</span> each <span class="keyword">in</span> feature_set:</span><br><span class="line">        most_class,error_counts = feature_value_count(new_data,target,feature_index,each) <span class="comment">#对于每个特征值，得到最有可能的分类结果以及分类错误的数目</span></span><br><span class="line">        predictors[each] = most_class</span><br><span class="line">        errors.append(error_counts)</span><br><span class="line">    error_rato = sum(errors)/len(new_data)</span><br><span class="line">    <span class="keyword">return</span> predictors,error_rato</span><br><span class="line"><span class="comment">#计算特征下标为0的特征的预测分类以及错误率</span></span><br><span class="line">a = min_error(new_data,target,<span class="number">0</span>)</span><br><span class="line">print(a)</span><br><span class="line"><span class="comment"># (&#123;0: 0, 1: 2&#125;, 0.37333333333333335) #特征值为0时，归类为0，特征值为1时，归类为2，错误率为0.373</span></span><br></pre></td></tr></table></figure></p>
+<p>(4)“一条规则”，所以遍历所有特征，找出错误率最低的特征作为OneR分类规则<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">creatModel</span><span class="params">(new_data,target)</span>:</span></span><br><span class="line">    all_predictors = &#123;&#125; <span class="comment"># 存放所有特征分类结果</span></span><br><span class="line">    error = &#123;&#125; <span class="comment"># 存放每个特征的错误率</span></span><br><span class="line">    <span class="keyword">for</span> feature_index <span class="keyword">in</span> range(len(new_data[<span class="number">0</span>])):</span><br><span class="line">        predictors,error_rato = min_error(new_data,target,feature_index)</span><br><span class="line">        all_predictors[feature_index] = predictors</span><br><span class="line">        error[feature_index] = error_rato</span><br><span class="line">    sorted_error = sorted(error.items(),key = itemgetter(<span class="number">1</span>),reverse = <span class="keyword">False</span>)</span><br><span class="line">    best_feature_index = sorted_error[<span class="number">0</span>][<span class="number">0</span>]</span><br><span class="line">    model = &#123;<span class="string">'分类特征'</span>:best_feature_index,<span class="string">'分类结果'</span>:all_predictors[best_feature_index]&#125;</span><br><span class="line">    accuracy = <span class="number">1</span>-error[best_feature_index]</span><br><span class="line">    <span class="keyword">return</span> model,accuracy</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">a = creatModel(new_data,target)</span><br><span class="line"><span class="comment">#&#123;'分类特征': 2, '分类结果': &#123;0: 0, 1: 2&#125;&#125;</span></span><br><span class="line"><span class="comment">#准确度:0.667</span></span><br></pre></td></tr></table></figure></p>
+<p>(5)测试模型<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''利用该模型对新的数据进行预测'''</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">OneR_Model</span><span class="params">(test_data,model)</span>:</span></span><br><span class="line">    variable = model[<span class="string">'分类特征'</span>] <span class="comment">#获取模型的分类特征下标</span></span><br><span class="line">    predictor = model[<span class="string">'分类结果'</span>] <span class="comment"># 获取模型该特征下的各个特征值对应的分类结果</span></span><br><span class="line">    <span class="comment">#new_target = predictor[test_data[variable]]</span></span><br><span class="line">    new_target = np.array([predictor[eachdata[variable]]<span class="keyword">for</span> eachdata <span class="keyword">in</span> test_data])</span><br><span class="line">    <span class="keyword">return</span> new_target</span><br></pre></td></tr></table></figure></p>
+<p>机器学习的流程分为模型训练以及测试，绝对不能用测试数据进行模型的训练。<br>为了方便，我们这里将数据集的数据分为两部分，25%作为测试集，75%作为训练集。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"><span class="comment"># 默认将25%数据作为测试集</span></span><br><span class="line">data_train,data_test,target_train,target_test = train_test_split(new_data,target,test_size = <span class="number">0.25</span>,random_state = <span class="number">14</span>)</span><br><span class="line">model,accuracy = creatModel(data_train,target_train)</span><br><span class="line">print(<span class="string">"该模型的准确度为：%.3f"</span> % accuracy)</span><br><span class="line">new_target = OneR_Model(data_test,model)</span><br><span class="line">test_accuracy = np.mean(new_target == target_test)</span><br><span class="line">print(<span class="string">'%.3f'</span>% test_accuracy)</span><br><span class="line"><span class="comment">#该模型的准确度为：0.670</span></span><br><span class="line"><span class="comment">#测试准确度为：0.658</span></span><br></pre></td></tr></table></figure></p>
+<p>因为只用了一条规则作为分类依据，这个准确度还算可观。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/22/人工神经网络ANN/" rel="next" title="人工神经网络ANN">
+                <i class="fa fa-chevron-left"></i> 人工神经网络ANN
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Chen Zhaoyun" />
+            
+              <p class="site-author-name" itemprop="name">Chen Zhaoyun</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#亲和性分析"><span class="nav-number">1.</span> <span class="nav-text">亲和性分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#应用场景"><span class="nav-number">1.1.</span> <span class="nav-text">应用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实例：商品推荐"><span class="nav-number">1.2.</span> <span class="nav-text">实例：商品推荐</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实现简单的排序规则"><span class="nav-number">1.2.1.</span> <span class="nav-text">实现简单的排序规则</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#分类"><span class="nav-number">2.</span> <span class="nav-text">分类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#实例：Iris植物分类"><span class="nav-number">2.1.</span> <span class="nav-text">实例：Iris植物分类</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chen Zhaoyun</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'KSn8wT5RN2dHd9qrxrtR3e0g-gzGzoHsz',
+        appKey: 'DezWAMrdLtNBOzESQv1mlViN',
+        placeholder: '你也上网冲浪呀',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
