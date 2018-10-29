@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="数据挖掘,数据分析," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="第二章主要介绍了数据挖掘通用框架，方便后续的数据挖掘应用。主要关注scikit-learn库。 估计器scikit-learn库把一些相关功能封装成估计器，估计器用于分类任务，主要包括fit(),predict()两个函数。大部分scikit-learn估计器接收和输出的数据格式为numpy数组。 距离度量最直观的就是欧式距离，其他常见的还有曼哈顿距离和余弦距离。曼哈顿距离：两个特征在标准坐标系中">
+<meta name="keywords" content="数据挖掘,数据分析">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python数据分析与挖掘实战——学习笔记(2)">
+<meta property="og:url" content="http://yoursite.com/2018/10/26/python数据分析与挖掘实战——学习笔记-2/index.html">
+<meta property="og:site_name" content="国民大可爱、">
+<meta property="og:description" content="第二章主要介绍了数据挖掘通用框架，方便后续的数据挖掘应用。主要关注scikit-learn库。 估计器scikit-learn库把一些相关功能封装成估计器，估计器用于分类任务，主要包括fit(),predict()两个函数。大部分scikit-learn估计器接收和输出的数据格式为numpy数组。 距离度量最直观的就是欧式距离，其他常见的还有曼哈顿距离和余弦距离。曼哈顿距离：两个特征在标准坐标系中">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2018/10/26/python数据分析与挖掘实战——学习笔记-2/KNN.jpg">
+<meta property="og:updated_time" content="2018-10-29T08:34:31.478Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="python数据分析与挖掘实战——学习笔记(2)">
+<meta name="twitter:description" content="第二章主要介绍了数据挖掘通用框架，方便后续的数据挖掘应用。主要关注scikit-learn库。 估计器scikit-learn库把一些相关功能封装成估计器，估计器用于分类任务，主要包括fit(),predict()两个函数。大部分scikit-learn估计器接收和输出的数据格式为numpy数组。 距离度量最直观的就是欧式距离，其他常见的还有曼哈顿距离和余弦距离。曼哈顿距离：两个特征在标准坐标系中">
+<meta name="twitter:image" content="http://yoursite.com/2018/10/26/python数据分析与挖掘实战——学习笔记-2/KNN.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/10/26/python数据分析与挖掘实战——学习笔记-2/"/>
+
+
+
+
+
+  <title>python数据分析与挖掘实战——学习笔记(2) | 国民大可爱、</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">国民大可爱、</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Book思议在划水</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/26/python数据分析与挖掘实战——学习笔记-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Chen Zhaoyun">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="国民大可爱、">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">python数据分析与挖掘实战——学习笔记(2)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-26T15:56:31+08:00">
+                2018-10-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/10/26/python数据分析与挖掘实战——学习笔记-2/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/10/26/python数据分析与挖掘实战——学习笔记-2/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>第二章主要介绍了数据挖掘通用框架，方便后续的数据挖掘应用。<br>主要关注scikit-learn库。</p>
+<h1 id="估计器"><a href="#估计器" class="headerlink" title="估计器"></a>估计器</h1><p>scikit-learn库把一些相关功能封装成估计器，估计器用于分类任务，主要包括<strong>fit()</strong>,<strong>predict()</strong>两个函数。大部分scikit-learn估计器接收和输出的数据格式为numpy数组。</p>
+<h2 id="距离度量"><a href="#距离度量" class="headerlink" title="距离度量"></a>距离度量</h2><p>最直观的就是欧式距离，其他常见的还有曼哈顿距离和余弦距离。<br>曼哈顿距离：两个特征在标准坐标系中绝对轴距之和。<br>余弦距离：适合解决异常值和数据稀疏问题，指特征向量夹角的余弦值。<br>选择哪种距离度量对最终结果影响很大。</p>
+<p>这里主要引入的就是<strong>K近邻算法</strong>，因为很简单。<br>这里简单的介绍一下KNN：<br>首先计算测试数据与训练数据的距离，并按照距离的递增关系进行排序，选取距离最小的K个点，确定前K个点所在类别的概率，返回概率最高的类别作为该测试数据的预测分类。</p>
+<h2 id="电离层数据"><a href="#电离层数据" class="headerlink" title="电离层数据"></a>电离层数据</h2><p>这里主要引入电离层数据，如果一条数据能给出特殊结构存在的证据，该数据就认为是good，否则被分类为bad<br>step1:导入数据集<br>step2:将数据集分类测试集和训练集<br>step3:导入K近邻分类器，并初始化一个实例【暂时用默认参数，默认选择5个近邻作为分类依据】<br>step4:用训练集进行模型训练<br>strep5:用测试集进行测试，评估该模型的表现<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line">data_path = <span class="string">'Chapter 2/ionosphere.data'</span></span><br><span class="line">datasets = pd.read_csv(data_path)</span><br><span class="line">data = datasets.iloc[:,:<span class="number">34</span>].values</span><br><span class="line">target = datasets.iloc[:,<span class="number">34</span>].values</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line">data_train,data_test,target_train,target_test = train_test_split(data,target,random_state=<span class="number">14</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> sklearn.neighbors <span class="keyword">import</span> KNeighborsClassifier</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">estimator = KNeighborsClassifier() <span class="comment">#初始化一个实例</span></span><br><span class="line">estimator.fit(data_train,target_train)<span class="comment">#训练模型</span></span><br><span class="line"><span class="comment">#测试集在该模型上的表现</span></span><br><span class="line">predictor = estimator.predict(data_test)</span><br><span class="line">accuracy = np.mean(predictor==target_test)*<span class="number">100</span></span><br><span class="line">print(<span class="string">"The accuracy is &#123;0:.1f&#125;%"</span>.format(accuracy))</span><br><span class="line"><span class="comment">#The accuracy is 84.1%</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="交叉验证"><a href="#交叉验证" class="headerlink" title="交叉验证"></a>交叉验证</h2><p>有时候由于测试集的关系，我们可能会误会某个算法表现不好，所以要进行交叉验证，解决这张一次性测试带来的问题。可以将数据多切分几次，保证每次切分的结果都不一样，并且确保每条数据只用来测试一次。</p>
+<p>具体来说，就是将整个大的数据集分为几个部分，对于每个部分，划分为训练集和测试集，进行上例操作。最后将所有的accuracy取平均。【PS:每条数据只能在测试集中出现一次，以减少运气成分】</p>
+<p>scikit-learn中就有交叉验证的函数<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> cross_val_score</span><br><span class="line">scores = cross_val_score(estimator,data,target,scoring=<span class="string">'accuracy'</span>)</span><br><span class="line">average_accuracy = np.mean(scores)*<span class="number">100</span></span><br><span class="line">print(<span class="string">"The average accuracy is &#123;0:.1f&#125;%"</span>.format(average_accuracy))</span><br><span class="line"><span class="comment">#The average accuracy is 82.3%</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="调参"><a href="#调参" class="headerlink" title="调参"></a>调参</h2><p>通过上面的例子，我们可以看到采用默认配置，模型的准确度不是很高，所以要经过调参，来提高准确度。<br><strong>调参是一门玄学</strong><br>举例来说，KNN算法，K值过小，分类很容易受到干扰，随机性很强，K值过大，那么实际近邻的影响将削弱。<br>对于上述例子，我们将K值取1-20，分别计算其accuracy并比较。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">avg_scores = []</span><br><span class="line">k = [i <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">21</span>)]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> n <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">21</span>):</span><br><span class="line">    estimator = KNeighborsClassifier(n_neighbors=n)</span><br><span class="line">    scores = cross_val_score(estimator,data,target,scoring=<span class="string">'accuracy'</span>)</span><br><span class="line">    avg_scores.append(np.mean(scores))</span><br><span class="line"><span class="keyword">from</span> matplotlib <span class="keyword">import</span> pyplot <span class="keyword">as</span> plt</span><br><span class="line">plt.plot(k,avg_scores,<span class="string">'-o'</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure></p>
+<p><img src="/2018/10/26/python数据分析与挖掘实战——学习笔记-2/KNN.jpg" alt=""></p>
+<h1 id="转换器"><a href="#转换器" class="headerlink" title="转换器"></a>转换器</h1><p>特征值的取值范围非常广，而特征值的大小实际上与分类效果没有任何关系，但是对于借助数学方法来比较特征的算法而言，取值大的特征可能比较显著，所以我们要对特征进行<strong>规范化</strong>。<br>scikit-learn又一个预处理工具叫做转换器(Transformer),接受原始数据集，返回转化后的数据集。转换器可以抽取特征，也可以处理数值型特征。<br>抽取特征：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.feature_selection <span class="keyword">import</span> VarianceThreshold</span><br><span class="line">vt = VarianceThreshold()</span><br><span class="line">Xt = vt.fit_transform(X)</span><br></pre></td></tr></table></figure></p>
+<p>处理数值型特征：<br>这里用MinMaxScaler类进行基于特征的规范化,这个类可以将特征值规范到01之间，最小值为0最大值为1，其余值在中间。<br>还有一些其他规范化处理的方法：<br>每条数据的特征值和为1:sklearn.preprocessing.Normalizer<br>各特征值均值为0，方差为1:sklearn.preprocessing.StandardScaler<br>数值型特征二值化：sklearn.preprocessing.Binarizer，大于阈值的为1，其余为0<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">X_broken = np.array(data)</span><br><span class="line">X_broken[:,::<span class="number">2</span>] /= <span class="number">10</span></span><br><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> MinMaxScaler</span><br><span class="line">X_transformed = MinMaxScaler().fit_transform(X_broken)</span><br><span class="line">estimator = KNeighborsClassifier()</span><br><span class="line">transformed = cross_val_score(estimator,X_transformed,target,scoring=<span class="string">'accuracy'</span>)</span><br><span class="line">print(<span class="string">'the average accuracy is &#123;0:.1f&#125;%'</span>.format(np.mean(transformed)*<span class="number">100</span>))</span><br><span class="line"><span class="comment">#the average accuracy is 82.3%</span></span><br></pre></td></tr></table></figure></p>
+<p>异常值会影响KNN，不同算法对值域大小的敏感度不同。</p>
+<h1 id="流水线"><a href="#流水线" class="headerlink" title="流水线"></a>流水线</h1><p>因为数据预处理的过程很多，为了方便代码的跟踪以及后续检查，用流水线结构将这些步骤保存到数据挖掘的工作流中。<br>流水线的输入为一连串的数据挖掘步骤，前面几步是转换器，最后一步必须是<strong>估计器estimator</strong>。数据由转换器进行处理，由估计器进行分类。<br>在上面这个例子中，流水线的结构大致就是：MinMaxScaler将特征取值规范到0-1 + 制定KNeighbourClassifier分类器。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.pipeline <span class="keyword">import</span> Pipeline</span><br><span class="line">scaling_pipeline = Pipeline([(<span class="string">'scale'</span>,MinMaxScaler()),</span><br><span class="line">                             (<span class="string">'predict'</span>,KNeighborsClassifier())])</span><br></pre></td></tr></table></figure></p>
+<p>流水线的核心是元素为元组的列表。第一个元组规范特征取值范围，第二个元组实现预测功能。’scale’和‘predict’的名字可以自己取，<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.pipeline <span class="keyword">import</span> Pipeline</span><br><span class="line">scaling_pipeline = Pipeline([(<span class="string">'scale'</span>,MinMaxScaler()),(<span class="string">'predict'</span>,KNeighborsClassifier())])</span><br><span class="line">scores = cross_val_score(scaling_pipeline,X_broken,target,scoring=<span class="string">'accuracy'</span>)</span><br><span class="line">print(<span class="string">'the pipeline scored an average accuracy is &#123;0:.1f&#125;%'</span>.format(np.mean(scores)*<span class="number">100</span>))</span><br><span class="line"><span class="comment">#the pipeline scored an average accuracy is 82.3%</span></span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数据挖掘-数据分析/" rel="tag"># 数据挖掘,数据分析</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/23/python数据分析与挖掘实战——学习笔记-1/" rel="next" title="python数据分析与挖掘实战——学习笔记(1)">
+                <i class="fa fa-chevron-left"></i> python数据分析与挖掘实战——学习笔记(1)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Chen Zhaoyun" />
+            
+              <p class="site-author-name" itemprop="name">Chen Zhaoyun</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#估计器"><span class="nav-number">1.</span> <span class="nav-text">估计器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#距离度量"><span class="nav-number">1.1.</span> <span class="nav-text">距离度量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#电离层数据"><span class="nav-number">1.2.</span> <span class="nav-text">电离层数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#交叉验证"><span class="nav-number">1.3.</span> <span class="nav-text">交叉验证</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调参"><span class="nav-number">1.4.</span> <span class="nav-text">调参</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#转换器"><span class="nav-number">2.</span> <span class="nav-text">转换器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#流水线"><span class="nav-number">3.</span> <span class="nav-text">流水线</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chen Zhaoyun</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'KSn8wT5RN2dHd9qrxrtR3e0g-gzGzoHsz',
+        appKey: 'DezWAMrdLtNBOzESQv1mlViN',
+        placeholder: '你也上网冲浪呀',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
