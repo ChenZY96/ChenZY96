@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="数据挖掘,数据分析," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="这一章是介绍决策树的，由于在之前一篇文章里已经大致学习过了，所以这里就只记录一些补充的知识，以及实例。 数据预处理这里采用的是NBA2013-2014的数据集 数据集清洗用pandas的read_csv()读入数据后，查看数据，可以看到数据是有问题的，例如表头不完整，日期是字符串格式而不是日期对象等问题。123456import pandas as pddata_path = &apos;/Users/ap">
+<meta name="keywords" content="数据挖掘,数据分析">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python数据分析与挖掘实战——学习笔记(3)">
+<meta property="og:url" content="http://yoursite.com/2018/10/29/python数据分析与挖掘实战——学习笔记-3/index.html">
+<meta property="og:site_name" content="国民大可爱、">
+<meta property="og:description" content="这一章是介绍决策树的，由于在之前一篇文章里已经大致学习过了，所以这里就只记录一些补充的知识，以及实例。 数据预处理这里采用的是NBA2013-2014的数据集 数据集清洗用pandas的read_csv()读入数据后，查看数据，可以看到数据是有问题的，例如表头不完整，日期是字符串格式而不是日期对象等问题。123456import pandas as pddata_path = &apos;/Users/ap">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2018/10/29/python数据分析与挖掘实战——学习笔记-3/standing.jpg">
+<meta property="og:updated_time" content="2018-10-30T07:47:38.937Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="python数据分析与挖掘实战——学习笔记(3)">
+<meta name="twitter:description" content="这一章是介绍决策树的，由于在之前一篇文章里已经大致学习过了，所以这里就只记录一些补充的知识，以及实例。 数据预处理这里采用的是NBA2013-2014的数据集 数据集清洗用pandas的read_csv()读入数据后，查看数据，可以看到数据是有问题的，例如表头不完整，日期是字符串格式而不是日期对象等问题。123456import pandas as pddata_path = &apos;/Users/ap">
+<meta name="twitter:image" content="http://yoursite.com/2018/10/29/python数据分析与挖掘实战——学习笔记-3/standing.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/10/29/python数据分析与挖掘实战——学习笔记-3/"/>
+
+
+
+
+
+  <title>python数据分析与挖掘实战——学习笔记(3) | 国民大可爱、</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">国民大可爱、</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Book思议在划水</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/29/python数据分析与挖掘实战——学习笔记-3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Chen Zhaoyun">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="国民大可爱、">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">python数据分析与挖掘实战——学习笔记(3)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-29T16:36:13+08:00">
+                2018-10-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/10/29/python数据分析与挖掘实战——学习笔记-3/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/10/29/python数据分析与挖掘实战——学习笔记-3/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这一章是介绍决策树的，由于在之前一篇文章里已经大致学习过了，所以这里就只记录一些补充的知识，以及实例。</p>
+<h1 id="数据预处理"><a href="#数据预处理" class="headerlink" title="数据预处理"></a>数据预处理</h1><p>这里采用的是NBA2013-2014的数据集</p>
+<h2 id="数据集清洗"><a href="#数据集清洗" class="headerlink" title="数据集清洗"></a>数据集清洗</h2><p>用pandas的read_csv()读入数据后，查看数据，可以看到数据是有问题的，例如表头不完整，日期是字符串格式而不是日期对象等问题。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line">data_path = <span class="string">'/Users/apple/Desktop/python_study/Python数据挖掘入门与实践Code/Chapter 3/89644NBA 2013-14赛季比赛数据资料 csv格式 可用于机器学习和数据挖掘.csv'</span></span><br><span class="line">data = pd.read_csv(data_path,parse_dates=[<span class="string">'Date'</span>]) <span class="comment"># parse_dates 转换日期格式</span></span><br><span class="line"><span class="comment">#print(data)</span></span><br><span class="line">data.columns = [<span class="string">'Date'</span>,<span class="string">'Visitor/Neutral'</span>,<span class="string">'PTS'</span>,<span class="string">'Home/Neutral'</span>,<span class="string">'PTS.1'</span>,<span class="string">'Score Type'</span>]</span><br><span class="line"><span class="comment">#print(data)</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="提取新特征"><a href="#提取新特征" class="headerlink" title="提取新特征"></a>提取新特征</h2><p>1表示主场球队获胜，0表示客场球队获胜<br>创建HomeLastWin和VisitorLastWin两个特征来记录上场比赛的结果<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#创建特征记录两支球队上一场比赛的胜负</span></span><br><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> defaultdict</span><br><span class="line">won_last = defaultdict(int) <span class="comment">#创建字典，存放上次比赛结果</span></span><br><span class="line">data[<span class="string">'HomeLastWin'</span>] = <span class="keyword">None</span></span><br><span class="line">data[<span class="string">'VisitorLastWin'</span>] = <span class="keyword">None</span></span><br><span class="line"><span class="keyword">for</span> index,row <span class="keyword">in</span> data.sort_values(<span class="string">'Date'</span>).iterrows():</span><br><span class="line">    <span class="comment">#循环获得球队名称</span></span><br><span class="line">    home_team = row[<span class="string">"Home/Neutral"</span>]</span><br><span class="line">    visitor_team = row[<span class="string">'Visitor/Neutral'</span>]</span><br><span class="line"></span><br><span class="line">    row[<span class="string">'HomeLastWin'</span>] = won_last[home_team]</span><br><span class="line">    row[<span class="string">'VisitorLastWin'</span>] = won_last[visitor_team]</span><br><span class="line">    data.ix[index] = row <span class="comment">#更新行数</span></span><br><span class="line">    <span class="comment">#判断上一场是否获胜</span></span><br><span class="line">    won_last[home_team] = row[<span class="string">'HomeWin'</span>]</span><br><span class="line">    won_last[visitor_team] = <span class="keyword">not</span> row[<span class="string">'HomeWin'</span>]</span><br></pre></td></tr></table></figure></p>
+<h1 id="决策树"><a href="#决策树" class="headerlink" title="决策树"></a>决策树</h1><p>训练+预测<br>scikit-learn中实现了CART算法，该算法支持连续型和类别型特征。<br>在构建决策树时，最后几步决策仅依赖于少数个体，随意性很大，使用特定节点作出推测容易导致过拟合，使用退出原则可以放置决策精度过高。另外，还可以先创建一颗完整的树，然后进行<strong>剪枝</strong>，去掉对整个过程没有提供太多信息的节点。</p>
+<p>退出原则：<br>min_samples_split:指定创建一个新节点至少需要的个体数量【控制决策节点的建立】<br>min_samples_leaf:指定为了保留节点，每个节点至少应该包含的个体数量【控制该节点能否被保留】</p>
+<p>特征选择准则：<br>基尼不纯度：决策点错误预测新个体类别的比例<br>信息增益：用熵表示决策节点提供多少信息</p>
+<h2 id="实例：用决策树预测NBA球队比赛结果"><a href="#实例：用决策树预测NBA球队比赛结果" class="headerlink" title="实例：用决策树预测NBA球队比赛结果"></a>实例：用决策树预测NBA球队比赛结果</h2><p>首先建立决策树模型并看一下训练完成后的精确度<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.tree <span class="keyword">import</span> DecisionTreeClassifier</span><br><span class="line">clf = DecisionTreeClassifier(random_state=<span class="number">14</span>)</span><br><span class="line">x = data[[<span class="string">'HomeLastWin'</span>,<span class="string">'VisitorLastWin'</span>]].values</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> cross_val_score</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">scores = cross_val_score(clf,x,y_true,scoring=<span class="string">'accuracy'</span>)</span><br><span class="line">print(<span class="string">'the accuracy is &#123;0:.1f&#125;%'</span>.format(np.mean(scores)*<span class="number">100</span>))</span><br><span class="line"><span class="comment">#the accuracy is 57.5%</span></span><br></pre></td></tr></table></figure></p>
+<p>这个精确度比随机预测胜负的50%要好一点，但是还是不是很高，所以我们应当构建有效特征，来提高精确度。<br>思考这样两个问题：<br>1.一般而言，什么样的球队水平更高？<br>2.两支球队上一次相遇时，谁赢了？<br>对于第一个问题，我们创建一个“主场队是否通常比对手水平高”的特征，使用2013年的成绩作为特征取值来源，如果一支球队2013年排名在对手前面，就认为它的水平更高。<br>下图是2013年的成绩部分截图，也就是要创建特征的数据来源：<br><img src="/2018/10/29/python数据分析与挖掘实战——学习笔记-3/standing.jpg" alt=""><br>那我们接下来就是要创建上面提到的特征。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> defaultdict</span><br><span class="line">won_last = defaultdict(int)</span><br><span class="line"></span><br><span class="line">data[<span class="string">'HomeLastWin'</span>] = <span class="number">0</span></span><br><span class="line">data[<span class="string">'VisitorLastWin'</span>] = <span class="number">0</span></span><br><span class="line"><span class="comment">##创建一个新特征值， 主场球队是否比对手排名高</span></span><br><span class="line">new_datapath = <span class="string">'/Users/apple/Desktop/python_study/Python数据挖掘入门与实践Code/Chapter 3/standing.csv'</span></span><br><span class="line">new_data = pd.read_csv(new_datapath)</span><br><span class="line"></span><br><span class="line">data[<span class="string">'HomeRankHigher'</span>] = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> index,row <span class="keyword">in</span> data.iterrows():</span><br><span class="line">    home_team = row[<span class="string">'Home/Neutral'</span>]</span><br><span class="line">    visitor_team = row[<span class="string">'Visitor/Neutral'</span>]</span><br><span class="line">    row[<span class="string">'HomeLastWin'</span>] = won_last[home_team]</span><br><span class="line">    row[<span class="string">'VisitorLastWin'</span>] = won_last[visitor_team]</span><br><span class="line">    <span class="keyword">if</span> home_team == <span class="string">'New Orleans Pelicans'</span>:  <span class="comment"># 更换了名字的球队</span></span><br><span class="line">        home_team = <span class="string">'New Orleans Hornets'</span></span><br><span class="line">    <span class="keyword">elif</span> visitor_team == <span class="string">'New Orleans Pelicans'</span>:</span><br><span class="line">        visitor_team = <span class="string">'New Orleans Hornets'</span></span><br><span class="line">    <span class="comment"># 得到两支球队的排名，更新特征值</span></span><br><span class="line">    home_rank = new_data[new_data[<span class="string">'team'</span>] == home_team][<span class="string">'RK'</span>].values[<span class="number">0</span>]</span><br><span class="line">    visitor_rank = new_data[new_data[<span class="string">'team'</span>] == visitor_team][<span class="string">'RK'</span>].values[<span class="number">0</span>]</span><br><span class="line">    row[<span class="string">'HomeRankHigher'</span>] = int(home_rank&gt;visitor_rank)</span><br><span class="line">    data.ix[index] = row</span><br><span class="line">    won_last[home_team] = row[<span class="string">'HomeWin'</span>]</span><br><span class="line">    won_last[visitor_team] = <span class="keyword">not</span> row[<span class="string">'HomeWin'</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> sklearn.tree <span class="keyword">import</span> DecisionTreeClassifier</span><br><span class="line">dtc = DecisionTreeClassifier(random_state=<span class="number">14</span>)</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> cross_val_score</span><br><span class="line">data = data[[<span class="string">'HomeLastWin'</span>,<span class="string">'VisitorLastWin'</span>,<span class="string">'HomeRankHigher'</span>]]</span><br><span class="line"><span class="comment">#print(data)</span></span><br><span class="line">scores = cross_val_score(dtc,data,y_true,scoring=<span class="string">'accuracy'</span>)</span><br><span class="line"><span class="keyword">import</span>  numpy <span class="keyword">as</span> np</span><br><span class="line">print(<span class="string">'the accuracy is &#123;0:.1f&#125;%'</span>.format(np.mean(scores)*<span class="number">100</span>))</span><br><span class="line"><span class="comment">#the accuracy is 61.0%</span></span><br></pre></td></tr></table></figure></p>
+<p>可以看到，增加了这一项特征后，模型准确度变高了。</p>
+<h1 id="随机森林"><a href="#随机森林" class="headerlink" title="随机森林"></a>随机森林</h1><p>一颗决策树可以学习到很复杂的规则，但有时可能会导致过拟合，其中一个解决方法就是限制它学习到的规则数量，比如说限制决策树的深度。这样一来，决策树只学习从全局角度拆分数据集的最佳规则，没有学习使用面更窄的特定规则，这些特定规则会将数据集进一步拆分为更加细致的群组。这样，决策树的泛化能力更强，但是整体表现略弱。<br>这时候我们引入<strong>随机森林</strong>的概念，就是创建多棵决策树，分别进行预测，根据少数服从多数的原则从多个预测结果中选择最终的预测结果。<br>但也存在两个问题，一是创建的多棵决策树很大程度上是一样的，解决方法是每次随机从数据集中选取部分数据作为训练集，该过程叫<strong>袋装bagging</strong>;二是用于前几个决策节点的特征非常突出，最后的决策树相似度仍然很大，解决方法是随机选取部分特征作为决策依据。</p>
+<h2 id="决策树的集成效果"><a href="#决策树的集成效果" class="headerlink" title="决策树的集成效果"></a>决策树的集成效果</h2><p>随机森林的一个策略就是对多棵随机创建的决策树对预测效果取<strong>均值</strong>，降低预测结果的不一致性，我们用<strong>方差</strong>表示这种不一致</p>
+<h2 id="随机森林算法的参数"><a href="#随机森林算法的参数" class="headerlink" title="随机森林算法的参数"></a>随机森林算法的参数</h2><p>scikit.learn中的RandomForestClassifier就是对随机森林算法的实现。<br>决策标准(gini/entropy)、max_features、min_samples_split<br>n_eatimators:指创建决策树的数量。该值越大，所花时间越长，正确率可能越高。<br>oob_score:True,测试时将不使用训练模型时用过的数据<br>n_jobs: 采用并行计算方法训练决策树时所用到的内核数量。默认为1，-1代表开动全部。</p>
+<h2 id="使用随机森林"><a href="#使用随机森林" class="headerlink" title="使用随机森林"></a>使用随机森林</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.ensemble <span class="keyword">import</span> RandomForestClassifier</span><br><span class="line">clf = RandomForestClassifier(random_state=<span class="number">14</span>)</span><br><span class="line">scores = cross_val_score(clf,data,y_true,scoring=<span class="string">'accuracy'</span>)</span><br><span class="line">print(<span class="string">'the accuracy is &#123;0:.1f&#125;%'</span>.format(np.mean(scores)*<span class="number">100</span>))</span><br><span class="line"><span class="comment">#the accuracy is 59.7%</span></span><br></pre></td></tr></table></figure>
+<p>在实际使用的时候，我们可以用GridSearchCV类搜索最佳参数：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> GridSearchCV</span><br><span class="line">parameter_space = &#123;</span><br><span class="line">    <span class="string">'max_features'</span>:[<span class="number">1</span>,<span class="number">3</span>,<span class="string">'auto'</span>], <span class="comment">#不要超过特征的最大数量值</span></span><br><span class="line">    <span class="string">'n_estimators'</span>:[<span class="number">10</span>,<span class="number">20</span>,<span class="number">30</span>],</span><br><span class="line">    <span class="string">'criterion'</span>:[<span class="string">'gini'</span>,<span class="string">'entropy'</span>],</span><br><span class="line">    <span class="string">'min_samples_leaf'</span>:[<span class="number">2</span>,<span class="number">4</span>,<span class="number">6</span>],</span><br><span class="line">&#125;</span><br><span class="line">clf = RandomForestClassifier(random_state=<span class="number">14</span>)</span><br><span class="line">grid = GridSearchCV(clf,parameter_space)</span><br><span class="line">grid.fit(data,y_true)</span><br><span class="line">print(<span class="string">'the accuracy is &#123;0:.1f&#125;%'</span>.format(grid.best_score_ * <span class="number">100</span>))</span><br><span class="line"><span class="comment">#the accuracy is 61.0%</span></span><br></pre></td></tr></table></figure></p>
+<p>可以看到，通过网格搜索找到的最佳模型，准确度比之前默认参数的随机森林高一点。<br>查看给出正确率最大的模型所用到的参数:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">print(grid.best_estimator_)</span><br><span class="line"><span class="comment">#RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',</span></span><br><span class="line">            max_depth=<span class="keyword">None</span>, max_features=<span class="number">1</span>, max_leaf_nodes=<span class="keyword">None</span>,</span><br><span class="line">            min_impurity_decrease=<span class="number">0.0</span>, min_impurity_split=<span class="keyword">None</span>,</span><br><span class="line">            min_samples_leaf=<span class="number">2</span>, min_samples_split=<span class="number">2</span>,</span><br><span class="line">            min_weight_fraction_leaf=<span class="number">0.0</span>, n_estimators=<span class="number">20</span>, n_jobs=<span class="keyword">None</span>,</span><br><span class="line">            oob_score=<span class="keyword">False</span>, random_state=<span class="number">14</span>, verbose=<span class="number">0</span>, warm_start=<span class="keyword">False</span>)</span><br></pre></td></tr></table></figure></p>
+<h2 id="创建新特征"><a href="#创建新特征" class="headerlink" title="创建新特征"></a>创建新特征</h2><p>从这一章的例子可以看出，创建新的特征有时候可以大大提高模型的准确度。<br>用pandas提供的函数创建特征：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">data[<span class="string">'new feature'</span>] = feature_creator()</span><br><span class="line"><span class="comment">#frature_creator函数返回数据集中每条数据的各个特征值，常用数据集作参数：</span></span><br><span class="line">data[<span class="string">'new feature'</span>] = feature_creator(dataset)</span><br><span class="line"><span class="comment">#最直接的做法是一开始为新的特征设置默认值，例如0:</span></span><br><span class="line">data[<span class="string">'new feature'</span>] = <span class="number">0</span></span><br><span class="line"><span class="comment">#遍历数据集，计算新的特征：</span></span><br><span class="line"><span class="comment">#本章多次使用该方法</span></span><br><span class="line"><span class="keyword">for</span> index,row <span class="keyword">in</span> data.iterrows():</span><br><span class="line">    home_team = row[<span class="string">'Home Team'</span>] <span class="comment">#获取队名</span></span><br><span class="line">    visitor_team = row[<span class="string">'Visitor Team'</span>]</span><br><span class="line">    <span class="comment">#Some calculation here to alter row</span></span><br><span class="line">    data.ix[index] = row <span class="comment">#更新数据</span></span><br><span class="line"><span class="comment">#上述方法效率不高，如果要使用，一次性处理所有的特征。</span></span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数据挖掘/" rel="tag"># 数据挖掘</a>
+          
+            <a href="/tags/数据分析/" rel="tag"># 数据分析</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/26/python数据分析与挖掘实战——学习笔记-2/" rel="next" title="python数据分析与挖掘实战——学习笔记(2)">
+                <i class="fa fa-chevron-left"></i> python数据分析与挖掘实战——学习笔记(2)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Chen Zhaoyun" />
+            
+              <p class="site-author-name" itemprop="name">Chen Zhaoyun</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#数据预处理"><span class="nav-number">1.</span> <span class="nav-text">数据预处理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据集清洗"><span class="nav-number">1.1.</span> <span class="nav-text">数据集清洗</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#提取新特征"><span class="nav-number">1.2.</span> <span class="nav-text">提取新特征</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#决策树"><span class="nav-number">2.</span> <span class="nav-text">决策树</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#实例：用决策树预测NBA球队比赛结果"><span class="nav-number">2.1.</span> <span class="nav-text">实例：用决策树预测NBA球队比赛结果</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#随机森林"><span class="nav-number">3.</span> <span class="nav-text">随机森林</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#决策树的集成效果"><span class="nav-number">3.1.</span> <span class="nav-text">决策树的集成效果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#随机森林算法的参数"><span class="nav-number">3.2.</span> <span class="nav-text">随机森林算法的参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用随机森林"><span class="nav-number">3.3.</span> <span class="nav-text">使用随机森林</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建新特征"><span class="nav-number">3.4.</span> <span class="nav-text">创建新特征</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chen Zhaoyun</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'KSn8wT5RN2dHd9qrxrtR3e0g-gzGzoHsz',
+        appKey: 'DezWAMrdLtNBOzESQv1mlViN',
+        placeholder: '你也上网冲浪呀',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
