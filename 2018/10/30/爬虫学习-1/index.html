@@ -87,13 +87,13 @@
 <meta property="og:site_name" content="国民大可爱、">
 <meta property="og:description" content="今天开始学习爬虫了，主要参考的是崔庆才的《python3 网络爬虫开发实战》。由于第一章主要是python环境的搭建以及一些可能用到的库的安装，所以直接从第二章开开始学习，需要什么装什么。 今天主要学习的是关于爬虫的一些基础知识。 HTTP基本原理URI:Uniform Resource Identifier 统一资源标志符URL:Uniform Resource Locator 统一资源定位符U">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://yoursite.com/2018/10/30/爬虫学习-1/爬虫学习-1/http.png">
+<meta property="og:image" content="http://yoursite.com/2018/10/30/爬虫学习-1/爬虫学习-1/http.jpg">
 <meta property="og:image" content="http://yoursite.com/2018/10/30/爬虫学习-1/RequestMethod.jpg">
-<meta property="og:updated_time" content="2018-10-31T07:25:01.008Z">
+<meta property="og:updated_time" content="2018-10-31T07:44:06.002Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="爬虫学习(1)">
 <meta name="twitter:description" content="今天开始学习爬虫了，主要参考的是崔庆才的《python3 网络爬虫开发实战》。由于第一章主要是python环境的搭建以及一些可能用到的库的安装，所以直接从第二章开开始学习，需要什么装什么。 今天主要学习的是关于爬虫的一些基础知识。 HTTP基本原理URI:Uniform Resource Identifier 统一资源标志符URL:Uniform Resource Locator 统一资源定位符U">
-<meta name="twitter:image" content="http://yoursite.com/2018/10/30/爬虫学习-1/爬虫学习-1/http.png">
+<meta name="twitter:image" content="http://yoursite.com/2018/10/30/爬虫学习-1/爬虫学习-1/http.jpg">
 
 
 
@@ -317,7 +317,7 @@
 <p>今天主要学习的是关于爬虫的一些基础知识。</p>
 <h1 id="HTTP基本原理"><a href="#HTTP基本原理" class="headerlink" title="HTTP基本原理"></a>HTTP基本原理</h1><p>URI:Uniform Resource Identifier 统一资源标志符<br>URL:Uniform Resource Locator 统一资源定位符<br>URN:Uniform Resource Name 统一资源名称(只命名资源,不指定如何定位)<br>URL是URI的子集</p>
 <script type="math/tex; mode=display">URL \bigcup URN = URI</script><p>但是现在，一般来说所有的URL都是URI，很少用URN了。</p>
-<p>URL的开头都会有http/https，这是协议类型，ftp/sftp/smb也是协议类型，前者用的较多。<br>HTTP:超文本传输协议，用于从网络传输超文本数据到本地浏览器的传送协议<br>HTTPS:HTTP的安全版，HTTP下加入SSL层<br>    HTTP的安全基础是SSL，传输内容经过SSL加密，主要作用是：<br>    1.建立安全通道保证数据传输的安全<br>    2.确认网站的安全性<br>下面说明一下HTTP的请求过程：<br><img src="爬虫学习-1/http.png" alt=""><br>手机/PC端的浏览器向网站所在的服务器发起一个请求，网站服务器接收到该请求后进行处理和解析，然后返回对应的响应，传回给浏览器，响应里包含了页面源代码等内容，浏览器对其进行解析，然后呈现出来。</p>
+<p>URL的开头都会有http/https，这是协议类型，ftp/sftp/smb也是协议类型，前者用的较多。<br>HTTP:超文本传输协议，用于从网络传输超文本数据到本地浏览器的传送协议<br>HTTPS:HTTP的安全版，HTTP下加入SSL层<br>    HTTP的安全基础是SSL，传输内容经过SSL加密，主要作用是：<br>    1.建立安全通道保证数据传输的安全<br>    2.确认网站的安全性<br>下面说明一下HTTP的请求过程：<br><img src="爬虫学习-1/http.jpg" alt=""><br>手机/PC端的浏览器向网站所在的服务器发起一个请求，网站服务器接收到该请求后进行处理和解析，然后返回对应的响应，传回给浏览器，响应里包含了页面源代码等内容，浏览器对其进行解析，然后呈现出来。</p>
 <h2 id="请求"><a href="#请求" class="headerlink" title="请求"></a>请求</h2><p>客户端向服务端发出，分为请求方法、请求的网址、请求头、请求体四部分。</p>
 <h3 id="请求方法Request-Method"><a href="#请求方法Request-Method" class="headerlink" title="请求方法Request Method"></a>请求方法Request Method</h3><p>GET/POST<br>GET:比如说在百度python，就是一个GET请求，URL中包含了请求的参数信息。数据最多1024字节<br>POST:大多在表单提交时发起，比如说对于登录表单，输入用户名和密码后，点击“登陆”按钮，就发起了一个POST请求，数据以表单方式传输，不表现在URL中，而是包含在请求体中。数据大小无限制。<br>还有一些其他的请求方法，下图来源于<a href="http://www.runoob.com/http/http-methods.html" target="_blank" rel="noopener">runoob</a>：<br><img src="/2018/10/30/爬虫学习-1/RequestMethod.jpg" alt=""></p>
 <h3 id="请求的网址Request-URL"><a href="#请求的网址Request-URL" class="headerlink" title="请求的网址Request URL"></a>请求的网址Request URL</h3><p>即URL,唯一确定我们想请求的资源</p>
@@ -418,6 +418,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2018/10/31/爬虫学习-2/" rel="prev" title="爬虫学习(2)">
+                爬虫学习(2) <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -500,7 +504,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

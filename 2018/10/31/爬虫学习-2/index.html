@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="python,爬虫," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="第三章主要是介绍并使用了一些写爬虫过程中使用到的基本库。最基础的HTTP库有urllib、httplib2、requests、treq等。接下来我们就学习一下几个常用的库并在最后通过一个实例来应用。 urllibpython3中，将urllib和urllib2统一为urllib。urllib是python内置的HTTP请求库，包含如下四个模块:  request: 最基本的HTTP请求模块，用来模">
+<meta name="keywords" content="python,爬虫">
+<meta property="og:type" content="article">
+<meta property="og:title" content="爬虫学习(2)">
+<meta property="og:url" content="http://yoursite.com/2018/10/31/爬虫学习-2/index.html">
+<meta property="og:site_name" content="国民大可爱、">
+<meta property="og:description" content="第三章主要是介绍并使用了一些写爬虫过程中使用到的基本库。最基础的HTTP库有urllib、httplib2、requests、treq等。接下来我们就学习一下几个常用的库并在最后通过一个实例来应用。 urllibpython3中，将urllib和urllib2统一为urllib。urllib是python内置的HTTP请求库，包含如下四个模块:  request: 最基本的HTTP请求模块，用来模">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2018/10/31/爬虫学习-2/auth.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/10/31/爬虫学习-2/auth.jpg">
+<meta property="og:updated_time" content="2018-11-06T02:52:01.403Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="爬虫学习(2)">
+<meta name="twitter:description" content="第三章主要是介绍并使用了一些写爬虫过程中使用到的基本库。最基础的HTTP库有urllib、httplib2、requests、treq等。接下来我们就学习一下几个常用的库并在最后通过一个实例来应用。 urllibpython3中，将urllib和urllib2统一为urllib。urllib是python内置的HTTP请求库，包含如下四个模块:  request: 最基本的HTTP请求模块，用来模">
+<meta name="twitter:image" content="http://yoursite.com/2018/10/31/爬虫学习-2/auth.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/10/31/爬虫学习-2/"/>
+
+
+
+
+
+  <title>爬虫学习(2) | 国民大可爱、</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">国民大可爱、</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Book思议在划水</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/31/爬虫学习-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Chen Zhaoyun">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="国民大可爱、">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">爬虫学习(2)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-31T15:31:50+08:00">
+                2018-10-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/10/31/爬虫学习-2/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/10/31/爬虫学习-2/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>第三章主要是介绍并使用了一些写爬虫过程中使用到的基本库。<br>最基础的HTTP库有urllib、httplib2、requests、treq等。<br>接下来我们就学习一下几个常用的库并在最后通过一个实例来应用。</p>
+<h1 id="urllib"><a href="#urllib" class="headerlink" title="urllib"></a>urllib</h1><p>python3中，将urllib和urllib2统一为urllib。<br>urllib是python内置的HTTP请求库，包含如下四个模块:</p>
+<ul>
+<li>request: 最基本的HTTP请求模块，用来模拟发送请求</li>
+<li>error:异常处理模块</li>
+<li>parse:工具模块，提供了许多URL处理方法，比如拆分、解析、合并等</li>
+<li>robotparser:识别网站的robots.txt文件，然后判断哪些网站可以爬，哪些不能爬，用的不多<br>下面重点介绍前三个模块<h2 id="发送请求"><a href="#发送请求" class="headerlink" title="发送请求"></a>发送请求</h2><h3 id="urlopen"><a href="#urlopen" class="headerlink" title="urlopen()"></a>urlopen()</h3>urllib.request模块提供了最基本的构造HTTP请求的方法，除了模拟浏览器发起请求，还可以处理授权验证authenticati、重定向redirection、浏览器Cookies以及其他内容。<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib.request</span><br><span class="line">response = urllib.request.urlopen(<span class="string">'https://www.baidu.com/'</span>)</span><br><span class="line">print(response.read().decode(<span class="string">'utf-8'</span>))</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>运行结果如下:<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">		location.replace(location.href.replace("https://","http://"));</span></span><br><span class="line"><span class="undefined">	</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">noscript</span>&gt;</span><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"refresh"</span> <span class="attr">content</span>=<span class="string">"0;url=http://www.baidu.com/"</span>&gt;</span><span class="tag">&lt;/<span class="name">noscript</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>用type(response)可以得到返回的是<figure class="highlight plain"><figcaption><span>'http.client.HTTPResponse'>```类型的对象，它包含了很多属性和方法，供我们调用。例如，read()方法可以得到返回的网页内容，status属性可以得到返回结果的状态码(200表示请求成功，404代表网页未找到);getheaders()可以返回响应头信息;getheader(name)可以获取响应头中name的值。</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">下面看一下urlopen()的API</span><br><span class="line">```python</span><br><span class="line">urllib.request.urlopen(url,data=None,[timeout,]*,cafile=None,capath=None,cadefault=False, context=None)</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>data:可选参数，如果要使用该参数，要用bytes()方法将参数转化为字节流编码格式的内容，即bytes类型；若使用了该参数，那么请求方式是POST方式。<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib.request</span><br><span class="line"><span class="keyword">import</span> urllib.parse</span><br><span class="line">data = bytes(urllib.parse.urlencode(&#123;<span class="string">'word'</span>:<span class="string">'hello'</span>&#125;),encoding=<span class="string">'utf-8'</span>)</span><br><span class="line">response = urllib.request.urlopen(<span class="string">'https://httpbin.org/post'</span>,data=data)</span><br><span class="line">print(response.read())</span><br><span class="line"><span class="comment"># &#123;</span></span><br><span class="line"><span class="comment">#   "args": &#123;&#125;, </span></span><br><span class="line"><span class="comment">#   "data": "", </span></span><br><span class="line"><span class="comment">#   "files": &#123;&#125;, </span></span><br><span class="line"><span class="comment">#   "form": &#123; </span></span><br><span class="line"><span class="comment">#     "word": "hello"</span></span><br><span class="line"><span class="comment">#   &#125;, </span></span><br><span class="line"><span class="comment">#   "headers": &#123;</span></span><br><span class="line"><span class="comment">#     "Accept-Encoding": "identity", </span></span><br><span class="line"><span class="comment">#     "Connection": "close", </span></span><br><span class="line"><span class="comment">#     "Content-Length": "10", </span></span><br><span class="line"><span class="comment">#     "Content-Type": "application/x-www-form-urlencoded", </span></span><br><span class="line"><span class="comment">#     "Host": "httpbin.org", </span></span><br><span class="line"><span class="comment">#     "User-Agent": "Python-urllib/3.6"</span></span><br><span class="line"><span class="comment">#   &#125;,</span></span><br><span class="line"><span class="comment">#   "json": null, </span></span><br><span class="line"><span class="comment">#   "origin": "210.12.101.154", </span></span><br><span class="line"><span class="comment">#   "url": "https://httpbin.org/post"</span></span><br><span class="line"><span class="comment"># &#125;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>传递一个参数word，其值为hello,它需要被转化成byte类型。采用bytes()方法进行转换，该方法的第一个参数是str类型，用urllib.parse模块的urlencode()方法将参数字典转化成字符串；第二个参数是指定编码格式。<br>我们请求的站点可以提供HTTP请求测试，用来测试POST请求，可以输出我们的请求信息，其中就有我们传递的data参数。<br>data参数出现在form中，表明是模拟了表单提交的方式，以POST方式传输数据。</p>
+<ul>
+<li><p>timeout:用于设置超时时间，单位为秒，如果请求超出设置时间还没得到响应，就会抛出异常。若不指定该参数，则使用全局默认时间。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib.request</span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">import</span>  urllib.error</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    response = urllib.request.urlopen(<span class="string">'http://httpbin.org/get'</span>, timeout=<span class="number">0.1</span>)</span><br><span class="line"><span class="keyword">except</span> urllib.error.URLError <span class="keyword">as</span> e:</span><br><span class="line">    <span class="keyword">if</span> isinstance(e.reason,socket.timeout):<span class="comment">#判断异常是socket.timout(超时异常)</span></span><br><span class="line">        print(<span class="string">'timeout'</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>context:指定SSL设置，必须是ssl.SSLContext类型</p>
+</li>
+<li>cafile:指定CA证书，请求HTTPS链接时有用</li>
+<li>capath:指定证书路径，请求HTTPS链接时有用</li>
+<li>cadefault:已经弃用了，默认为False</li>
+</ul>
+<h3 id="Request"><a href="#Request" class="headerlink" title="Request"></a>Request</h3><p>urlopen()可以实现最基本请求的发起，如果请求中需要加入Header等信息，可以利用Request类来构建:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib.request</span><br><span class="line">request = urllib.request.Request(<span class="string">'https://www.baidu.com'</span>)</span><br><span class="line">response = urllib.request.urlopen(request)</span><br><span class="line">print(response.read().decode(<span class="string">'utf-8'</span>))</span><br><span class="line"><span class="comment"># &lt;html&gt;</span></span><br><span class="line"><span class="comment"># &lt;head&gt;</span></span><br><span class="line"><span class="comment"># 	&lt;script&gt;</span></span><br><span class="line"><span class="comment"># 		location.replace(location.href.replace("https://","http://"));</span></span><br><span class="line"><span class="comment"># 	&lt;/script&gt;</span></span><br><span class="line"><span class="comment"># &lt;/head&gt;</span></span><br><span class="line"><span class="comment"># &lt;body&gt;</span></span><br><span class="line"><span class="comment"># 	&lt;noscript&gt;&lt;meta http-equiv="refresh" content="0;url=http://www.baidu.com/"&gt;&lt;/noscript&gt;</span></span><br><span class="line"><span class="comment"># &lt;/body&gt;</span></span><br><span class="line"><span class="comment"># &lt;/html&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>从上述代码可以看出,urlopen的参数是一个Request类型的对象。通过构造这个数据结构，一方面可以将请求独立成一个对象，另一方面可以丰富和灵活地配置参数。</p>
+<p>下面我们来看一下Request的构造方法:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">urillib</span>.<span class="title">request</span>.<span class="title">Request</span><span class="params">(self, url, data=None, headers=&#123;&#125;, origin_req_host=None, unverifiabl</span></span></span><br><span class="line"><span class="class"><span class="params">e=False, method=None)</span></span></span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>url:必传参数，请求URL</li>
+<li>data:必须传bytes类型的，如果是字典，可以用urllib.parse.urlencode()进行编码</li>
+<li><p>headers:是一个字典，就是<strong>请求头</strong>，构造请求时通过headers参数直接构造，也可以通过调用请求实例的add_header()方法添加</p>
+<p>  添加请求头最常用的方法是修改User-Agent来伪装浏览器，默认的是<strong>Python-urllib</strong>。例如，伪装成火狐，可以修改为:<br>  Mozilla/5.0 (X11;U;Linux i868) Gecko/20071127 Firefox/2.0.0.11</p>
+</li>
+<li><p>origin_req_host:指请求方的host名称或ip地址</p>
+</li>
+<li>unverifiable:表示这个请求是否是无法认证的，true表示用户没有权限来选择接收这个请求的结果。默认为False。</li>
+<li>method:str，指示请求使用的方法，GET/POST/PUT等<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib.request</span><br><span class="line"><span class="keyword">import</span> urllib.parse</span><br><span class="line">url = <span class="string">'http://httpbin.org/post'</span></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">'User-Agent'</span>:<span class="string">'Mozilla/4.0(compatible;MISE 5.5;Windows NT)'</span>,</span><br><span class="line">    <span class="string">'Host'</span>:<span class="string">'httpbin.org'</span></span><br><span class="line">&#125;</span><br><span class="line">dict = &#123;</span><br><span class="line">    <span class="string">'name'</span>:<span class="string">'Germey'</span></span><br><span class="line">&#125;</span><br><span class="line">data = bytes(urllib.parse.urlencode(dict),encoding=<span class="string">'utf-8'</span>)</span><br><span class="line">req = urllib.request.Request(url,data=data,headers = headers,method=<span class="string">'POST'</span>)</span><br><span class="line">response = urllib.request.urlopen(req)</span><br><span class="line">print(response.read().decode(<span class="string">'utf-8'</span>))</span><br><span class="line"><span class="comment">#&#123;</span></span><br><span class="line"><span class="comment">#   "args": &#123;&#125;, </span></span><br><span class="line"><span class="comment">#   "data": "", </span></span><br><span class="line"><span class="comment">#   "files": &#123;&#125;, </span></span><br><span class="line"><span class="comment">#   "form": &#123;</span></span><br><span class="line"><span class="comment">#     "name": "Germey"</span></span><br><span class="line"><span class="comment">#   &#125;, </span></span><br><span class="line"><span class="comment">#   "headers": &#123;</span></span><br><span class="line"><span class="comment">#     "Accept-Encoding": "identity", </span></span><br><span class="line"><span class="comment">#     "Connection": "close", </span></span><br><span class="line"><span class="comment">#     "Content-Length": "11", </span></span><br><span class="line"><span class="comment">#     "Content-Type": "application/x-www-form-urlencoded", </span></span><br><span class="line"><span class="comment">#     "Host": "httpbin.org", </span></span><br><span class="line"><span class="comment">#     "User-Agent": "Mozilla/4.0(compatible;MISE 5.5;Windows NT)"</span></span><br><span class="line"><span class="comment">#   &#125;, </span></span><br><span class="line"><span class="comment">#   "json": null, </span></span><br><span class="line"><span class="comment">#   "origin": "210.12.101.154", </span></span><br><span class="line"><span class="comment">#   "url": "http://httpbin.org/post"</span></span><br><span class="line"><span class="comment"># &#125;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>可以看到，我们成功设置了data、method、headers<br>另外，之前我们提到headers可以用add_headers()来添加:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">req = request.Request(url,data,method=<span class="string">'POST'</span>)</span><br><span class="line">req.add_header(<span class="string">'User-Agent'</span>,<span class="string">'Mozilla/4.0(compatible;MISE 5.5;Windows NT)'</span>)</span><br></pre></td></tr></table></figure></p>
+<h3 id="高级用法"><a href="#高级用法" class="headerlink" title="高级用法"></a>高级用法</h3><p>Handler，可以认为是各种处理器，比如处理登录验证、处理Cookies、处理代理设置。<br>urllib.request.BaseHandler类，是所有其他Handler的父类，提供了最基本的方法，然后各种Handler子类继承该类。<br>下面具体看一下常用的几个用法：<br>1.验证<br>有时候我们会遇到图中情况，提示输入用户名和密码，验证成功后才能查看页面<br><img src="/2018/10/31/爬虫学习-2/auth.jpg" alt=""><br>如果请求这种页面，借助HTTPBasicAuthHandler来处理:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> urllib.request <span class="keyword">import</span> HTTPPasswordMgrWithDefaultRealm,HTTPBasicAuthHandler,build_opener</span><br><span class="line"><span class="keyword">from</span> urllib.request <span class="keyword">import</span> URLError</span><br><span class="line">username = <span class="string">'username'</span></span><br><span class="line">password = <span class="string">'password'</span></span><br><span class="line">url = <span class="string">'http://localhost:5000/'</span></span><br><span class="line">p = HTTPPasswordMgrWithDefaultRealm() <span class="comment">#创建一个密码管理对象</span></span><br><span class="line"><span class="comment">#添加账户信息，第一个参数realm是与远程服务器相关的域信息，一般写None，后面三个参数分别是 Web服务器、用户名、密码</span></span><br><span class="line">p.add_password(<span class="keyword">None</span>,url,username,password)</span><br><span class="line"><span class="comment">#构建HTTPBasicAuthHandler对象，参数是创建的密码管理对象</span></span><br><span class="line">auth_handler = HTTPBasicAuthHandler(p)</span><br><span class="line"><span class="comment">#创建自定义opener对象</span></span><br><span class="line">opener = build_opener(auth_handler) <span class="comment">#urlopen就是一个Opener,配置Opener可以实现更高级的功能</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    result = opener.open(url)</span><br><span class="line">    html = result.read().decode(<span class="string">'utf-8'</span>)</span><br><span class="line">    print(html)</span><br><span class="line"><span class="keyword">except</span> URLError <span class="keyword">as</span> e:</span><br><span class="line">    print(e.reason)</span><br></pre></td></tr></table></figure></p>
+<p>实例化HTTPBasicAuthHandler对象，其参数是HTTPPasswordMgrWithDefaultRealm对象，利用add_password()添加用户名和密码，这样就建立了一个处理验证的Handler。<br>2.代理<br>做爬虫时添加代理:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> urllib.error <span class="keyword">import</span> URLError</span><br><span class="line"><span class="keyword">from</span> urllib.request <span class="keyword">import</span> ProxyHandler,build_opener</span><br><span class="line"></span><br><span class="line">proxy_handler = ProxyHandler(&#123;</span><br><span class="line">    <span class="comment">#代理列表，键名是协议类型，value是代理连接，可以添加多个代理</span></span><br><span class="line">    <span class="string">'http'</span>:<span class="string">'http://127.0.0.1:9743'</span>,<span class="comment">#在本地搭建代理，运行在9743端口</span></span><br><span class="line">    <span class="string">'https'</span>:<span class="string">'https://127.0.0.1:9743'</span></span><br><span class="line">&#125;)</span><br><span class="line">opener = build_opener(proxy_handler)</span><br><span class="line"><span class="comment">#构造完代理handler后，发送请求</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    response = opener.open(<span class="string">'http://www.baidu.com'</span>)</span><br><span class="line">    print(response.read().decode(<span class="string">'utf-8'</span>))</span><br><span class="line"><span class="keyword">except</span> URLError <span class="keyword">as</span> e:</span><br><span class="line">    print(e.reason)</span><br></pre></td></tr></table></figure></p>
+<p>3.Cookies<br>首先看一下如何获取网站的Cookies:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> http.cookiejar,urllib.request</span><br><span class="line"></span><br><span class="line">cookie = http.cookiejar.CookieJar()</span><br><span class="line">handler = urllib.request.HTTPCookieProcessor(cookie)</span><br><span class="line">opener = urllib.request.build_opener(handler)</span><br><span class="line">response = opener.open(<span class="string">'http://www.baidu.com'</span>)</span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> cookie:</span><br><span class="line">    print(item.name+<span class="string">'='</span>+item.value)</span><br></pre></td></tr></table></figure></p>
+<p>会输出每条Cookie的名称和值。<br>有时候，需要我们将Cookies存为文件:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> http.cookiejar,urllib.request</span><br><span class="line">filename = <span class="string">'cookies.txt'</span></span><br><span class="line">cookie = http.cookiejar.MozillaCookieJar(filename)</span><br><span class="line">handle = urllib.request.HTTPCookieProcessor(cookie)</span><br><span class="line">opener = urllib.request.build_opener(handle)</span><br><span class="line">response = opener.open(<span class="string">'http://www.baidu.com'</span>)</span><br><span class="line">cookie.save(ignore_discard=<span class="keyword">True</span>,ignore_expires=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure></p>
+<p>MozillaCookieJar是CookieJar的子类，可以用来处理Cookies和文件相关的事件，比如读取和保存Cookies，可以将Cookies保存成Mozilla型浏览器的Cookies格式。<br>另外，LWPCookieJar也是类似的，保存的事libwww-perl(LWP)格式的Cookies文件。<br>下面看一下读取cookies文件的操作:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> http.cookiejar,urllib.request</span><br><span class="line">cookie = http.cookiejar.MozillaCookieJar()</span><br><span class="line">cookie.load(<span class="string">'cookies.txt'</span>,ignore_discard=<span class="keyword">True</span>,ignore_expires = <span class="keyword">True</span>)</span><br><span class="line">handler = urllib.request.HTTPCookieProcessor(cookie)</span><br><span class="line">opener = urllib.request.build_opener(handler)</span><br><span class="line">response = opener.open(<span class="string">'http://www.baidu.com'</span>)</span><br><span class="line">print(response.read().decode(<span class="string">'utf-8'</span>))</span><br></pre></td></tr></table></figure></p>
+<p>上面出现过的两个参数<strong>ignore_discard、ignore_expires</strong>,ignore_discard的意思是即使cookies将被丢弃也将它保存下来，ignore_expires的意思是如果cookies已经过期也将它保存并且文件已存在时将覆盖，在这里，我们将这两个全部设置为True。</p>
+<h2 id="处理异常"><a href="#处理异常" class="headerlink" title="处理异常"></a>处理异常</h2><p>发送请求时，如果遇到异常不处理，程序可能会报错停止运行，所以有必要进行异常处理。<br>urllib的error模块定义了由request模块产生的异常。</p>
+<h2 id="URLError"><a href="#URLError" class="headerlink" title="URLError"></a>URLError</h2><p>由request模块产生的异常都可以通过捕获这个类来处理:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> urllib <span class="keyword">import</span> request,error</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    response = request.urlopen(<span class="string">'http://cuiqingcai.com/index.htm'</span>)</span><br><span class="line"><span class="keyword">except</span> error.URLError <span class="keyword">as</span> e:</span><br><span class="line">    print(e.reason)</span><br><span class="line"><span class="comment">#Not Found</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="HTTPError"><a href="#HTTPError" class="headerlink" title="HTTPError"></a>HTTPError</h2><p>它是URLError的子类，专门处理HTTP请求错误，比如认证失败等，有code、reason、headers三个属性。</p>
+<ul>
+<li>code: 返回HTTP状态码</li>
+<li>reason:返回错误原因</li>
+<li>headers:返回请求头<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> urllib <span class="keyword">import</span> request,error</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    response = request.urlopen(<span class="string">'http://cuiqingcai.com/index.htm'</span>)</span><br><span class="line"><span class="keyword">except</span> error.HTTPError <span class="keyword">as</span> e:</span><br><span class="line">    print(e.reason,e.code,e.headers,sep=<span class="string">'\n'</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>因为HTTPError是URLError的子类，所以我们一般异常处理时都是先捕获子类异常，再是父类错误，所以优化后的代码如下:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> urllib <span class="keyword">import</span> request,error</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    response = request.urlopen(<span class="string">'http://cuiqingcai.com/index.htm'</span>)</span><br><span class="line"><span class="keyword">except</span> error.HTTPError <span class="keyword">as</span> e:</span><br><span class="line">    print(e.reason,e.code,e.headers,sep=<span class="string">'\n'</span>)</span><br><span class="line"><span class="keyword">except</span> error.URLError <span class="keyword">as</span> e:</span><br><span class="line">    print(e.reason)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    print(<span class="string">'Request Successfully'</span>)</span><br></pre></td></tr></table></figure></p>
+<p>有时候，reason属性返回的不一定是字符串，可能是一个对象:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">from</span> urllib <span class="keyword">import</span> request,error</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    response = request.urlopen(<span class="string">'https://www.baidu.com'</span>,timeout=<span class="number">0.01</span>)</span><br><span class="line"><span class="keyword">except</span> error.URLError <span class="keyword">as</span> e:</span><br><span class="line">    print(type(e.reason))</span><br><span class="line">    <span class="keyword">if</span> isinstance(e.reason,socket.timeout):</span><br><span class="line">        print(<span class="string">'TIME OUT'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># &lt;class 'socket.timeout'&gt;</span></span><br><span class="line"><span class="comment"># TIME OUT</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="解析链接"><a href="#解析链接" class="headerlink" title="解析链接"></a>解析链接</h2><p>1.urlparse()<br>from urllib.parse import urlparse,可以实现URL的识别和分段。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">urllib.parse.urlparse(urlstring,scheme=<span class="string">''</span>,allow_fragments=<span class="keyword">True</span>)</span><br><span class="line"><span class="comment"># http://www.baidu.com/index.html;user?id=5#comment</span></span><br><span class="line"><span class="comment"># scheme:http ; netloc:www.baidu.com ; path:index.html ; </span></span><br><span class="line"><span class="comment"># params:user ; query: id=5 ; fragment:comment.</span></span><br></pre></td></tr></table></figure></p>
+<p>scheme是默认协议，如果url没有带协议信息，将scheme作为默认协议；<br>allow_fragments默认为True，是否忽略fragment；如果被设置为false，则忽略fragment部分，该部分被解析为path/parameters/query的一部分。</p>
+<p>另外，返回结果是一个元组，可以用索引顺序来获取，也可以用属性名获取。<br>2.urlunparse()<br>长度必须是6<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> urllib.parse <span class="keyword">import</span> urlparse</span><br><span class="line">result = urlparse(<span class="string">'www.baidu.com/index.html;user?id=5#comment'</span>,scheme=<span class="string">'https'</span>)</span><br><span class="line">print(result)</span><br><span class="line"><span class="comment">#http://www.baidu.com/index.html;user?id=5#comment</span></span><br></pre></td></tr></table></figure></p>
+<p>3.urlsplit()<br>和urlparse类似，只是不解析param部分<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> urllib.parse <span class="keyword">import</span> urlsplit</span><br><span class="line">result = urlsplit(<span class="string">'http://www.baidu.com/index.html;user?id=5#comment'</span>)</span><br><span class="line">print(result)</span><br><span class="line"><span class="comment">#SplitResult(scheme='http', netloc='www.baidu.com', path='/index.html;user', query='id=5', fragment='comment')</span></span><br><span class="line">print(result.scheme,result[<span class="number">0</span>],sep=<span class="string">'\n'</span>)</span><br><span class="line"><span class="comment">#http</span></span><br><span class="line"><span class="comment">#http</span></span><br></pre></td></tr></table></figure></p>
+<p>4.urlunsplit()<br>与urlunparse类似，将链接的各个部分组合成完整链接。传入对象也是可迭代的，比如元组、列表等，<strong>唯一区别</strong>是长度为6<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> urllib.parse <span class="keyword">import</span> urlunsplit</span><br><span class="line">data = [<span class="string">'http'</span>,<span class="string">'www.baidu.com'</span>,<span class="string">'index.html'</span>,<span class="string">'a=6'</span>,<span class="string">'comment'</span>]</span><br><span class="line">print(urlunsplit(data))</span><br><span class="line"><span class="comment">#http://www.baidu.com/index.html?a=6#comment</span></span><br></pre></td></tr></table></figure></p>
+<p>5.urljoin()<br>也是一种生成连接的方法，基础链接base_url作为第一个参数，新的链接作为第二个参数，该方法分析base_url的scheme、netloc、path，并对新链接缺失部分进行填充，返回结果。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> urllib.parse <span class="keyword">import</span> urljoin</span><br><span class="line">print(urljoin(<span class="string">'http://www.baidu.com'</span>,<span class="string">'FAQ.html'</span>))</span><br><span class="line">print(urljoin(<span class="string">'http://www.baidu.com/about.html'</span>,<span class="string">'https://cuiqingcai.com/FAQ.html'</span>))</span><br><span class="line">print(urljoin(<span class="string">'http://www.baidu.com?wd=abc'</span>,<span class="string">'https://cuiqingcai.com/index.php'</span>))</span><br><span class="line">print(urljoin(<span class="string">'www.baidu.com'</span>,<span class="string">'?category=2#comment'</span>))</span><br><span class="line">print(urljoin(<span class="string">'www.baidu.com#comment'</span>,<span class="string">'?category=2'</span>))</span><br><span class="line"><span class="comment"># http://www.baidu.com/index.html?a=6#comment</span></span><br><span class="line"><span class="comment"># http://www.baidu.com/FAQ.html</span></span><br><span class="line"><span class="comment"># https://cuiqingcai.com/FAQ.html</span></span><br><span class="line"><span class="comment"># https://cuiqingcai.com/index.php</span></span><br><span class="line"><span class="comment"># www.baidu.com?category=2#comment</span></span><br><span class="line"><span class="comment"># www.baidu.com?category=2</span></span><br></pre></td></tr></table></figure></p>
+<p>如果新的链接也就是第二个参数不存在scheme、netloc、path，则用base_url中的scheme、netloc、path进行填充，简单的说就是以新的链接为主，如果缺少什么，就从base_url中进行补充。<br>6.urlencode()<br>在构造GET请求时非常有效<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> urllib.parse <span class="keyword">import</span> urlencode</span><br><span class="line">params = &#123;<span class="string">'name'</span>:<span class="string">'Alice'</span>,<span class="string">'age'</span>:<span class="string">'1'</span>&#125;</span><br><span class="line">base_url = <span class="string">'http://www.baidu.com?'</span></span><br><span class="line">print(base_url+urlencode(params))</span><br><span class="line"><span class="comment">#http://www.baidu.com?name=Alice&amp;age=1</span></span><br></pre></td></tr></table></figure></p>
+<p>首先用字典将参数表示出来，然后用urlencode()将其序列化为GET请求参数<br>7.parse_qs()<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> urllib.parse <span class="keyword">import</span> parse_qs</span><br><span class="line">query = <span class="string">'name=Alice&amp;age=1'</span></span><br><span class="line">print(parse_qs(query))</span><br><span class="line"><span class="comment">#&#123;'name': ['Alice'], 'age': ['1']&#125;</span></span><br></pre></td></tr></table></figure></p>
+<p>这是一个反序列化方法，将GET请求转回字典类型。<br>8.parse_qsl()<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> urllib.parse <span class="keyword">import</span> parse_qsl</span><br><span class="line">query = <span class="string">'name=Alice&amp;age=1'</span></span><br><span class="line">print(parse_qsl(query))</span><br><span class="line"><span class="comment">#[('name', 'Alice'), ('age', '1')]</span></span><br></pre></td></tr></table></figure></p>
+<p>将参数转化为元组组成的列表<br>9.quote()<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> urllib.parse <span class="keyword">import</span> quote</span><br><span class="line">keyword = <span class="string">'壁纸'</span></span><br><span class="line">url = <span class="string">'http://www.baidu.com/s?wd='</span>+quote(keyword)</span><br><span class="line">print(url)</span><br><span class="line"><span class="comment">#http://www.baidu.com/s?wd=%E5%A3%81%E7%BA%B8</span></span><br></pre></td></tr></table></figure></p>
+<p>这方法是将内容转化为URL编码的格式，将中文转化为URL编码。<br>10.unquote()<br>就是URL解码<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> urllib.parse <span class="keyword">import</span> unquote</span><br><span class="line">url = <span class="string">'http://www.baidu.com/s?wd=%E5%A3%81%E7%BA%B8'</span></span><br><span class="line">print(unquote(url))</span><br><span class="line"><span class="comment">#http://www.baidu.com/s?wd=壁纸</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="分析Robots协议"><a href="#分析Robots协议" class="headerlink" title="分析Robots协议"></a>分析Robots协议</h2><p>首先我们来了解一下什么是Robots协议。<br>该协议也被称为<strong>爬虫协议</strong>、<strong>机器人协议</strong>，全名叫做<strong>网络爬虫排除标准</strong><br>一般是一个txt文本，放在网站根目录下和王赞的入口文件网在一起，用来告诉爬虫和搜索引擎哪些引擎可以抓取，那些不可以抓取。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">User-agent: * </span><br><span class="line">Disallow: /</span><br><span class="line">Allow: /public/</span><br></pre></td></tr></table></figure></p>
+<p>上面这个robots.txt只允许爬虫爬取public目录。<br>USer-agent设置为*代表该协议对任何爬取爬虫有效。当设置为User-agent: Baiduspider则代表我们设置的规则只对百度爬虫有效。<br>禁止所有爬虫爬取任何目录：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">User-agent: * </span><br><span class="line">Disallow: /</span><br></pre></td></tr></table></figure></p>
+<p>允许所有爬虫爬取任何目录：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">User-agent: * </span><br><span class="line">Disallow:</span><br></pre></td></tr></table></figure></p>
+<p>只允许某个爬虫访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">User-agent: WebCrawler </span><br><span class="line">Disallow: </span><br><span class="line">User-agent: *</span><br><span class="line">Disallow: /</span><br></pre></td></tr></table></figure></p>
+<p>这时我们就有一个疑问，爬虫名是如何来的？很多网站都有固定的爬虫名字，可以搜索看看。</p>
+<p>了解完robots.txt后， 可以用robotparser模块来解析了。该模块提供了一个类RobotFileParser，可以根据某网站的robots.txt来判断一个爬取爬虫是否有权限来爬取这个网页。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> urllib.robotparser <span class="keyword">import</span> RobotFileParser</span><br><span class="line">rp = RobotFileParser()</span><br><span class="line">rp.set_url(<span class="string">'http://www.jianshu.com/robots.txt'</span>)</span><br><span class="line">rp.read()</span><br><span class="line">a = rp.can_fetch(<span class="string">'*'</span>,<span class="string">'http://www.jianshu.com/p/b67554025d7d'</span>)</span><br><span class="line">b = rp.can_fetch(<span class="string">'*'</span>,<span class="string">'http://www.jianshu.com/search?q=python&amp;page=1&amp;type=collections'</span>)</span><br><span class="line">print(a,b)</span><br><span class="line"><span class="comment">#True False</span></span><br></pre></td></tr></table></figure></p>
+<p>set_url()就是设置robots.txt文件链接，如果在创建对象时就已经传入了链接，则不需要该方法。<br>read()读取robots.txt并进行分析，如果不调用该方法，后续判断都为false，所以一定要调用，但他不会返回任何东西。<br>can_fetch()第一个参数是User-agent,第二个参数是要抓取的URL判断该搜索引擎是否可以抓取这个URL，返回true or false。<br>mtime()返回上次抓取分析robots.txt的时间。<br>modified()将当前时间设置为上次抓取和分析robots.txt的时间。<br>parse()解析robots.txt，传入的参数是robots.txt的某些行的内容，然后按照robots.txt的语法规则来分析这些内容。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> urllib.robotparser <span class="keyword">import</span> RobotFileParser</span><br><span class="line"><span class="keyword">from</span> urllib.request <span class="keyword">import</span> urlopen</span><br><span class="line"><span class="keyword">from</span> urllib.request <span class="keyword">import</span> Request</span><br><span class="line">rp = RobotFileParser()</span><br><span class="line"><span class="comment"># 如果不加上下面的这行出现会出现urllib.error.HTTPError: HTTP Error 403: Forbidden错误</span></span><br><span class="line"><span class="comment"># 主要是由于该网站禁止爬虫导致的，可以在请求加上头信息，伪装成浏览器访问User-Agent</span></span><br><span class="line">headers = &#123;<span class="string">'User-Agent'</span>: <span class="string">'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:23.0) Gecko/20100101 Firefox/23.0'</span>&#125;</span><br><span class="line">req = Request(<span class="string">'http://www.jianshu.com/robots.txt'</span>,headers = headers)</span><br><span class="line"></span><br><span class="line">rp.parse(urlopen(req).read().decode(<span class="string">'utf-8'</span>).split(<span class="string">'\n'</span>))</span><br><span class="line">a = rp.can_fetch(<span class="string">'*'</span>,<span class="string">'http://www.jianshu.com/p/b67554025d7d'</span>)</span><br><span class="line">b = rp.can_fetch(<span class="string">'*'</span>,<span class="string">'http://www.jianshu.com/search?q=python&amp;page=1&amp;type=collections'</span>)</span><br><span class="line">print(a,b)</span><br><span class="line"><span class="comment">#True False</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="requests"><a href="#requests" class="headerlink" title="requests"></a>requests</h1><h2 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h2><h3 id="GET请求"><a href="#GET请求" class="headerlink" title="GET请求"></a>GET请求</h3><p>发起GET请求，并添加额外信息:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">data = &#123;<span class="string">'name'</span>:<span class="string">'Alice'</span>,<span class="string">'age'</span>:<span class="string">'1'</span>&#125;</span><br><span class="line">r = requests.get(<span class="string">'http://httpbin.org/get'</span>,params=data)</span><br><span class="line">print(r.text)</span><br><span class="line"><span class="comment"># &#123;</span></span><br><span class="line"><span class="comment">#   "args": &#123;</span></span><br><span class="line"><span class="comment">#     "age": "1", </span></span><br><span class="line"><span class="comment">#     "name": "Alice"</span></span><br><span class="line"><span class="comment">#   &#125;, </span></span><br><span class="line"><span class="comment">#   "headers": &#123;</span></span><br><span class="line"><span class="comment">#     "Accept": "*/*", </span></span><br><span class="line"><span class="comment">#     "Accept-Encoding": "gzip, deflate", </span></span><br><span class="line"><span class="comment">#     "Connection": "close", </span></span><br><span class="line"><span class="comment">#     "Host": "httpbin.org", </span></span><br><span class="line"><span class="comment">#     "User-Agent": "python-requests/2.18.4"</span></span><br><span class="line"><span class="comment">#   &#125;, </span></span><br><span class="line"><span class="comment">#   "origin": "210.12.101.154", </span></span><br><span class="line"><span class="comment">#   "url": "http://httpbin.org/get?name=Alice&amp;age=1"</span></span><br><span class="line"><span class="comment"># &#125;</span></span><br></pre></td></tr></table></figure></p>
+<p>抓取网页:<br>这里是结合了正则表达式来匹配所有的问题内容。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="comment">#加上浏览器标志信息，否则知乎禁止抓取</span></span><br><span class="line">headers = &#123;<span class="string">'User-Agent'</span>:<span class="string">'Mozilla/5.0(Macintosh;Inter Mac OS X 10_11_4)AppleWebkit/537.36(KHTML,like Gecko)Chrome/52.0.2743.116 Safari/537.36'</span>&#125;</span><br><span class="line">r = requests.get(<span class="string">'http://www.zhihu.com/explore'</span>,headers=headers)</span><br><span class="line">pattern = re.compile(<span class="string">'explore-feed.*?question_link.*?&gt;(.*?)&lt;/a&gt;'</span>,re.S)</span><br><span class="line">titles = re.findall(pattern,r.text)</span><br><span class="line">print(titles)</span><br><span class="line"><span class="comment">#['\n有哪些知识是你学医之后才知道的？\n', '\nNature 最新研究发现彩色蛋最先由恐龙孵化出来，这揭示了什么？\n', '\n如何看待刘强东告诉明尼苏达性侵案受害者「你可以成为邓文迪那样的女人」？\n', '\n有哪些化学知识概念已经更新或改变，但不为大众所知？\n', '\n抑郁症患者的自杀是毫无征兆的吗？\n', '\n余沧海屠戮林家，方证、冲虚这些德高望重的人为何不替林平之主持公道，还在任我行攻击余沧海的时候舍身保护？\n', '\n影视作品里有哪些不为人知的情节，或者是一些细思极恐，有趣的部分？\n', '\n如何评价布鲁克林 · 贝克汉姆在 instagram 上发布涉嫌种族歧视的内容？\n', '\n得知越来越多的女大学生被包养，已有的价值观开始动摇怎么办？\n', '\n如果是诺夫哥罗德而非莫斯科统一了俄罗斯会怎样?\n']</span></span><br></pre></td></tr></table></figure></p>
+<p>抓取二进制数据:<br>图片、音频、视频本质上都是二进制码组成的。如果想要抓取它们，就要得到它们的二进制码。<br>下面这段就是抓取github的图标并保存<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">r = requests.get(<span class="string">'https://github.com/favicon.ico'</span>)</span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'favicon.ico'</span>,<span class="string">'wb'</span>) <span class="keyword">as</span> f:</span><br><span class="line">    f.write(r.content)</span><br></pre></td></tr></table></figure></p>
+<p>添加headers:<br>通过headers参数来传达头信息，否则不能正常请求网站。</p>
+<h3 id="POST请求"><a href="#POST请求" class="headerlink" title="POST请求"></a>POST请求</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">data = &#123;<span class="string">'name'</span>:<span class="string">'Alice'</span>,<span class="string">'age'</span>:<span class="string">'1'</span>&#125;</span><br><span class="line">r = requests.post(<span class="string">'http://httpbin.org/post'</span>,data=data)</span><br><span class="line">print(r.text)</span><br><span class="line"><span class="comment"># &#123;</span></span><br><span class="line"><span class="comment">#   "args": &#123;&#125;, </span></span><br><span class="line"><span class="comment">#   "data": "", </span></span><br><span class="line"><span class="comment">#   "files": &#123;&#125;, </span></span><br><span class="line"><span class="comment">#   "form": &#123;</span></span><br><span class="line"><span class="comment">#     "age": "1", </span></span><br><span class="line"><span class="comment">#     "name": "Alice"</span></span><br><span class="line"><span class="comment">#   &#125;, </span></span><br><span class="line"><span class="comment">#   "headers": &#123;</span></span><br><span class="line"><span class="comment">#     "Accept": "*/*", </span></span><br><span class="line"><span class="comment">#     "Accept-Encoding": "gzip, deflate", </span></span><br><span class="line"><span class="comment">#     "Connection": "close", </span></span><br><span class="line"><span class="comment">#     "Content-Length": "16", </span></span><br><span class="line"><span class="comment">#     "Content-Type": "application/x-www-form-urlencoded", </span></span><br><span class="line"><span class="comment">#     "Host": "httpbin.org", </span></span><br><span class="line"><span class="comment">#     "User-Agent": "python-requests/2.18.4"</span></span><br><span class="line"><span class="comment">#   &#125;, </span></span><br><span class="line"><span class="comment">#   "json": null, </span></span><br><span class="line"><span class="comment">#   "origin": "210.12.101.154", </span></span><br><span class="line"><span class="comment">#   "url": "http://httpbin.org/post"</span></span><br><span class="line"><span class="comment"># &#125;</span></span><br></pre></td></tr></table></figure>
+<p>form部分就是我们提交的数据，证明POST请求成功了。</p>
+<h3 id="响应"><a href="#响应" class="headerlink" title="响应"></a>响应</h3><p>status_code:状态相应码<br>headers:响应头<br>cookies:得到Cookies<br>url:URL<br>history:请求历史<br>requests还提供了很多状态内置码<br>例如：判断结果是不是404，可以用r.status_code == resquests.codes.not_found判断【r = requests.get(‘url’)】</p>
+<h2 id="高级用法-1"><a href="#高级用法-1" class="headerlink" title="高级用法"></a>高级用法</h2><h3 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h3><p>上传一个favicon.ico文件<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">files = &#123;<span class="string">'files'</span>:open(<span class="string">'favicon.ico'</span>,<span class="string">'rb'</span>)&#125;</span><br><span class="line"><span class="comment">#files = [('files',open('favicon.ico','rb'))]</span></span><br><span class="line">r = requests.post(<span class="string">'http://httpbin.org/post'</span>,files=files)</span><br><span class="line">print(r.text)</span><br></pre></td></tr></table></figure></p>
+<p>files可以是字典，也可以是元组。</p>
+<h3 id="Cookies"><a href="#Cookies" class="headerlink" title="Cookies"></a>Cookies</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">r = requests.get(<span class="string">'https://www.baidu.com'</span>)</span><br><span class="line">print(r.cookies)<span class="comment">#RequestCookieJar类型</span></span><br><span class="line"><span class="keyword">for</span> key,value <span class="keyword">in</span> r.cookies.items():</span><br><span class="line">    print(key+<span class="string">'='</span>+value)</span><br></pre></td></tr></table></figure>
+<p>用Cookies维持登录状态:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">headers = &#123;<span class="string">'Cookie'</span>:手动打码,</span><br><span class="line">           <span class="string">'Host'</span>:<span class="string">'www.zhihu.com'</span>,</span><br><span class="line">           <span class="string">'User-Agent'</span>:<span class="string">'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36'</span>&#125;</span><br><span class="line">r = requests.get(<span class="string">'http://www.zhihu.com'</span>,headers=headers)</span><br><span class="line">print(r.text）</span><br></pre></td></tr></table></figure></p>
+<h3 id="会话维持"><a href="#会话维持" class="headerlink" title="会话维持"></a>会话维持</h3><p>在requests中，get和post请求网页实际上是不同的会话，相当于用两个浏览器打开了不同的页面。例如，先用post登陆了某网站，然后用get方法请求个人信息，实际上这相当于打开了两个浏览器，是完全不相关的两个会话，不能获取个人信息。<br>可以设置相同的cookies，也可以通过下面的方法维持会话:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="comment">#设置cookies</span></span><br><span class="line">requests.get(<span class="string">'http://httpbin.org/cookies/set/number/123456'</span>)</span><br><span class="line">r = requests.get(<span class="string">'http://httpbin.org/cookies'</span>)</span><br><span class="line">print(r.text)</span><br><span class="line"><span class="comment"># &#123;</span></span><br><span class="line"><span class="comment">#   "cookies": &#123;&#125;</span></span><br><span class="line"><span class="comment"># &#125;</span></span><br><span class="line"><span class="comment">#利用Session维持会话</span></span><br><span class="line">s = requests.Session()</span><br><span class="line">s.get(<span class="string">'http://httpbin.org/cookies/set/number/123456'</span>)</span><br><span class="line">r = s.get(<span class="string">'http://httpbin.org/cookies'</span>)</span><br><span class="line">print(r.text)</span><br><span class="line"><span class="comment"># &#123;</span></span><br><span class="line"><span class="comment">#   "cookies": &#123;</span></span><br><span class="line"><span class="comment">#     "number": "123456"</span></span><br><span class="line"><span class="comment">#   &#125;</span></span><br><span class="line"><span class="comment"># &#125;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="SSL证书验证"><a href="#SSL证书验证" class="headerlink" title="SSL证书验证"></a>SSL证书验证</h3><p>发送http请求时，要验证SSL证书，遇到证书不被官方CA机构信任的网站，只要把verify改为false即可<br>requests.get(‘url’,verify = False)<br>遇到建议给出证书的警告时，可以用下面两种方法:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> requests.packages <span class="keyword">import</span> urllib3</span><br><span class="line">urllib3.disable_warnings()</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> logging</span><br><span class="line">logging.captureWarnings(<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure></p>
+<p>当然，也可以使用本地证书，但要注意key是解密状态的。</p>
+<h3 id="代理设置"><a href="#代理设置" class="headerlink" title="代理设置"></a>代理设置</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">proxies = &#123;</span><br><span class="line">    <span class="string">'http'</span>:<span class="string">'http//10.10.1.10:3128'</span>,<span class="comment">#自己设置可用的代理</span></span><br><span class="line">    <span class="string">'https'</span>:<span class="string">'http://10.10.1.10:1080'</span>,</span><br><span class="line">    <span class="comment">#也可以用socks协议的代理</span></span><br><span class="line">    <span class="string">'http'</span>:<span class="string">'socks5://user:password@host:port'</span></span><br><span class="line">&#125;</span><br><span class="line">requests.get(<span class="string">"http://www.taobao.com"</span>,proxies=proxies)</span><br></pre></td></tr></table></figure>
+<h3 id="超时设置"><a href="#超时设置" class="headerlink" title="超时设置"></a>超时设置</h3><p>设置超时时间，若超过还没得到响应，则报错。该时间为发出请求到服务器返回响应的时间。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">r = requests.get(<span class="string">'http://www.taobao.com'</span>,timeout=<span class="number">1</span>)</span><br><span class="line">print(r.status_code)</span><br></pre></td></tr></table></figure></p>
+<p>timeout默认为None，意味着永久等待。</p>
+<h3 id="身份认证"><a href="#身份认证" class="headerlink" title="身份认证"></a>身份认证</h3><p><img src="/2018/10/31/爬虫学习-2/auth.jpg" alt=""><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">r = requests.get(<span class="string">'url'</span>,auth=(<span class="string">'username'</span>,<span class="string">'password'</span>))</span><br></pre></td></tr></table></figure></p>
+<h3 id="Prepared-Request"><a href="#Prepared-Request" class="headerlink" title="Prepared Request"></a>Prepared Request</h3><p>将请求表达为数据结构:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> requests <span class="keyword">import</span> Request,Session</span><br><span class="line">url = <span class="string">'http://httpbin.org/post'</span></span><br><span class="line">data = &#123;</span><br><span class="line">    <span class="string">'name'</span>:<span class="string">'Alice'</span>,</span><br><span class="line">    <span class="string">'age'</span>:<span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">'User-Agent'</span>:<span class="string">'Mozilla/5.0(Macintosh;Inter Mac OS X 10_11_4)AppleWebkit/537.36(KHTML,like Gecko)Chrome/52.0.2743.116 Safari/537.36'</span></span><br><span class="line">&#125;</span><br><span class="line">s = Session()</span><br><span class="line"><span class="comment">#构造Request对象</span></span><br><span class="line">req = Request(<span class="string">'POST'</span>,url=url,data=data,headers=headers)</span><br><span class="line"><span class="comment">#调用Session的prepared_request()方法将其转化成一个Prepared Request对象</span></span><br><span class="line">prepped = s.prepare_request(req)</span><br><span class="line"><span class="comment">#send()发送</span></span><br><span class="line">r = s.send(prepped)</span><br><span class="line">print(r.text)</span><br></pre></td></tr></table></figure></p>
+<h1 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h1><p>python的re库提供了整个正则表达式的实现。</p>
+<h2 id="match"><a href="#match" class="headerlink" title="match()"></a>match()</h2><p>传入要匹配的字符串和正则表达式，就可以检测是否匹配<br>注意，它是从字符串的开头开始匹配的，一旦开头匹配不上，则失败<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line">content = <span class="string">'Hello 123 4567 World_this is a Regex Demo'</span></span><br><span class="line">print(len(content))</span><br><span class="line"><span class="comment"># ^字符串的开头 \s空白字符 \S非空字符 \d数字 \w数字字母下划线 &#123;n&#125;前面的表达式重复n次</span></span><br><span class="line">result = re.match(<span class="string">'^Hello\s\d\d\d\s\d&#123;4&#125;\s\w&#123;10&#125;'</span>,content)</span><br><span class="line">print(result)</span><br><span class="line">print(result.group())<span class="comment">#匹配的结果</span></span><br><span class="line">print(result.span())<span class="comment">#匹配的范围</span></span><br><span class="line"><span class="comment"># 41</span></span><br><span class="line"><span class="comment"># &lt;_sre.SRE_Match object; span=(0, 25), match='Hello 123 4567 World_this'&gt;</span></span><br><span class="line"><span class="comment"># Hello 123 4567 World_this</span></span><br><span class="line"><span class="comment"># (0, 25)</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="匹配目标"><a href="#匹配目标" class="headerlink" title="匹配目标"></a>匹配目标</h3><p>从字符串中提取一部分内容，用<strong>()</strong>将想提取的子字符串括起来，然后用group()方法传入分组的索引剧可以获取提取的结果:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line">content = <span class="string">'Hello 123 4567 World_this is a Regex Demo'</span></span><br><span class="line">print(len(content))</span><br><span class="line">result = re.match(<span class="string">'^Hello\s(\d+)\s(\d+)'</span>,content)</span><br><span class="line">print(result)</span><br><span class="line">print(result.group())</span><br><span class="line">print(result.group(<span class="number">1</span>))</span><br><span class="line">print(result.group(<span class="number">2</span>))</span><br><span class="line">print(result.span())</span><br><span class="line"><span class="comment"># &lt;_sre.SRE_Match object; span=(0, 14), match='Hello 123 4567'&gt;</span></span><br><span class="line"><span class="comment"># Hello 123 4567</span></span><br><span class="line"><span class="comment"># 123</span></span><br><span class="line"><span class="comment"># 4567</span></span><br><span class="line"><span class="comment"># (0, 14)</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="通用匹配"><a href="#通用匹配" class="headerlink" title="通用匹配"></a>通用匹配</h3><p>.表示任意字符(除了换行符)，*表示无限次<br>那么开头的例子可以改写成:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line">content = <span class="string">'Hello 123 4567 World_this is a Regex Demo'</span></span><br><span class="line">print(len(content))</span><br><span class="line"><span class="comment">#$匹配字符串的结尾</span></span><br><span class="line">result = re.match(<span class="string">'^Hello.*Demo$'</span>,content)</span><br><span class="line">print(result)</span><br><span class="line">print(result.group())</span><br><span class="line">print(result.span())</span><br><span class="line"><span class="comment"># 41</span></span><br><span class="line"><span class="comment"># &lt;_sre.SRE_Match object; span=(0, 41), match='Hello 123 4567 World_this is a Regex Demo'&gt;</span></span><br><span class="line"><span class="comment"># Hello 123 4567 World_this is a Regex Demo</span></span><br><span class="line"><span class="comment"># (0, 41)</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="贪婪与非贪婪"><a href="#贪婪与非贪婪" class="headerlink" title="贪婪与非贪婪"></a>贪婪与非贪婪</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line">content = <span class="string">'Hello 1234567 World_this is a Regex Demo'</span></span><br><span class="line">result = re.match(<span class="string">'^He.*(\d+).*Demo$'</span>,content)</span><br><span class="line">print(result.group(<span class="number">1</span>))</span><br><span class="line"><span class="comment">#7</span></span><br></pre></td></tr></table></figure>
+<p>在贪婪匹配下，.<em>会尽可能多的匹配字符，所以\d+只有一个7<br>若想提取提出字符串1234567，就使用非贪婪匹配.</em>?:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line">content = <span class="string">'Hello 1234567 World_this is a Regex Demo'</span></span><br><span class="line"><span class="comment"># ?匹配0个或1个前面定义的片段</span></span><br><span class="line">result = re.match(<span class="string">'^He.*?(\d+).*Demo$'</span>,content)</span><br><span class="line">print(result.group(<span class="number">1</span>))</span><br><span class="line"><span class="comment">#1234567</span></span><br></pre></td></tr></table></figure></p>
+<p>但如果.*?是在结尾，则可能匹配不到任何内容</p>
+<h3 id="修饰符"><a href="#修饰符" class="headerlink" title="修饰符"></a>修饰符</h3><p>.<em>?是不能匹配换行符的，如果字符串存在换行符，那么可以在re.match()中加入re.S，比如result = re.re.match(‘^He.</em>?(\d+).*Demo$’,content,re.S)<br>常用的有:re.I使对大小写不敏感；re.L做本地化识别匹配；re.M多行匹配</p>
+<h3 id="转义匹配"><a href="#转义匹配" class="headerlink" title="转义匹配"></a>转义匹配</h3><p>遇到要转义的字符使用\</p>
+<h2 id="search"><a href="#search" class="headerlink" title="search()"></a>search()</h2><p>弥补了match必须开头就要匹配的缺点，扫描整个字符串，返回第一个匹配的结果。<br>re.S可以跳过换行符，十分重要。</p>
+<h2 id="findall"><a href="#findall" class="headerlink" title="findall()"></a>findall()</h2><p>返回取所有匹配的字符串</p>
+<h2 id="sub"><a href="#sub" class="headerlink" title="sub()"></a>sub()</h2><p>修改字符串<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line">content = <span class="string">'This1 i2s a d3emo4'</span></span><br><span class="line">result = re.sub(<span class="string">'\d+'</span>,<span class="string">''</span>,content)</span><br><span class="line">print(result)</span><br><span class="line"><span class="comment">#This is a demo</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="compile"><a href="#compile" class="headerlink" title="compile()"></a>compile()</h2><p>将正则字符串编译成正则表达式对象，以便后面的匹配中使用。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line">content1 = <span class="string">'2018-05-06 13:00'</span></span><br><span class="line">content2 = <span class="string">'2018-05-09 14:00'</span></span><br><span class="line">content3 = <span class="string">'2018-11-05 13:14'</span></span><br><span class="line">pattern = re.compile(<span class="string">'\d&#123;2&#125;:\d&#123;2&#125;'</span>)</span><br><span class="line">result1 = re.sub(pattern,<span class="string">''</span>,content1)</span><br><span class="line">result2 = re.sub(pattern,<span class="string">''</span>,content2)</span><br><span class="line">result3 = re.sub(pattern,<span class="string">''</span>,content3)</span><br><span class="line">print(result1,result2,result3)</span><br><span class="line"><span class="comment">#2018-05-06  2018-05-09  2018-11-05</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="实例：抓取猫眼电影排行榜"><a href="#实例：抓取猫眼电影排行榜" class="headerlink" title="实例：抓取猫眼电影排行榜"></a>实例：抓取猫眼电影排行榜</h1><p>具体过程看下一篇文章😂</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python/" rel="tag"># python</a>
+          
+            <a href="/tags/爬虫/" rel="tag"># 爬虫</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/30/爬虫学习-1/" rel="next" title="爬虫学习(1)">
+                <i class="fa fa-chevron-left"></i> 爬虫学习(1)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Chen Zhaoyun" />
+            
+              <p class="site-author-name" itemprop="name">Chen Zhaoyun</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#urllib"><span class="nav-number">1.</span> <span class="nav-text">urllib</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#发送请求"><span class="nav-number">1.1.</span> <span class="nav-text">发送请求</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#urlopen"><span class="nav-number">1.1.1.</span> <span class="nav-text">urlopen()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Request"><span class="nav-number">1.1.2.</span> <span class="nav-text">Request</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#高级用法"><span class="nav-number">1.1.3.</span> <span class="nav-text">高级用法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#处理异常"><span class="nav-number">1.2.</span> <span class="nav-text">处理异常</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#URLError"><span class="nav-number">1.3.</span> <span class="nav-text">URLError</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTPError"><span class="nav-number">1.4.</span> <span class="nav-text">HTTPError</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解析链接"><span class="nav-number">1.5.</span> <span class="nav-text">解析链接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分析Robots协议"><span class="nav-number">1.6.</span> <span class="nav-text">分析Robots协议</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#requests"><span class="nav-number">2.</span> <span class="nav-text">requests</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本用法"><span class="nav-number">2.1.</span> <span class="nav-text">基本用法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#GET请求"><span class="nav-number">2.1.1.</span> <span class="nav-text">GET请求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#POST请求"><span class="nav-number">2.1.2.</span> <span class="nav-text">POST请求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#响应"><span class="nav-number">2.1.3.</span> <span class="nav-text">响应</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#高级用法-1"><span class="nav-number">2.2.</span> <span class="nav-text">高级用法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#文件上传"><span class="nav-number">2.2.1.</span> <span class="nav-text">文件上传</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cookies"><span class="nav-number">2.2.2.</span> <span class="nav-text">Cookies</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#会话维持"><span class="nav-number">2.2.3.</span> <span class="nav-text">会话维持</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SSL证书验证"><span class="nav-number">2.2.4.</span> <span class="nav-text">SSL证书验证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代理设置"><span class="nav-number">2.2.5.</span> <span class="nav-text">代理设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#超时设置"><span class="nav-number">2.2.6.</span> <span class="nav-text">超时设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#身份认证"><span class="nav-number">2.2.7.</span> <span class="nav-text">身份认证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Prepared-Request"><span class="nav-number">2.2.8.</span> <span class="nav-text">Prepared Request</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#正则表达式"><span class="nav-number">3.</span> <span class="nav-text">正则表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#match"><span class="nav-number">3.1.</span> <span class="nav-text">match()</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#匹配目标"><span class="nav-number">3.1.1.</span> <span class="nav-text">匹配目标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通用匹配"><span class="nav-number">3.1.2.</span> <span class="nav-text">通用匹配</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#贪婪与非贪婪"><span class="nav-number">3.1.3.</span> <span class="nav-text">贪婪与非贪婪</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修饰符"><span class="nav-number">3.1.4.</span> <span class="nav-text">修饰符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#转义匹配"><span class="nav-number">3.1.5.</span> <span class="nav-text">转义匹配</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#search"><span class="nav-number">3.2.</span> <span class="nav-text">search()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#findall"><span class="nav-number">3.3.</span> <span class="nav-text">findall()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sub"><span class="nav-number">3.4.</span> <span class="nav-text">sub()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#compile"><span class="nav-number">3.5.</span> <span class="nav-text">compile()</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实例：抓取猫眼电影排行榜"><span class="nav-number">4.</span> <span class="nav-text">实例：抓取猫眼电影排行榜</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chen Zhaoyun</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'KSn8wT5RN2dHd9qrxrtR3e0g-gzGzoHsz',
+        appKey: 'DezWAMrdLtNBOzESQv1mlViN',
+        placeholder: '你也上网冲浪呀',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
