@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="爬虫,python," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="目标分析目标站点:https://movie.douban.com/top250目标信息:豆瓣电影Top250中每部影片的片名、评分、图片、排名等信息另外，在页面的下方，我们看到该榜单一共有10页的分页，点击第二页，可以看到URL变成了:https://movie.douban.com/top250?start=25&amp;amp;filter=，多了start=25&amp;amp;filter=的参数；点击">
+<meta name="keywords" content="爬虫,python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="爬取豆瓣电影Top250榜单">
+<meta property="og:url" content="http://yoursite.com/2018/11/07/爬取豆瓣电影Top250榜单/index.html">
+<meta property="og:site_name" content="国民大可爱、">
+<meta property="og:description" content="目标分析目标站点:https://movie.douban.com/top250目标信息:豆瓣电影Top250中每部影片的片名、评分、图片、排名等信息另外，在页面的下方，我们看到该榜单一共有10页的分页，点击第二页，可以看到URL变成了:https://movie.douban.com/top250?start=25&amp;amp;filter=，多了start=25&amp;amp;filter=的参数；点击">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2018/11/07/爬取豆瓣电影Top250榜单/Top250.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/11/07/爬取豆瓣电影Top250榜单/result.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/11/07/爬取豆瓣电影Top250榜单/pic.jpg">
+<meta property="og:updated_time" content="2018-11-07T12:36:36.062Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="爬取豆瓣电影Top250榜单">
+<meta name="twitter:description" content="目标分析目标站点:https://movie.douban.com/top250目标信息:豆瓣电影Top250中每部影片的片名、评分、图片、排名等信息另外，在页面的下方，我们看到该榜单一共有10页的分页，点击第二页，可以看到URL变成了:https://movie.douban.com/top250?start=25&amp;amp;filter=，多了start=25&amp;amp;filter=的参数；点击">
+<meta name="twitter:image" content="http://yoursite.com/2018/11/07/爬取豆瓣电影Top250榜单/Top250.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/11/07/爬取豆瓣电影Top250榜单/"/>
+
+
+
+
+
+  <title>爬取豆瓣电影Top250榜单 | 国民大可爱、</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">国民大可爱、</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Book思议在划水</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/07/爬取豆瓣电影Top250榜单/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Chen Zhaoyun">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="国民大可爱、">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">爬取豆瓣电影Top250榜单</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-07T15:07:10+08:00">
+                2018-11-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/11/07/爬取豆瓣电影Top250榜单/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/11/07/爬取豆瓣电影Top250榜单/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="目标分析"><a href="#目标分析" class="headerlink" title="目标分析"></a>目标分析</h1><p>目标站点:<a href="https://movie.douban.com/top250" target="_blank" rel="noopener">https://movie.douban.com/top250</a><br>目标信息:豆瓣电影Top250中每部影片的片名、评分、图片、排名等信息<br><img src="/2018/11/07/爬取豆瓣电影Top250榜单/Top250.jpg" alt=""><br>另外，在页面的下方，我们看到该榜单一共有10页的分页，点击第二页，可以看到URL变成了:<a href="https://movie.douban.com/top250?start=25&amp;filter=，多了start=25&amp;filter=的参数；点击第三页，此时URL变成了:https://movie.douban.com/top250?start=50&amp;filter=。因此可以总结出，每页显示25部电影的信息，每页都在首页URL的基础上，增加了start参数的偏移量25。" target="_blank" rel="noopener">https://movie.douban.com/top250?start=25&amp;filter=，多了start=25&amp;filter=的参数；点击第三页，此时URL变成了:https://movie.douban.com/top250?start=50&amp;filter=。因此可以总结出，每页显示25部电影的信息，每页都在首页URL的基础上，增加了start参数的偏移量25。</a><br>另外，URL中的filter参数，如果勾选了“我没看过的”选项，那么该参数会变成filter=unwatched，页面只显示未看过的电影信息，不过该参数对于我们此次要爬取的内容没有影响。</p>
+<h1 id="爬取首页"><a href="#爬取首页" class="headerlink" title="爬取首页"></a>爬取首页</h1><p>首先，我们先获取该榜单第一页的内容:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_one_page</span><span class="params">(url)</span>:</span></span><br><span class="line">    headers = [</span><br><span class="line">        &#123;<span class="string">'User-Agent'</span>: <span class="string">'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:34.0) Gecko/20100101 Firefox/34.0'</span>&#125;,</span><br><span class="line">        &#123;<span class="string">'User-Agent'</span>: <span class="string">'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.6) Gecko/20091201 Firefox/3.5.6'</span>&#125;,</span><br><span class="line">        &#123;<span class="string">'User-Agent'</span>: <span class="string">'Mozilla/5.0 (Windows NT 6.2) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.12 Safari/535.11'</span>&#125;,</span><br><span class="line">        &#123;<span class="string">'User-Agent'</span>: <span class="string">'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0)'</span>&#125;,</span><br><span class="line">        &#123;<span class="string">'User-Agent'</span>: <span class="string">'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:40.0) Gecko/20100101 Firefox/40.0'</span>&#125;,</span><br><span class="line">        &#123;<span class="string">'User-Agent'</span>: <span class="string">'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/44.0.2403.89 Chrome/44.0.2403.89 Safari/537.36'</span>&#125;</span><br><span class="line">    ]</span><br><span class="line">    response = requests.get(url,headers=random.choice(headers))</span><br><span class="line">    <span class="keyword">if</span> response.status_code == <span class="number">200</span>:</span><br><span class="line">        <span class="keyword">return</span> response.text</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">None</span></span><br></pre></td></tr></table></figure></p>
+<p>网站的反爬虫机制有很多，在这里，我们使用了User-Agent池。<br>运行代码，我们得到了该页的html，接下来就是解析该页面，用正则表达式提取我们想要的信息。</p>
+<h1 id="正则提取"><a href="#正则提取" class="headerlink" title="正则提取"></a>正则提取</h1><p>分析html，可以发现每部电影信息都以如下的形式保存:<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">li</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"item"</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"pic"</span>&gt;</span></span><br><span class="line">                   <span class="tag">&lt;<span class="name">em</span> <span class="attr">class</span>=<span class="string">""</span>&gt;</span>1<span class="tag">&lt;/<span class="name">em</span>&gt;</span></span><br><span class="line">                   <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"https://movie.douban.com/subject/1292052/"</span>&gt;</span></span><br><span class="line">                       <span class="tag">&lt;<span class="name">img</span> <span class="attr">width</span>=<span class="string">"100"</span> <span class="attr">alt</span>=<span class="string">"肖申克的救赎"</span> <span class="attr">src</span>=<span class="string">"https://img3.doubanio.com/view/photo/s_ratio_poster/public/p480747492.jpg"</span> <span class="attr">class</span>=<span class="string">""</span>&gt;</span></span><br><span class="line">                   <span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"info"</span>&gt;</span></span><br><span class="line">                   <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"hd"</span>&gt;</span></span><br><span class="line">                       <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"https://movie.douban.com/subject/1292052/"</span> <span class="attr">class</span>=<span class="string">""</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"title"</span>&gt;</span>肖申克的救赎<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">                                   <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"title"</span>&gt;</span>&amp;nbsp;/&amp;nbsp;The Shawshank Redemption<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">                               <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"other"</span>&gt;</span>&amp;nbsp;/&amp;nbsp;月黑高飞(港)  /  刺激1995(台)<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">                       <span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                           <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"playable"</span>&gt;</span>[可播放]<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">                   <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">                   <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"bd"</span>&gt;</span></span><br><span class="line">                       <span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">""</span>&gt;</span></span><br><span class="line">                           导演: 弗兰克·德拉邦特 Frank Darabont&amp;nbsp;&amp;nbsp;&amp;nbsp;主演: 蒂姆·罗宾斯 Tim Robbins /...<span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">                           1994&amp;nbsp;/&amp;nbsp;美国&amp;nbsp;/&amp;nbsp;犯罪 剧情</span><br><span class="line">                       <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"></span><br><span class="line">                       </span><br><span class="line">                       <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"star"</span>&gt;</span></span><br><span class="line">                               <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"rating5-t"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">                               <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"rating_num"</span> <span class="attr">property</span>=<span class="string">"v:average"</span>&gt;</span>9.6<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">                               <span class="tag">&lt;<span class="name">span</span> <span class="attr">property</span>=<span class="string">"v:best"</span> <span class="attr">content</span>=<span class="string">"10.0"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">                               <span class="tag">&lt;<span class="name">span</span>&gt;</span>1185949人评价<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">                       <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">                           <span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"quote"</span>&gt;</span></span><br><span class="line">                               <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"inq"</span>&gt;</span>希望让人自由。<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">                   <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>需要提取的信息以及对应的正则表达式如下:<br>1.影片排名<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pic&quot;.*?class=&quot;&quot;&gt;(.*?)&lt;/em&gt;</span><br></pre></td></tr></table></figure></p>
+<p>2.电影剧照<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pic&quot;.*?class=&quot;&quot;&gt;(.*?)&lt;/em&gt;.*?src=&quot;(.*?)&quot;</span><br></pre></td></tr></table></figure></p>
+<p>3.电影名字<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pic&quot;.*?class=&quot;&quot;&gt;(.*?)&lt;/em&gt;.*?src=&quot;(.*?)&quot;.*?title&quot;&gt;(.*?)&lt;/span&gt;</span><br></pre></td></tr></table></figure></p>
+<p>4.电影评分<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pic&quot;.*?class=&quot;&quot;&gt;(.*?)&lt;/em&gt;.*?src=&quot;(.*?)&quot;.*?title&quot;&gt;(.*?)&lt;/span&gt;.*?average&quot;&gt;(.*?)&lt;/span&gt;</span><br></pre></td></tr></table></figure></p>
+<p>5.电影格言<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pic&quot;.*?class=&quot;&quot;&gt;(.*?)&lt;/em&gt;.*?src=&quot;(.*?)&quot;.*?title&quot;&gt;(.*?)&lt;/span&gt;.*?average&quot;&gt;(.*?)&lt;/span&gt;.*?inq&quot;&gt;(.*?)&lt;/span&gt;</span><br></pre></td></tr></table></figure></p>
+<p>列完正则表达式，接下来就是写一个提取函数，从刚才抓取的页面中提取出需要的信息:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse_one_page</span><span class="params">(html)</span>:</span></span><br><span class="line">    pattern = re.compile(<span class="string">'pic".*?class=""&gt;(.*?)&lt;/em&gt;.*?src="(.*?)".*?title"&gt;(.*?)&lt;/span&gt;.*?average"&gt;(.*?)&lt;/span&gt;.*?inq"&gt;(.*?)&lt;/span&gt;'</span>,re.S)</span><br><span class="line">    items = re.findall(pattern,html)</span><br><span class="line">    <span class="comment">#print(items)</span></span><br><span class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> items:</span><br><span class="line">        <span class="keyword">yield</span> &#123;</span><br><span class="line">            <span class="string">'rank'</span>:item[<span class="number">0</span>],</span><br><span class="line">            <span class="string">'pic'</span>:item[<span class="number">1</span>],</span><br><span class="line">            <span class="string">'name'</span>:item[<span class="number">2</span>],</span><br><span class="line">            <span class="string">'score'</span>:item[<span class="number">3</span>],</span><br><span class="line">            <span class="string">'quote'</span>:item[<span class="number">4</span>]</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="写入文件"><a href="#写入文件" class="headerlink" title="写入文件"></a>写入文件</h1><p>将提取的内容写入文本文件中并保存下来:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">write_to_file</span><span class="params">(content)</span>:</span></span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">'result.txt'</span>,<span class="string">'a+'</span>,encoding=<span class="string">'utf-8'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        f.write(str(content)+<span class="string">'\n'</span>)</span><br></pre></td></tr></table></figure></p>
+<h1 id="分页爬取"><a href="#分页爬取" class="headerlink" title="分页爬取"></a>分页爬取</h1><p>完成了单页内容的爬取，现在要爬取整个完整榜单，只需要遍历一遍url链接,给url传入start参数，实现其余各个页面电影信息的爬取:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">write_to_file</span><span class="params">(content)</span>:</span></span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">'result.txt'</span>,<span class="string">'a+'</span>,encoding=<span class="string">'utf-8'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        f.write(str(content)+<span class="string">'\n'</span>)</span><br></pre></td></tr></table></figure></p>
+<h1 id="结果分析"><a href="#结果分析" class="headerlink" title="结果分析"></a>结果分析</h1><p>另外，还可以利用urllib.request.urlretrieve方法下载并保存图片。<br>完整代码如下:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> urllib.request <span class="keyword">import</span> urlretrieve</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_one_page</span><span class="params">(url)</span>:</span></span><br><span class="line">    headers = [</span><br><span class="line">        &#123;<span class="string">'User-Agent'</span>: <span class="string">'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:34.0) Gecko/20100101 Firefox/34.0'</span>&#125;,</span><br><span class="line">        &#123;<span class="string">'User-Agent'</span>: <span class="string">'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.6) Gecko/20091201 Firefox/3.5.6'</span>&#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="string">'User-Agent'</span>: <span class="string">'Mozilla/5.0 (Windows NT 6.2) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.12 Safari/535.11'</span>&#125;,</span><br><span class="line">        &#123;<span class="string">'User-Agent'</span>: <span class="string">'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0)'</span>&#125;,</span><br><span class="line">        &#123;<span class="string">'User-Agent'</span>: <span class="string">'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:40.0) Gecko/20100101 Firefox/40.0'</span>&#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="string">'User-Agent'</span>: <span class="string">'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/44.0.2403.89 Chrome/44.0.2403.89 Safari/537.36'</span>&#125;</span><br><span class="line">    ]</span><br><span class="line">    response = requests.get(url,headers=random.choice(headers))</span><br><span class="line">    <span class="keyword">if</span> response.status_code == <span class="number">200</span>:</span><br><span class="line">        <span class="keyword">return</span> response.text</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">None</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse_one_page</span><span class="params">(html)</span>:</span></span><br><span class="line">    pattern = re.compile(<span class="string">'pic".*?class=""&gt;(.*?)&lt;/em&gt;.*?src="(.*?)".*?title"&gt;(.*?)&lt;/span&gt;.*?average"&gt;(.*?)&lt;/span&gt;.*?inq"&gt;(.*?)&lt;/span&gt;'</span>,re.S)</span><br><span class="line">    items = re.findall(pattern,html)</span><br><span class="line">    <span class="comment">#print(items)</span></span><br><span class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> items:</span><br><span class="line">        <span class="keyword">yield</span> &#123;</span><br><span class="line">            <span class="string">'rank'</span>:item[<span class="number">0</span>],</span><br><span class="line">            <span class="string">'pic'</span>:item[<span class="number">1</span>],</span><br><span class="line">            <span class="string">'name'</span>:item[<span class="number">2</span>],</span><br><span class="line">            <span class="string">'score'</span>:item[<span class="number">3</span>],</span><br><span class="line">            <span class="string">'quote'</span>:item[<span class="number">4</span>]</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">write_to_file</span><span class="params">(content)</span>:</span></span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">'result.txt'</span>,<span class="string">'a+'</span>,encoding=<span class="string">'utf-8'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        f.write(str(content)+<span class="string">'\n'</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">(start)</span>:</span></span><br><span class="line">    url = <span class="string">'https://movie.douban.com/top250?start='</span>+str(start)</span><br><span class="line">    html = get_one_page(url)</span><br><span class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> parse_one_page(html):</span><br><span class="line">        write_to_file(item)</span><br><span class="line">        urlretrieve(item[<span class="string">'pic'</span>], filename=<span class="string">'movie_pic'</span>+os.sep+str(item[<span class="string">'rank'</span>])+<span class="string">'.jpg'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>):</span><br><span class="line">        print(i)</span><br><span class="line">        main(start=i*<span class="number">25</span>)</span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br></pre></td></tr></table></figure></p>
+<p>得到的文本文件如图所示:<br><img src="/2018/11/07/爬取豆瓣电影Top250榜单/result.jpg" alt=""><br>得到的影片图片如图所示:<br><img src="/2018/11/07/爬取豆瓣电影Top250榜单/pic.jpg" alt=""></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/爬虫/" rel="tag"># 爬虫</a>
+          
+            <a href="/tags/python/" rel="tag"># python</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/06/抓取猫眼电影排行榜/" rel="next" title="抓取猫眼电影排行榜">
+                <i class="fa fa-chevron-left"></i> 抓取猫眼电影排行榜
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Chen Zhaoyun" />
+            
+              <p class="site-author-name" itemprop="name">Chen Zhaoyun</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#目标分析"><span class="nav-number">1.</span> <span class="nav-text">目标分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#爬取首页"><span class="nav-number">2.</span> <span class="nav-text">爬取首页</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#正则提取"><span class="nav-number">3.</span> <span class="nav-text">正则提取</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#写入文件"><span class="nav-number">4.</span> <span class="nav-text">写入文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#分页爬取"><span class="nav-number">5.</span> <span class="nav-text">分页爬取</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#结果分析"><span class="nav-number">6.</span> <span class="nav-text">结果分析</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chen Zhaoyun</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'KSn8wT5RN2dHd9qrxrtR3e0g-gzGzoHsz',
+        appKey: 'DezWAMrdLtNBOzESQv1mlViN',
+        placeholder: '你也上网冲浪呀',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
