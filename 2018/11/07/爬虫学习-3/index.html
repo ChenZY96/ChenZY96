@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="爬虫,python," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="使用正则表达式来提取信息不是非常方便，而通过html的节点可以方便的定位，通过XPath和CSS选择器可以方便的提取节点，然后调用相应方法来获取想获取的内容。这一过程可以通过解析库来完成。比较厉害的解析库有lxml、Beautiful Soup、pyquery。 XPthXML Path Language，XML路径语言，提供了非常简洁的路径选择表达式。其常用规则如下表所示:     表达式 描述">
+<meta name="keywords" content="爬虫,python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="爬虫学习(3)">
+<meta property="og:url" content="http://yoursite.com/2018/11/07/爬虫学习-3/index.html">
+<meta property="og:site_name" content="国民大可爱、">
+<meta property="og:description" content="使用正则表达式来提取信息不是非常方便，而通过html的节点可以方便的定位，通过XPath和CSS选择器可以方便的提取节点，然后调用相应方法来获取想获取的内容。这一过程可以通过解析库来完成。比较厉害的解析库有lxml、Beautiful Soup、pyquery。 XPthXML Path Language，XML路径语言，提供了非常简洁的路径选择表达式。其常用规则如下表所示:     表达式 描述">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-11-11T09:12:30.381Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="爬虫学习(3)">
+<meta name="twitter:description" content="使用正则表达式来提取信息不是非常方便，而通过html的节点可以方便的定位，通过XPath和CSS选择器可以方便的提取节点，然后调用相应方法来获取想获取的内容。这一过程可以通过解析库来完成。比较厉害的解析库有lxml、Beautiful Soup、pyquery。 XPthXML Path Language，XML路径语言，提供了非常简洁的路径选择表达式。其常用规则如下表所示:     表达式 描述">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/11/07/爬虫学习-3/"/>
+
+
+
+
+
+  <title>爬虫学习(3) | 国民大可爱、</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">国民大可爱、</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Book思议在划水</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/07/爬虫学习-3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Chen Zhaoyun">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="国民大可爱、">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">爬虫学习(3)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-07T20:39:20+08:00">
+                2018-11-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/11/07/爬虫学习-3/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/11/07/爬虫学习-3/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>使用正则表达式来提取信息不是非常方便，而通过html的节点可以方便的定位，通过XPath和CSS选择器可以方便的提取节点，然后调用相应方法来获取想获取的内容。这一过程可以通过解析库来完成。<br>比较厉害的解析库有lxml、Beautiful Soup、pyquery。</p>
+<h1 id="XPth"><a href="#XPth" class="headerlink" title="XPth"></a>XPth</h1><p>XML Path Language，XML路径语言，提供了非常简洁的路径选择表达式。其常用规则如下表所示:</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>表达式</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>nodename</td>
+<td>选取此节点的所有子节点</td>
+</tr>
+<tr>
+<td>/</td>
+<td>从当前节点选取直接子节点</td>
+</tr>
+<tr>
+<td>//</td>
+<td>从当前节点选取子孙节点</td>
+</tr>
+<tr>
+<td>.</td>
+<td>选取当前节点</td>
+</tr>
+<tr>
+<td>..</td>
+<td>选取当前节点的父节点</td>
+</tr>
+<tr>
+<td>@</td>
+<td>选取属性</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>比如，//title[@lang=’eng’]这条规则，代表选择所有名称为title，同时属性lang的值为eng的节点。<br>下面来看一下XPath对网页解析的过程:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line">text = <span class="string">'''</span></span><br><span class="line"><span class="string">&lt;div&gt;</span></span><br><span class="line"><span class="string">&lt;ul&gt;</span></span><br><span class="line"><span class="string">&lt;li class="item-0"&gt;&lt;a href='link1.html'&gt;1&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="string">&lt;li class="item-1"&gt;&lt;a href='link2.html'&gt;2&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="string">&lt;li class="item-inactive"&gt;&lt;a href='link3.html'&gt;3&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="string">&lt;li class="item-1"&gt;&lt;a href='link4.html'&gt;4&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="string">&lt;li class="item-0"&gt;&lt;a href='link5.html'&gt;5&lt;/a&gt;  </span></span><br><span class="line"><span class="string">&lt;/ul&gt;</span></span><br><span class="line"><span class="string">&lt;/div&gt;</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="comment">#注意上面的text缺少一个&lt;/li&gt;</span></span><br><span class="line">html = etree.HTML(text)</span><br><span class="line">result = etree.tostring(html)</span><br><span class="line">print(result.decode(<span class="string">'utf-8'</span>))</span><br></pre></td></tr></table></figure></p>
+<p>首先调用HTML进行初始化，成功构造了XPath解析对象，并且etree可以自动修正文本，然后用tostring输出修正后的文本。<br>如果是文本文件，则 html = etree.parse(‘./text.html’,etree.HTMLParser()) </p>
+<h2 id="所有节点-子节点-父节点"><a href="#所有节点-子节点-父节点" class="headerlink" title="所有节点 子节点 父节点"></a>所有节点 子节点 父节点</h2><h3 id="所有节点"><a href="#所有节点" class="headerlink" title="所有节点"></a>所有节点</h3><p>用//开头的XPath规则来选取所有符合要求的节点，<em>表示匹配所有节点<br>所以//</em>表示选取所有节点，//li表示选取所有li节点，<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">result = html.xpath(<span class="string">'//li'</span>)</span><br><span class="line">print(result)</span><br><span class="line"><span class="comment">#返回的是一个列表形式</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="子节点"><a href="#子节点" class="headerlink" title="子节点"></a>子节点</h3><p>用/或//查找元素的子节点或子孙节点，/表示直接子节点，//表示获取所有的子孙节点<br>//li/a表示所有li节点的直接a子节点，//li//a表示li节点的所有子孙a节点</p>
+<h3 id="父节点"><a href="#父节点" class="headerlink" title="父节点"></a>父节点</h3><p>用..来查找父节点<br>也可以用parent::</p>
+<h2 id="属性匹配"><a href="#属性匹配" class="headerlink" title="属性匹配"></a>属性匹配</h2><p>用@符号进行属性过滤<br>例如，选取class为item-0的li节点:html.path(‘//li[@class=”item-0”]’)</p>
+<h2 id="文本获取"><a href="#文本获取" class="headerlink" title="文本获取"></a>文本获取</h2><p>用XPath的text()方法获取节点中的文本。<br>result = html.xpath(‘//li[@class=”item-1”]//text()’)<br>result = html.xpath(‘//li[@class=”item-1”]/a/text()’)</p>
+<h2 id="属性获取"><a href="#属性获取" class="headerlink" title="属性获取"></a>属性获取</h2><p>用@符号<br>获取所有li节点下a节点的href属性:result = html.xpath(‘//li/a/@href’)</p>
+<h2 id="属性多值匹配"><a href="#属性多值匹配" class="headerlink" title="属性多值匹配"></a>属性多值匹配</h2><p>某些属性可能有多个值<br>例如下面li节点的class属性包含两个值，用之前的属性匹配就无法匹配，这时候得加上contains()函数，第一个参数是属性名字，第二个参数是属性值<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line">text = <span class="string">'''</span></span><br><span class="line"><span class="string">&lt;li class = "li li-firsr"&gt;&lt;a href = 'link.html'&gt;first item&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line">html = etree.HTML(text)</span><br><span class="line">result = html.xpath(<span class="string">'//li[@class = "li"]/a/text()'</span>)</span><br><span class="line">print(result)</span><br><span class="line"><span class="comment">#[]</span></span><br><span class="line">result = html.xpath(<span class="string">'//li[contains(@class,"li")]/a/text()'</span>)</span><br><span class="line">print(result)</span><br><span class="line"><span class="comment">#['first item']</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="多属性匹配"><a href="#多属性匹配" class="headerlink" title="多属性匹配"></a>多属性匹配</h2><p>有时候需要通过多个属性确定一个节点，这时候可以用and进行连接<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line">text = <span class="string">'''</span></span><br><span class="line"><span class="string">&lt;li class = "li li-firsr" name="item"&gt;&lt;a href = 'link.html'&gt;first item&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line">html = etree.HTML(text)</span><br><span class="line">result = html.xpath(<span class="string">'//li[contains(@class,"li") and @name="item"]/a/text()'</span>)</span><br><span class="line">print(result)</span><br><span class="line"><span class="comment">#['first item']</span></span><br></pre></td></tr></table></figure></p>
+<p>事实上还有很多其他运算，比如or、mod、|等</p>
+<h2 id="按序选择"><a href="#按序选择" class="headerlink" title="按序选择"></a>按序选择</h2><p>有时候匹配了很多节点，但是只想要特定节点，可以传入索引来获取特定节点<br>注意，这里的索引从1开始<br>//li[1] 选取第一个li节点<br>//li[last()] 选取最后一个li节点<br>//li[position()<3>] 选取位置小于3的li节点，也就是1和2<br>//li[last()-2] 选取倒数第三个li节点</3></p>
+<h2 id="节点轴选择"><a href="#节点轴选择" class="headerlink" title="节点轴选择"></a>节点轴选择</h2><p>有很多轴，比如ancestor:: attribute:: child:: desendant:: following:: following-sibling等，具体的可以参考<a href="http://www.w3school.com.cn/xpath/xpath_axes.asp" target="_blank" rel="noopener">w3school</a></p>
+<h2 id="豆瓣电影Top250"><a href="#豆瓣电影Top250" class="headerlink" title="豆瓣电影Top250"></a>豆瓣电影Top250</h2><p>之前采用re提取信息，现在采用XPath来获取我们想要的信息:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">items = html.xpath(<span class="string">'//div[@class="item"]'</span>)</span><br><span class="line">   <span class="keyword">for</span> each <span class="keyword">in</span> items:</span><br><span class="line">       rank = each.xpath(<span class="string">'./descendant::em[@class=""]/text()'</span>)</span><br><span class="line">       pic = each.xpath(<span class="string">'./descendant::div[@class="pic"]/a/img/@src'</span>)</span><br><span class="line">       title = each.xpath(<span class="string">'./descendant::span[@class="title"]/text()'</span>)</span><br><span class="line">       title = [eachtitle.strip().replace(<span class="string">'\xa0'</span>, <span class="string">''</span>) <span class="keyword">for</span> eachtitle <span class="keyword">in</span> title]</span><br><span class="line">       print(title)</span><br><span class="line">       info = each.xpath(<span class="string">'./descendant::div[@class="bd"]/p[1]/text()'</span>)</span><br><span class="line">       info = [eachinfo.strip().replace(<span class="string">'\xa0'</span>, <span class="string">''</span>) <span class="keyword">for</span> eachinfo <span class="keyword">in</span> info]</span><br><span class="line">       score = each.xpath(<span class="string">'./descendant::div[@class="star"]/span[2]/text()'</span>)</span><br><span class="line">       quote = each.xpath(<span class="string">'./descendant::p[@class="quote"]/span/text()'</span>)</span><br></pre></td></tr></table></figure></p>
+<h1 id="Beautiful-Soup"><a href="#Beautiful-Soup" class="headerlink" title="Beautiful Soup"></a>Beautiful Soup</h1><p>借助网页的结构和属性等特性来解析网页，是一个十分强大的解析库。<br>Beautiful Soup在解析时依赖解析器，除了python标准库中的HTML解析器，还有lxml、html5lib等第三方解析器<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line">soup = BeautifulSoup(<span class="string">'&lt;p&gt;Hello&lt;/p&gt;'</span>,<span class="string">'lxml'</span>) <span class="comment">#使用lxml解析器</span></span><br><span class="line">print(soup.prettify())<span class="comment">#把要解析的字符串以标准的缩进格式输出，自动更正格式</span></span><br><span class="line">print(soup.p.string)<span class="comment">#p节点的文本</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="节点选择器"><a href="#节点选择器" class="headerlink" title="节点选择器"></a>节点选择器</h2><p>直接调用节点的名称就可以选择节点元素，在调用string属性就可以得到节点内的文本。</p>
+<h3 id="选择元素"><a href="#选择元素" class="headerlink" title="选择元素"></a>选择元素</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">html = <span class="string">"""</span></span><br><span class="line"><span class="string">&lt;html&gt;&lt;head&gt;&lt;title&gt;A Story&lt;/title&gt;&lt;/head&gt;</span></span><br><span class="line"><span class="string">&lt;body&gt;</span></span><br><span class="line"><span class="string">&lt;p class="title" name="Dormouse"&gt;&lt;b&gt;The Dormouse's story&lt;/b&gt;&lt;/p&gt;</span></span><br><span class="line"><span class="string">&lt;p class="story"&gt;Once upon a time...&lt;/p&gt;</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line">soup = BeautifulSoup(html,<span class="string">'lxml'</span>)</span><br><span class="line">print(soup.title.string)<span class="comment">#title节点内部的内容</span></span><br><span class="line">print(type(soup.title))<span class="comment">#类型，是Tag类型</span></span><br><span class="line">print(soup.head)<span class="comment">#head节点+其内部的内容</span></span><br><span class="line">print(soup.p)<span class="comment">#只选择第一个匹配到的节点p</span></span><br><span class="line"><span class="comment"># A Story</span></span><br><span class="line"><span class="comment"># &lt;class 'bs4.element.Tag'&gt;</span></span><br><span class="line"><span class="comment"># &lt;head&gt;&lt;title&gt;A Story&lt;/title&gt;&lt;/head&gt;</span></span><br><span class="line"><span class="comment"># &lt;p class="title" name="Dormouse"&gt;&lt;b&gt;The Dormouse's story&lt;/b&gt;&lt;/p&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="提取信息"><a href="#提取信息" class="headerlink" title="提取信息"></a>提取信息</h3><p>1.获取节点名称<br>用name属性<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(soup.title.name)</span><br><span class="line"><span class="comment">#title</span></span><br></pre></td></tr></table></figure></p>
+<p>2.获取节点属性的值<br>选取节点元素后，调用attrs获取所有的属性,返回的是字典，然后获取相应的属性值<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">print(soup.p.attrs)</span><br><span class="line">print(soup.p.attrs[<span class="string">'name'</span>])</span><br><span class="line"><span class="comment">#&#123;'class': ['title'], 'name': 'Dormouse'&#125;</span></span><br><span class="line"><span class="comment">#Dormouse</span></span><br></pre></td></tr></table></figure></p>
+<p>更为简单的方式是：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(soup.p[<span class="string">'name'</span>])</span><br></pre></td></tr></table></figure></p>
+<p>3.获取内容<br>string属性获取节点元素包含的文本内容<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(soup.p.string) <span class="comment">#只取第一个p节点</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="嵌套选择"><a href="#嵌套选择" class="headerlink" title="嵌套选择"></a>嵌套选择</h3><p>可以继续调用节点来进行下一步的选择<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(soup.head.title)</span><br><span class="line"><span class="comment"># &lt;title&gt;A Story&lt;/title&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="关联选择"><a href="#关联选择" class="headerlink" title="关联选择"></a>关联选择</h3><p>有时候不能一步选到想要的节点元素，需要选一个节点元素作为基准，然后选择其子节点、父节点、兄弟节点等。<br>1.子节点和子孙节点<br>用contents属性，获取<strong>直接子节点</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(soup.p.contens)</span><br></pre></td></tr></table></figure></p>
+<p>也可以用children属性:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i ,child <span class="keyword">in</span> enumerate(soup.body.children):</span><br><span class="line">    print(i,child)</span><br><span class="line"><span class="comment"># 0 </span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># 1 &lt;p class="title" name="Dormouse"&gt;&lt;b&gt;The Dormouse's story&lt;/b&gt;&lt;/p&gt;</span></span><br><span class="line"><span class="comment"># 2 </span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># 3 &lt;p class="story"&gt;Once upon a time...&lt;/p&gt;</span></span><br><span class="line"><span class="comment"># 4 </span></span><br><span class="line"><span class="comment">#</span></span><br></pre></td></tr></table></figure></p>
+<p>children属性，返回是生成器类型<br>如果要返回所有的子孙节点，则用descendants属性<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i,child <span class="keyword">in</span> enumerate(soup.body.descendants):</span><br><span class="line">    print(i,child)</span><br></pre></td></tr></table></figure></p>
+<p>2.父节点和祖先节点<br>获取某元素的父节点，调用parent属性<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(soup.p.parent)<span class="comment">#输出父节点及其内部内容</span></span><br></pre></td></tr></table></figure></p>
+<p>如果要获取所有的祖先节点，则用parents属性，返回结果也是一个生成器类型。<br>3.兄弟节点<br>获取同级节点:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#以节点p为例</span></span><br><span class="line">soup.p.next_sibling<span class="comment">#上一个</span></span><br><span class="line">soup.p.previous_sibling<span class="comment">#下一个</span></span><br><span class="line">soup.p.next_siblings<span class="comment">#生成器类型 所有的上面的同级</span></span><br><span class="line">soup.p.previous_siblings<span class="comment">#生成器类型 所有的下面的同级</span></span><br></pre></td></tr></table></figure></p>
+<p>4.提取信息<br>如果返回的是单个节点，可以直接调用string\attrs等属性获取对应节点的文本和属性。<br>如果返回的是多个节点的生成器，转化成列表后取出某个元素，在调用string\attrs等属性获取对应节点的文本和属性。</p>
+<h2 id="方法选择器"><a href="#方法选择器" class="headerlink" title="方法选择器"></a>方法选择器</h2><p>提供了一些方法可以灵活查询</p>
+<h3 id="find-all"><a href="#find-all" class="headerlink" title="find_all()"></a>find_all()</h3><p>查询所有符合条件的元素，API如下:<br>find_all(name,attrs,recursive,text,**kwargs)<br>1.name<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">soup.find_all(name=<span class="string">'ul'</span>)<span class="comment">#返回列表，所有的ul节点及其内部所有内容。</span></span><br><span class="line"><span class="comment">#可以嵌套</span></span><br></pre></td></tr></table></figure></p>
+<p>2.attrs<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">soup.find_all(attrs=&#123;<span class="string">'id'</span>:<span class="string">'list-1'</span>&#125;)</span><br><span class="line"><span class="comment">#查询id为list-1的节点</span></span><br><span class="line"><span class="comment">#返回列表，包含的内容是符合id=list-1d的所有节点</span></span><br></pre></td></tr></table></figure></p>
+<p>对于id、class等常用属性，可以不用attrs:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">soup.find_all(id=<span class="string">'list-1'</span>)</span><br><span class="line">soup.find_all(class_=<span class="string">'element'</span>)<span class="comment">#class为关键字，所以加下划线</span></span><br></pre></td></tr></table></figure></p>
+<p>3.text<br>匹配节点的文字，可以传入字符串，也可以是正则表达式<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">soup.find_all(text=re.compile(<span class="string">'link'</span>))</span><br><span class="line"><span class="comment">#返回所有匹配正则表达式的节点文本组成的列表</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="find"><a href="#find" class="headerlink" title="find()"></a>find()</h3><p>返回的是第一个匹配的元素，不再是列表形式</p>
+<h3 id="其他方法"><a href="#其他方法" class="headerlink" title="其他方法"></a>其他方法</h3><p>find_parents()返回所有祖先节点 find_parent()返回直接父节点<br>find_next_siblings()返回后面所有兄弟节点 find_next_sibling()返回后面的第一个兄弟节点<br>find_previous_siblings() find_previous_sibling()<br>find_all_next(）返回节点后所有符合条件的节点 find_next()返回第一个符合条件的节点<br>find_all_previous() find_previous()</p>
+<h2 id="CSS选择器"><a href="#CSS选择器" class="headerlink" title="CSS选择器"></a>CSS选择器</h2><p>只要调用select()方法，传入相应的CSS选择器即可<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">html = <span class="string">"""</span></span><br><span class="line"><span class="string">&lt;div class="panel"&gt;</span></span><br><span class="line"><span class="string">&lt;div class="panel-heading"&gt;</span></span><br><span class="line"><span class="string">&lt;h4&gt;Hello&lt;/h4&gt;</span></span><br><span class="line"><span class="string">&lt;/div&gt;</span></span><br><span class="line"><span class="string">&lt;div class="panel-body"&gt;</span></span><br><span class="line"><span class="string">&lt;ul class="list" id="list-1"&gt;</span></span><br><span class="line"><span class="string">&lt;li class="element"&gt;Foo&lt;/li&gt;</span></span><br><span class="line"><span class="string">&lt;li class="element"&gt;Bar&lt;/li&gt;</span></span><br><span class="line"><span class="string">&lt;li class="element"&gt;Jay&lt;/li&gt;</span></span><br><span class="line"><span class="string">&lt;/ul&gt;</span></span><br><span class="line"><span class="string">&lt;ul class="list" id="list-2"&gt;</span></span><br><span class="line"><span class="string">&lt;li class="element"&gt;Foo&lt;/li&gt;</span></span><br><span class="line"><span class="string">&lt;li class="element"&gt;Bar&lt;/li&gt;</span></span><br><span class="line"><span class="string">&lt;/ul&gt;</span></span><br><span class="line"><span class="string">&lt;/div&gt;</span></span><br><span class="line"><span class="string">&lt;/div&gt;</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line">soup = BeautifulSoup(html,<span class="string">'lxml'</span>)</span><br><span class="line">print(soup.select(<span class="string">'.panel .panel-heading'</span>))</span><br><span class="line"><span class="comment"># [&lt;div class="panel-heading"&gt;</span></span><br><span class="line"><span class="comment"># &lt;h4&gt;Hello&lt;/h4&gt;</span></span><br><span class="line"><span class="comment"># &lt;/div&gt;]</span></span><br><span class="line">print(soup.select(<span class="string">'ul li'</span>))</span><br><span class="line"><span class="comment"># [&lt;li class="element"&gt;Foo&lt;/li&gt;, &lt;li class="element"&gt;Bar&lt;/li&gt;, &lt;li class="element"&gt;Jay&lt;/li&gt;, &lt;li class="element"&gt;Foo&lt;/li&gt;, &lt;li class="element"&gt;Bar&lt;/li&gt;]</span></span><br><span class="line">print(soup.select(<span class="string">'#list-2 .element'</span>))</span><br><span class="line"><span class="comment">#[&lt;li class="element"&gt;Foo&lt;/li&gt;, &lt;li class="element"&gt;Bar&lt;/li&gt;]</span></span><br><span class="line">print(soup.select(<span class="string">'ul'</span>)[<span class="number">0</span>])</span><br><span class="line"><span class="comment"># &lt;ul class="list" id="list-1"&gt;</span></span><br><span class="line"><span class="comment"># &lt;li class="element"&gt;Foo&lt;/li&gt;</span></span><br><span class="line"><span class="comment"># &lt;li class="element"&gt;Bar&lt;/li&gt;</span></span><br><span class="line"><span class="comment"># &lt;li class="element"&gt;Jay&lt;/li&gt;</span></span><br><span class="line"><span class="comment"># &lt;/ul&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="嵌套选择-1"><a href="#嵌套选择-1" class="headerlink" title="嵌套选择"></a>嵌套选择</h3><p>支持嵌套</p>
+<h3 id="获取属性"><a href="#获取属性" class="headerlink" title="获取属性"></a>获取属性</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> ul <span class="keyword">in</span> soup.select(<span class="string">'ul'</span>):</span><br><span class="line">    print(ul[<span class="string">'id'</span>])</span><br><span class="line"><span class="comment"># list-1</span></span><br><span class="line"><span class="comment"># list-2</span></span><br></pre></td></tr></table></figure>
+<h3 id="获取文本"><a href="#获取文本" class="headerlink" title="获取文本"></a>获取文本</h3><p>除了string属性，还有get_text方法<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> li <span class="keyword">in</span> soup.select(<span class="string">'li'</span>):</span><br><span class="line">    print(li.get_text())</span><br><span class="line">   <span class="comment">#print(li.string)</span></span><br><span class="line"><span class="comment"># Foo</span></span><br><span class="line"><span class="comment"># Bar</span></span><br><span class="line"><span class="comment"># Jay</span></span><br><span class="line"><span class="comment"># Foo</span></span><br><span class="line"><span class="comment"># Bar</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Beautiful Soup推荐使用lxml解析库，必要时使用html.parser<br>节点选择筛选功能弱但是速度快<br>建议使用find()、find_all()<br>如果熟悉CSS，可以用select()</p>
+<h2 id="豆瓣电影Top250-1"><a href="#豆瓣电影Top250-1" class="headerlink" title="豆瓣电影Top250"></a>豆瓣电影Top250</h2><p>下面来看一下利用bs4爬取信息:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse_one_page</span><span class="params">(soup)</span>:</span></span><br><span class="line">    items = soup.find_all(class_=<span class="string">'item'</span>)</span><br><span class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> items:</span><br><span class="line">        rank = item.find(class_=<span class="string">''</span>).get_text()</span><br><span class="line">        pic = item.find(name=<span class="string">'img'</span>)[<span class="string">'src'</span>]</span><br><span class="line">        title = item.find(class_=<span class="string">'title'</span>).get_text()</span><br><span class="line">        other_title = item.find(class_=<span class="string">'other'</span>).get_text()</span><br><span class="line"></span><br><span class="line">        info = item.find(class_=<span class="string">'bd'</span>)</span><br><span class="line">        info1 = info.find(name=<span class="string">'p'</span>).get_text().strip().split(<span class="string">'\n'</span>)</span><br><span class="line">        </span><br><span class="line">        actor = info1[<span class="number">0</span>]</span><br><span class="line">        time_country = info1[<span class="number">1</span>].strip()</span><br><span class="line">        score = info.find(class_=<span class="string">'rating_num'</span>).get_text()</span><br><span class="line">        quote = info.find(class_=<span class="string">'quote'</span>).get_text()</span><br></pre></td></tr></table></figure></p>
+<h1 id="pyquery"><a href="#pyquery" class="headerlink" title="pyquery"></a>pyquery</h1><p>首先看一下pyquery的初始化<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pyquery <span class="keyword">import</span> PyQuery <span class="keyword">as</span> pq</span><br><span class="line"><span class="comment">#pq里面可以传字符串、URL也可以传文件filename=''</span></span><br><span class="line">doc = pq(url=<span class="string">'https://www.baidu.com'</span>)</span><br><span class="line">print(doc(<span class="string">'title'</span>))</span><br></pre></td></tr></table></figure></p>
+<p>CSS选择器十分强大:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pyquery <span class="keyword">import</span> PyQuery <span class="keyword">as</span> pq</span><br><span class="line">html = <span class="string">'''</span></span><br><span class="line"><span class="string">&lt;div id="container"&gt;</span></span><br><span class="line"><span class="string">&lt;ul class="list"&gt;</span></span><br><span class="line"><span class="string">&lt;li class="item-0"&gt;first item&lt;/li&gt;</span></span><br><span class="line"><span class="string">&lt;li class="item-1"&gt;&lt;a href="link2.html"&gt;second item&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="string">&lt;li class="item-0 active"&gt;&lt;a href="link3.html"&gt;&lt;span class="bold"&gt;third item&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="string">&lt;/ul&gt;</span></span><br><span class="line"><span class="string">&lt;/div&gt;</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line">doc = pq(html)</span><br><span class="line">print(doc(<span class="string">'#container .list li'</span>))</span><br><span class="line"><span class="comment"># &lt;li class="item-0"&gt;first item&lt;/li&gt;</span></span><br><span class="line"><span class="comment"># &lt;li class="item-1"&gt;&lt;a href="link2.html"&gt;second item&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="comment"># &lt;li class="item-0 active"&gt;&lt;a href="link3.html"&gt;&lt;span class="bold"&gt;third item&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>首先初始化一个pq,然后传入CSS选择器#container .list li 意思是说选取id为container的节点,再选取其内部class为list的节点内部的所有li节点。</p>
+<h2 id="查找节点"><a href="#查找节点" class="headerlink" title="查找节点"></a>查找节点</h2><p>查询函数与jQuery中函数的用法完全相同<br>1.子节点<br>find(),传入CSS选择器，选择所有符合要求的子孙节点，如果要找子节点，则用children()方法<br>2.父节点<br>parent()获取某个节点的父节点<br>parents()获取祖先节点<br>3.兄弟节点<br>siblings()，获取所有的兄弟节点<br>如果要筛选出某一个兄弟节点，则向方法中传入CSS选择器即可</p>
+<h2 id="遍历"><a href="#遍历" class="headerlink" title="遍历"></a>遍历</h2><p>有时候筛选完后可能是多个节点的结果，如果需要对结果进行遍历，需要调用items()方法<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">html = <span class="string">'''</span></span><br><span class="line"><span class="string">&lt;div id="container"&gt;</span></span><br><span class="line"><span class="string">&lt;ul class="list"&gt;</span></span><br><span class="line"><span class="string">&lt;li class="item-0"&gt;first item&lt;/li&gt;</span></span><br><span class="line"><span class="string">&lt;li class="item-1"&gt;&lt;a href="link2.html"&gt;second item&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="string">&lt;li class="item-0 active"&gt;&lt;a href="link3.html"&gt;&lt;span class="bold"&gt;third item&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="string">&lt;/ul&gt;</span></span><br><span class="line"><span class="string">&lt;/div&gt;</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="keyword">from</span> pyquery <span class="keyword">import</span> PyQuery</span><br><span class="line">doc = PyQuery(html)</span><br><span class="line">lis = doc(<span class="string">'li'</span>).items()</span><br><span class="line"><span class="keyword">for</span> li <span class="keyword">in</span> lis:</span><br><span class="line">    print(li,type(li))</span><br><span class="line"><span class="comment"># &lt;li class="item-0"&gt;first item&lt;/li&gt;</span></span><br><span class="line"><span class="comment">#  &lt;class 'pyquery.pyquery.PyQuery'&gt;</span></span><br><span class="line"><span class="comment"># &lt;li class="item-1"&gt;&lt;a href="link2.html"&gt;second item&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="comment">#  &lt;class 'pyquery.pyquery.PyQuery'&gt;</span></span><br><span class="line"><span class="comment"># &lt;li class="item-0 active"&gt;&lt;a href="link3.html"&gt;&lt;span class="bold"&gt;third item&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="comment">#  &lt;class 'pyquery.pyquery.PyQuery'&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="获取信息"><a href="#获取信息" class="headerlink" title="获取信息"></a>获取信息</h2><h3 id="获取属性-1"><a href="#获取属性-1" class="headerlink" title="获取属性"></a>获取属性</h3><p>提取到某个节点后，用attr()方法来获取属性<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">html = <span class="string">'''</span></span><br><span class="line"><span class="string">&lt;div id="container"&gt;</span></span><br><span class="line"><span class="string">&lt;ul class="list"&gt;</span></span><br><span class="line"><span class="string">&lt;li class="item-0"&gt;first item&lt;/li&gt;</span></span><br><span class="line"><span class="string">&lt;li class="item-1"&gt;&lt;a href="link2.html"&gt;second item&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="string">&lt;li class="item-0 active"&gt;&lt;a href="link3.html"&gt;&lt;span class="bold"&gt;third item&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="string">&lt;/ul&gt;</span></span><br><span class="line"><span class="string">&lt;/div&gt;</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="keyword">from</span> pyquery <span class="keyword">import</span> PyQuery</span><br><span class="line">doc = PyQuery(html)</span><br><span class="line">a = doc(<span class="string">'.item-0.active a'</span>)</span><br><span class="line">print(a)</span><br><span class="line">print(a.attr(<span class="string">'href'</span>))</span><br><span class="line">print(a.attr.href)</span><br><span class="line"><span class="comment"># &lt;a href="link3.html"&gt;&lt;span class="bold"&gt;third item&lt;/span&gt;&lt;/a&gt;</span></span><br><span class="line"><span class="comment"># link3.html</span></span><br><span class="line"><span class="comment"># link3.html</span></span><br></pre></td></tr></table></figure></p>
+<p>如果有多个节点，attr只会返回第一个节点的属性</p>
+<h3 id="获取文本-1"><a href="#获取文本-1" class="headerlink" title="获取文本"></a>获取文本</h3><p>用text(),会忽略内部所有的html只返回纯文本<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a = doc(<span class="string">'.item-0.active a'</span>)</span><br><span class="line">print(a.text())</span><br></pre></td></tr></table></figure></p>
+<p>如果想要保留内部的html,则用html()方法<br>同样，如果是多个节点，html()返回第一个节点的内容，而text()则返回所有节点的，是一个用空格隔开的字符串</p>
+<h2 id="节点操作"><a href="#节点操作" class="headerlink" title="节点操作"></a>节点操作</h2><p>pyquery提供了很多方法可以对节点进行动态修改，比如为节点添加一个class、删除某个节点等操作。</p>
+<h3 id="addClass和removeClass"><a href="#addClass和removeClass" class="headerlink" title="addClass和removeClass"></a>addClass和removeClass</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">html = <span class="string">'''</span></span><br><span class="line"><span class="string">&lt;div id="container"&gt;</span></span><br><span class="line"><span class="string">&lt;ul class="list"&gt;</span></span><br><span class="line"><span class="string">&lt;li class="item-0"&gt;first item&lt;/li&gt;</span></span><br><span class="line"><span class="string">&lt;li class="item-1"&gt;&lt;a href="link2.html"&gt;second item&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="string">&lt;li class="item-0 active"&gt;&lt;a href="link3.html"&gt;&lt;span class="bold"&gt;third item&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="string">&lt;/ul&gt;</span></span><br><span class="line"><span class="string">&lt;/div&gt;</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="keyword">from</span> pyquery <span class="keyword">import</span> PyQuery</span><br><span class="line">doc = PyQuery(html)</span><br><span class="line">a = doc(<span class="string">'.item-0.active'</span>)</span><br><span class="line">print(a)</span><br><span class="line">print(a.removeClass(<span class="string">'active'</span>))</span><br><span class="line">print(a.addClass(<span class="string">'active'</span>))</span><br><span class="line"><span class="comment">#&lt;li class="item-0 active"&gt;&lt;a href="link3.html"&gt;&lt;span class="bold"&gt;third item&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="comment">#&lt;li class="item-0"&gt;&lt;a href="link3.html"&gt;&lt;span class="bold"&gt;third item&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="comment">#&lt;li class="item-0 active"&gt;&lt;a href="link3.html"&gt;&lt;span class="bold"&gt;third item&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="attr、text、html"><a href="#attr、text、html" class="headerlink" title="attr、text、html"></a>attr、text、html</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">html = <span class="string">'''</span></span><br><span class="line"><span class="string">&lt;div id="container"&gt;</span></span><br><span class="line"><span class="string">&lt;ul class="list"&gt;</span></span><br><span class="line"><span class="string">&lt;li class="item-0"&gt;first item&lt;/li&gt;</span></span><br><span class="line"><span class="string">&lt;li class="item-1"&gt;&lt;a href="link2.html"&gt;second item&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="string">&lt;li class="item-0 active"&gt;&lt;a href="link3.html"&gt;&lt;span class="bold"&gt;third item&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="string">&lt;/ul&gt;</span></span><br><span class="line"><span class="string">&lt;/div&gt;</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="keyword">from</span> pyquery <span class="keyword">import</span> PyQuery</span><br><span class="line">doc = PyQuery(html)</span><br><span class="line">a = doc(<span class="string">'.item-0.active'</span>)</span><br><span class="line">print(a)</span><br><span class="line">print(a.attr(<span class="string">'name'</span>,<span class="string">'link'</span>))</span><br><span class="line">print(a.text(<span class="string">'change the text'</span>))</span><br><span class="line">print(a.html(<span class="string">'&lt;span&gt;change again&lt;/span&gt;'</span>))</span><br><span class="line"><span class="comment">#&lt;li class="item-0 active"&gt;&lt;a href="link3.html"&gt;&lt;span class="bold"&gt;third item&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="comment">#&lt;li class="item-0 active" name="link"&gt;&lt;a href="link3.html"&gt;&lt;span class="bold"&gt;third item&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="comment">#&lt;li class="item-0 active" name="link"&gt;change the text&lt;/li&gt;</span></span><br><span class="line"><span class="comment">#&lt;li class="item-0 active" name="link"&gt;&lt;span&gt;change again&lt;/span&gt;&lt;/li&gt;</span></span><br></pre></td></tr></table></figure>
+<p>attr()，第一个参数是属性名，第二个参数是属性值，可以用来添加或者修改某个属性，如果只传入第一个参数，则结果就是获取其属性值<br>text()、html()，如果传入参数，则变为修改文本，如果没有参数，则是获取文本</p>
+<h3 id="remove"><a href="#remove" class="headerlink" title="remove()"></a>remove()</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">html = <span class="string">'''</span></span><br><span class="line"><span class="string">&lt;div class="wrap"&gt;</span></span><br><span class="line"><span class="string">    Hello World</span></span><br><span class="line"><span class="string">&lt;p&gt;This is a gragraph&lt;/p&gt;</span></span><br><span class="line"><span class="string">&lt;/div&gt;</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="keyword">from</span> pyquery <span class="keyword">import</span> PyQuery</span><br><span class="line">doc = PyQuery(html)</span><br><span class="line">wrap = doc(<span class="string">'.wrap'</span>)</span><br><span class="line">print(wrap.text())</span><br><span class="line"><span class="comment"># Hello World</span></span><br><span class="line"><span class="comment"># This is a gragraph</span></span><br><span class="line">wrap.find(<span class="string">'p'</span>).remove()</span><br><span class="line">print(wrap.text())</span><br><span class="line"><span class="comment">#Hello World</span></span><br></pre></td></tr></table></figure>
+<p>另外，还有append()、empty()、prepend()等方法</p>
+<h2 id="伪类选择器"><a href="#伪类选择器" class="headerlink" title="伪类选择器"></a>伪类选择器</h2><p>支持多种多样的伪类选择器，例如选择第一个节点、最后一个节点、奇偶数节点、包含某一文本的节点<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">html = <span class="string">'''</span></span><br><span class="line"><span class="string">&lt;div id="container"&gt;</span></span><br><span class="line"><span class="string">&lt;ul class="list"&gt;</span></span><br><span class="line"><span class="string">&lt;li class="item-0"&gt;first item&lt;/li&gt;</span></span><br><span class="line"><span class="string">&lt;li class="item-1"&gt;&lt;a href="link2.html"&gt;second item&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="string">&lt;li class="item-0 active"&gt;&lt;a href="link3.html"&gt;&lt;span class="bold"&gt;third item&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="string">&lt;/ul&gt;</span></span><br><span class="line"><span class="string">&lt;/div&gt;</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="keyword">from</span> pyquery <span class="keyword">import</span> PyQuery</span><br><span class="line">doc = PyQuery(html)</span><br><span class="line">li = doc(<span class="string">'li:first-child'</span>) <span class="comment">#第一个li节点</span></span><br><span class="line">print(li)</span><br><span class="line"><span class="comment">#&lt;li class="item-0"&gt;first item&lt;/li&gt;</span></span><br><span class="line">li = doc(<span class="string">'li:last-child'</span>) <span class="comment">#最后一个li节点</span></span><br><span class="line">print(li)</span><br><span class="line"><span class="comment">#&lt;li class="item-0 active"&gt;&lt;a href="link3.html"&gt;&lt;span class="bold"&gt;third item&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line">li = doc(<span class="string">'li:nth-child(2)'</span>) <span class="comment">#第二个li节点</span></span><br><span class="line">print(li)</span><br><span class="line"><span class="comment">#&lt;li class="item-1"&gt;&lt;a href="link2.html"&gt;second item&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line">li = doc(<span class="string">'li:gt(1)'</span>) <span class="comment">#第二个li节点之后的li节点</span></span><br><span class="line">print(li)</span><br><span class="line"><span class="comment">#&lt;li class="item-0 active"&gt;&lt;a href="link3.html"&gt;&lt;span class="bold"&gt;third item&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line">li = doc(<span class="string">'li:nth-child(2n)'</span>) <span class="comment">#偶数位置的li节点</span></span><br><span class="line">print(li)</span><br><span class="line"><span class="comment">#&lt;li class="item-1"&gt;&lt;a href="link2.html"&gt;second item&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line">li = doc(<span class="string">'li:contains(second)'</span>) <span class="comment">#包含second文本的li节点</span></span><br><span class="line">print(li)</span><br><span class="line"><span class="comment">#&lt;li class="item-1"&gt;&lt;a href="link2.html"&gt;second item&lt;/a&gt;&lt;/li&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="豆瓣电影Top250榜单"><a href="#豆瓣电影Top250榜单" class="headerlink" title="豆瓣电影Top250榜单"></a>豆瓣电影Top250榜单</h2><p>下面就用pyquery来提取一下影片信息<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse_one_page</span><span class="params">(doc)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> doc(<span class="string">'.item'</span>).items():</span><br><span class="line"></span><br><span class="line">        film = &#123;</span><br><span class="line">            <span class="string">'rank'</span>:item(<span class="string">'.pic em'</span>).text(),</span><br><span class="line">            <span class="string">'pic'</span>:item(<span class="string">'.pic img'</span>).attr(<span class="string">'src'</span>),</span><br><span class="line">            <span class="string">'title'</span>:item(<span class="string">'.title'</span>).text().strip().replace(<span class="string">'\xa0'</span>,<span class="string">''</span>),</span><br><span class="line">            <span class="string">'actor'</span>:item(<span class="string">'.bd p:first-child'</span>).text().strip().split(<span class="string">'\n'</span>)[<span class="number">0</span>].replace(<span class="string">'\xa0'</span>,<span class="string">''</span>),</span><br><span class="line">            <span class="string">'time'</span>:item(<span class="string">'.bd p:first-child'</span>).text().strip().split(<span class="string">'\n'</span>)[<span class="number">1</span>].replace(<span class="string">'\xa0'</span>,<span class="string">''</span>),</span><br><span class="line">            <span class="string">'score'</span>:item(<span class="string">'.rating_num'</span>).text(),</span><br><span class="line">            <span class="string">'quote'</span>:item(<span class="string">'.quote'</span>).text()</span><br><span class="line">&#125;</span><br><span class="line">        print(film)</span><br><span class="line">        <span class="keyword">with</span> open(<span class="string">'result3.txt'</span>,<span class="string">'a+'</span>,encoding=<span class="string">'utf-8'</span>) <span class="keyword">as</span> f:</span><br><span class="line">            f.write(str(film)+<span class="string">'\n'</span>)</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/爬虫/" rel="tag"># 爬虫</a>
+          
+            <a href="/tags/python/" rel="tag"># python</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/07/爬取豆瓣电影Top250榜单/" rel="next" title="爬取豆瓣电影Top250榜单">
+                <i class="fa fa-chevron-left"></i> 爬取豆瓣电影Top250榜单
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Chen Zhaoyun" />
+            
+              <p class="site-author-name" itemprop="name">Chen Zhaoyun</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#XPth"><span class="nav-number">1.</span> <span class="nav-text">XPth</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#所有节点-子节点-父节点"><span class="nav-number">1.1.</span> <span class="nav-text">所有节点 子节点 父节点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#所有节点"><span class="nav-number">1.1.1.</span> <span class="nav-text">所有节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#子节点"><span class="nav-number">1.1.2.</span> <span class="nav-text">子节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#父节点"><span class="nav-number">1.1.3.</span> <span class="nav-text">父节点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#属性匹配"><span class="nav-number">1.2.</span> <span class="nav-text">属性匹配</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文本获取"><span class="nav-number">1.3.</span> <span class="nav-text">文本获取</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#属性获取"><span class="nav-number">1.4.</span> <span class="nav-text">属性获取</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#属性多值匹配"><span class="nav-number">1.5.</span> <span class="nav-text">属性多值匹配</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多属性匹配"><span class="nav-number">1.6.</span> <span class="nav-text">多属性匹配</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#按序选择"><span class="nav-number">1.7.</span> <span class="nav-text">按序选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#节点轴选择"><span class="nav-number">1.8.</span> <span class="nav-text">节点轴选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#豆瓣电影Top250"><span class="nav-number">1.9.</span> <span class="nav-text">豆瓣电影Top250</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Beautiful-Soup"><span class="nav-number">2.</span> <span class="nav-text">Beautiful Soup</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#节点选择器"><span class="nav-number">2.1.</span> <span class="nav-text">节点选择器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#选择元素"><span class="nav-number">2.1.1.</span> <span class="nav-text">选择元素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#提取信息"><span class="nav-number">2.1.2.</span> <span class="nav-text">提取信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#嵌套选择"><span class="nav-number">2.1.3.</span> <span class="nav-text">嵌套选择</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关联选择"><span class="nav-number">2.1.4.</span> <span class="nav-text">关联选择</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法选择器"><span class="nav-number">2.2.</span> <span class="nav-text">方法选择器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#find-all"><span class="nav-number">2.2.1.</span> <span class="nav-text">find_all()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#find"><span class="nav-number">2.2.2.</span> <span class="nav-text">find()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他方法"><span class="nav-number">2.2.3.</span> <span class="nav-text">其他方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSS选择器"><span class="nav-number">2.3.</span> <span class="nav-text">CSS选择器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#嵌套选择-1"><span class="nav-number">2.3.1.</span> <span class="nav-text">嵌套选择</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取属性"><span class="nav-number">2.3.2.</span> <span class="nav-text">获取属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取文本"><span class="nav-number">2.3.3.</span> <span class="nav-text">获取文本</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">2.4.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#豆瓣电影Top250-1"><span class="nav-number">2.5.</span> <span class="nav-text">豆瓣电影Top250</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#pyquery"><span class="nav-number">3.</span> <span class="nav-text">pyquery</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#查找节点"><span class="nav-number">3.1.</span> <span class="nav-text">查找节点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#遍历"><span class="nav-number">3.2.</span> <span class="nav-text">遍历</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取信息"><span class="nav-number">3.3.</span> <span class="nav-text">获取信息</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#获取属性-1"><span class="nav-number">3.3.1.</span> <span class="nav-text">获取属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取文本-1"><span class="nav-number">3.3.2.</span> <span class="nav-text">获取文本</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#节点操作"><span class="nav-number">3.4.</span> <span class="nav-text">节点操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#addClass和removeClass"><span class="nav-number">3.4.1.</span> <span class="nav-text">addClass和removeClass</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#attr、text、html"><span class="nav-number">3.4.2.</span> <span class="nav-text">attr、text、html</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#remove"><span class="nav-number">3.4.3.</span> <span class="nav-text">remove()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#伪类选择器"><span class="nav-number">3.5.</span> <span class="nav-text">伪类选择器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#豆瓣电影Top250榜单"><span class="nav-number">3.6.</span> <span class="nav-text">豆瓣电影Top250榜单</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chen Zhaoyun</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'KSn8wT5RN2dHd9qrxrtR3e0g-gzGzoHsz',
+        appKey: 'DezWAMrdLtNBOzESQv1mlViN',
+        placeholder: '你也上网冲浪呀',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
