@@ -93,8 +93,8 @@
 <meta property="og:image" content="http://yoursite.com/2018/12/02/爬取空间说说并制作词云图/page.jpg">
 <meta property="og:image" content="http://yoursite.com/2018/12/02/爬取空间说说并制作词云图/msgList.jpg">
 <meta property="og:image" content="http://yoursite.com/2018/12/02/爬取空间说说并制作词云图/nopage.jpg">
-<meta property="og:image" content="http://yoursite.com/2018/12/02/爬取空间说说并制作词云图/resukt1.jpg">
-<meta property="og:updated_time" content="2018-12-04T02:45:30.570Z">
+<meta property="og:image" content="http://yoursite.com/2018/12/02/爬取空间说说并制作词云图/result1.jpg">
+<meta property="og:updated_time" content="2018-12-04T02:46:57.205Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="爬取空间说说并制作词云图">
 <meta name="twitter:description" content="实验目的&amp;emsp;&amp;emsp;本次实验的目的是爬取QQ空间的说说，并进行分词制作词云图，词云图的效果如下图所示: 实验环境Chrome V70ChromeDriver V2.43python3主要用到selenium、pyquery、jieba、wordcloud、matplotlib等python库 步骤分析&amp;emsp;&amp;emsp;我们爬取的是空间说说的页面，其URL为:https://use">
@@ -337,7 +337,7 @@
 <p>&emsp;&emsp;如果想要更新分词字典，比如设置一些人名、流行语等不被分割，可以用jieba.add_word()方法增加。</p>
 <h1 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h1><p>&emsp;&emsp;爬取说说:完整代码见<a href="https://github.com/ChenZY96/SpiderStudy/blob/master/QZone.py" target="_blank" rel="noopener">QZone.py</a><br>&emsp;&emsp;生成词云:完整代码见<a href="https://github.com/ChenZY96/SpiderStudy/blob/master/QZone_cloud.py" target="_blank" rel="noopener">QZone_cloud.py</a></p>
 <h1 id="实验结果与说明"><a href="#实验结果与说明" class="headerlink" title="实验结果与说明"></a>实验结果与说明</h1><p>&emsp;&emsp;爬取说说:<br><figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python QZone.py QQ_number</span><br></pre></td></tr></table></figure></p>
-<p><img src="/2018/12/02/爬取空间说说并制作词云图/resukt1.jpg" alt=""><br>会生成QZone.txt的文件。</p>
+<p><img src="/2018/12/02/爬取空间说说并制作词云图/result1.jpg" alt=""><br>会生成QZone.txt的文件。</p>
 <p>&emsp;&emsp;生成词云图:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python QZone_cloud.py</span><br></pre></td></tr></table></figure></p>
 <p>效果如开头所示。</p>
 <p>&emsp;&emsp;最后说明，有时候自动登录如果爬取的次数多了，会遇到填写验证码，可以自行加入验证码模块，也可以直接选择扫码登录；如果想要爬取好友的说说，只需要在运行的时候输入好友的QQ号，用自己的账号密码登录即可，但要确保有空间访问权限。</p>
