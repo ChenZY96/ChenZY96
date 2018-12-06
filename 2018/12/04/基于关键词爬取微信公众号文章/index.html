@@ -79,18 +79,23 @@
 
 
 
-<meta name="description" content="&amp;emsp;&amp;emsp;有些网站会有反爬虫措施，比如服务器会检测某个IP在单位时间内的请求次数，如果超过某个阈值，那么服务器会拒绝服务，返回错误信息，也就是我们俗称的“封IP”。遇到这种情况，我们就需要使用代理，应对这一封IP的举措。 设置代理&amp;emsp;&amp;emsp;可以自己在本地搭建代理，也可以去网上找免费的或者付费的代理，最好是选择高匿名代理，付费的比免费的好用。&amp;emsp;&amp;emsp;这里，">
+<meta name="description" content="实验目的本实验的目的是利用关键词搜索相关的微信公众号文章，提取正文、发表日期、公众号等内容并保存到本地。爬取的来源是搜狗微信搜索平台， 是搜狗在2014年6月9日推出的一款针对微信公众平台而设立的，支持搜索微信公众号和微信文章，可以通过关键词搜索相关的微信公众号，或者是微信公众号推送的文章，我们利用该网站来爬取相关的公众号文章。 实验环境步骤分析搜狗对微信公众号平台上的文章和公众号进行了一个整合，">
 <meta name="keywords" content="爬虫,python">
 <meta property="og:type" content="article">
-<meta property="og:title" content="爬虫学习(7)">
-<meta property="og:url" content="http://yoursite.com/2018/12/01/爬虫学习-7/index.html">
+<meta property="og:title" content="基于关键词爬取微信公众号文章">
+<meta property="og:url" content="http://yoursite.com/2018/12/04/基于关键词爬取微信公众号文章/index.html">
 <meta property="og:site_name" content="国民大可爱、">
-<meta property="og:description" content="&amp;emsp;&amp;emsp;有些网站会有反爬虫措施，比如服务器会检测某个IP在单位时间内的请求次数，如果超过某个阈值，那么服务器会拒绝服务，返回错误信息，也就是我们俗称的“封IP”。遇到这种情况，我们就需要使用代理，应对这一封IP的举措。 设置代理&amp;emsp;&amp;emsp;可以自己在本地搭建代理，也可以去网上找免费的或者付费的代理，最好是选择高匿名代理，付费的比免费的好用。&amp;emsp;&amp;emsp;这里，">
+<meta property="og:description" content="实验目的本实验的目的是利用关键词搜索相关的微信公众号文章，提取正文、发表日期、公众号等内容并保存到本地。爬取的来源是搜狗微信搜索平台， 是搜狗在2014年6月9日推出的一款针对微信公众平台而设立的，支持搜索微信公众号和微信文章，可以通过关键词搜索相关的微信公众号，或者是微信公众号推送的文章，我们利用该网站来爬取相关的公众号文章。 实验环境步骤分析搜狗对微信公众号平台上的文章和公众号进行了一个整合，">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-12-01T06:06:50.122Z">
+<meta property="og:image" content="http://yoursite.com/2018/12/04/基于关键词爬取微信公众号文章/sougou.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/12/04/基于关键词爬取微信公众号文章/python.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/12/04/基于关键词爬取微信公众号文章/page.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/12/04/基于关键词爬取微信公众号文章/page0.jpg">
+<meta property="og:updated_time" content="2018-12-06T12:53:19.134Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="爬虫学习(7)">
-<meta name="twitter:description" content="&amp;emsp;&amp;emsp;有些网站会有反爬虫措施，比如服务器会检测某个IP在单位时间内的请求次数，如果超过某个阈值，那么服务器会拒绝服务，返回错误信息，也就是我们俗称的“封IP”。遇到这种情况，我们就需要使用代理，应对这一封IP的举措。 设置代理&amp;emsp;&amp;emsp;可以自己在本地搭建代理，也可以去网上找免费的或者付费的代理，最好是选择高匿名代理，付费的比免费的好用。&amp;emsp;&amp;emsp;这里，">
+<meta name="twitter:title" content="基于关键词爬取微信公众号文章">
+<meta name="twitter:description" content="实验目的本实验的目的是利用关键词搜索相关的微信公众号文章，提取正文、发表日期、公众号等内容并保存到本地。爬取的来源是搜狗微信搜索平台， 是搜狗在2014年6月9日推出的一款针对微信公众平台而设立的，支持搜索微信公众号和微信文章，可以通过关键词搜索相关的微信公众号，或者是微信公众号推送的文章，我们利用该网站来爬取相关的公众号文章。 实验环境步骤分析搜狗对微信公众号平台上的文章和公众号进行了一个整合，">
+<meta name="twitter:image" content="http://yoursite.com/2018/12/04/基于关键词爬取微信公众号文章/sougou.jpg">
 
 
 
@@ -120,13 +125,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/12/01/爬虫学习-7/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/12/04/基于关键词爬取微信公众号文章/"/>
 
 
 
 
 
-  <title>爬虫学习(7) | 国民大可爱、</title>
+  <title>基于关键词爬取微信公众号文章 | 国民大可爱、</title>
   
 
 
@@ -233,7 +238,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/01/爬虫学习-7/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/04/基于关键词爬取微信公众号文章/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Chen Zhaoyun">
@@ -250,7 +255,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">爬虫学习(7)</h1>
+          <h1 class="post-title" itemprop="name headline">基于关键词爬取微信公众号文章</h1>
         
 
         <div class="post-meta">
@@ -262,8 +267,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-01T12:53:48+08:00">
-                2018-12-01
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-04T16:09:47+08:00">
+                2018-12-04
               </time>
             
 
@@ -281,8 +286,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/12/01/爬虫学习-7/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/12/01/爬虫学习-7/" itemprop="commentCount"></span>
+                <a href="/2018/12/04/基于关键词爬取微信公众号文章/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/12/04/基于关键词爬取微信公众号文章/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -310,16 +315,11 @@
       
 
       
-        <p>&emsp;&emsp;有些网站会有反爬虫措施，比如服务器会检测某个IP在单位时间内的请求次数，如果超过某个阈值，那么服务器会拒绝服务，返回错误信息，也就是我们俗称的“封IP”。遇到这种情况，我们就需要使用<strong>代理</strong>，应对这一封IP的举措。</p>
-<h1 id="设置代理"><a href="#设置代理" class="headerlink" title="设置代理"></a>设置代理</h1><p>&emsp;&emsp;可以自己在本地搭建代理，也可以去网上找免费的或者付费的代理，最好是选择高匿名代理，付费的比免费的好用。<br>&emsp;&emsp;这里，我从<a href="https://www.kuaidaili.com/free/" target="_blank" rel="noopener">https://www.kuaidaili.com/free/</a> 上查找可用的免费代理，但是不保证时效性，使用之前需要自己先试验。</p>
-<h2 id="requests代理设置"><a href="#requests代理设置" class="headerlink" title="requests代理设置"></a>requests代理设置</h2><p>&emsp;&emsp;requests的代理设置非常简单，只需要构造代理字典，通过proxies传参即可。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">proxy = <span class="string">'221.218.102.146:42667'</span></span><br><span class="line">proxies = &#123;</span><br><span class="line">    <span class="string">'http'</span>:<span class="string">'http://'</span>+proxy,</span><br><span class="line">    <span class="string">'https'</span>:<span class="string">'https://'</span>+proxy,</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    response = requests.get(<span class="string">'http://httpbin.org/get'</span>,proxies=proxies)</span><br><span class="line">    print(response.text)</span><br><span class="line"><span class="keyword">except</span> requests.exceptions.ConnectionError <span class="keyword">as</span> e:</span><br><span class="line">    print(<span class="string">'Error'</span>,e.args)</span><br><span class="line">···</span><br><span class="line">运行结果如下:</span><br><span class="line">```html</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"args"</span>: &#123;&#125;, </span><br><span class="line">  <span class="string">"headers"</span>: &#123;</span><br><span class="line">    <span class="string">"Accept"</span>: <span class="string">"*/*"</span>, </span><br><span class="line">    <span class="string">"Accept-Encoding"</span>: <span class="string">"gzip, deflate"</span>, </span><br><span class="line">    <span class="string">"Connection"</span>: <span class="string">"close"</span>, </span><br><span class="line">    <span class="string">"Host"</span>: <span class="string">"httpbin.org"</span>, </span><br><span class="line">    <span class="string">"User-Agent"</span>: <span class="string">"python-requests/2.18.4"</span></span><br><span class="line">  &#125;, </span><br><span class="line">  <span class="string">"origin"</span>: <span class="string">"221.218.102.146"</span>, </span><br><span class="line">  <span class="string">"url"</span>: <span class="string">"http://httpbin.org/get"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>&emsp;&emsp;可以看到origin显示的是代理的ip，这说明代理已经设置成功</p>
-<h2 id="Selenium代理设置"><a href="#Selenium代理设置" class="headerlink" title="Selenium代理设置"></a>Selenium代理设置</h2><p>&emsp;&emsp;这里以常用的Chrome为例，通过ChromeOptions设置代理，在创建Chrome对象时用chrome_options传参。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line">proxy = <span class="string">'221.218.102.146:42667'</span></span><br><span class="line">chrome_options = webdriver.ChromeOptions()</span><br><span class="line">chrome_options.add_argument(<span class="string">'--proxy-server=http://'</span>+proxy)</span><br><span class="line">browser = webdriver.Chrome(chrome_options=chrome_options)</span><br><span class="line">browser.get(<span class="string">'http://httpbin.org/get'</span>)</span><br></pre></td></tr></table></figure></p>
-<p>运行结果如下<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  "args": &#123;&#125;, </span><br><span class="line">  "headers": &#123;</span><br><span class="line">    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8", </span><br><span class="line">    "Accept-Encoding": "gzip, deflate", </span><br><span class="line">    "Accept-Language": "zh-CN,zh;q=0.9", </span><br><span class="line">    "Connection": "close", </span><br><span class="line">    "Host": "httpbin.org", </span><br><span class="line">    "Upgrade-Insecure-Requests": "1", </span><br><span class="line">    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36"</span><br><span class="line">  &#125;, </span><br><span class="line">  "origin": "221.218.102.146", </span><br><span class="line">  "url": "http://httpbin.org/get"</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>&emsp;&emsp;origin就是我们使用的代理地址，设置成功。</p>
-<h1 id="代理池的维护"><a href="#代理池的维护" class="headerlink" title="代理池的维护"></a>代理池的维护</h1><p>&emsp;&emsp;有时候，我们会需要一个代理池来保证爬虫的有效进行。设置代理池主要分为四个模块：<br>1.存储模块:存储抓取的代理，保证不重复，并且可以标识可用程度，推荐使用Redis，可以用Sorted Set实现排序<br>2.获取模块:从各大代理网站抓取代理，IP+端口的形式，尽量抓取高匿代理<br>3.检测模块:定时检测数据库中的代理，是否可用，可以设置一个检测链接<br>4.接口模块:可以提供一个Web API接口，通过访问接口拿到可用代理，还可以设置随机返回某个可用代理；这一功能可以直接从数据库中选择可用代理，只不过是要配置连接数据库，不是特别安全和方便</p>
-<h1 id="付费代理"><a href="#付费代理" class="headerlink" title="付费代理"></a>付费代理</h1><p>&emsp;&emsp;相对于免费代理来说，付费代理稳定性更高，所以更推荐。</p>
-
+        <h1 id="实验目的"><a href="#实验目的" class="headerlink" title="实验目的"></a>实验目的</h1><p>本实验的目的是利用关键词搜索相关的微信公众号文章，提取正文、发表日期、公众号等内容并保存到本地。<br>爬取的来源是<a href="http://weixin.sogou.com/" target="_blank" rel="noopener">搜狗微信搜索平台</a>， 是搜狗在2014年6月9日推出的一款针对微信公众平台而设立的，支持搜索微信公众号和微信文章，可以通过关键词搜索相关的微信公众号，或者是微信公众号推送的文章，我们利用该网站来爬取相关的公众号文章。<br><img src="/2018/12/04/基于关键词爬取微信公众号文章/sougou.jpg" alt=""></p>
+<h1 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a>实验环境</h1><h1 id="步骤分析"><a href="#步骤分析" class="headerlink" title="步骤分析"></a>步骤分析</h1><p>搜狗对微信公众号平台上的文章和公众号进行了一个整合，可以通过改变关键词来进行相关文章的搜索。这里以搜索“python”为例，将URL中多余的参数进行删减，只留下相关参数，最后得到的链接为:<a href="http://weixin.sogou.com/weixin?type=2&amp;query=python" target="_blank" rel="noopener">http://weixin.sogou.com/weixin?type=2&amp;query=python</a>:<br><img src="/2018/12/04/基于关键词爬取微信公众号文章/python.jpg" alt=""><br>type=2表示搜索微信文章，query是搜索的关键词。<br>另外，如果多关键词搜索，URL的query参数由+链接,如搜索“python php”:<a href="http://weixin.sogou.com/weixin?type=2&amp;query=python+php" target="_blank" rel="noopener">http://weixin.sogou.com/weixin?type=2&amp;query=python+php</a> 。</p>
+<p>下拉页面，可以看到页面导航栏:<br><img src="/2018/12/04/基于关键词爬取微信公众号文章/page.jpg" alt=""><br>由于没有登录账号，所以只能看到10页的内容；如果登录账号，则可以看到100页的内容，所以在爬取的时候，我们要先微信扫码登录账户。<br><img src="/2018/12/04/基于关键词爬取微信公众号文章/page0.jpg" alt=""><br>进行翻页操作后，URL多了一个page的参数。</p>
+<p>如果页面连续刷新的速度过快，该站点就会启动反爬虫机制，弹出验证码，为了避免这种情况，我们有三种解决方案:<br>1.识别验证码进行IP解封<br>2.使用代理池,切换IP<br>3.引入time模块，每爬取一页休息几秒<br>为了不影响爬取速度，这里我们采用第二种方法，从代理池中选取代理IP。对于这种反爬虫能力很强的站点来说，如果网站返回的状态吗是302，则要重试，所以本实验打算构造一个请求队列，将所有待爬取的请求都存放在队列中，如果请求失败，则重新排队，保证该请求一定被调度。</p>
+<h1 id="实验过程"><a href="#实验过程" class="headerlink" title="实验过程"></a>实验过程</h1><h1 id="实验结果与说明"><a href="#实验结果与说明" class="headerlink" title="实验结果与说明"></a>实验结果与说明</h1>
       
     </div>
     
@@ -351,8 +351,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/11/29/Selenium-爬取淘宝商品信息/" rel="next" title="Selenium:爬取淘宝商品信息">
-                <i class="fa fa-chevron-left"></i> Selenium:爬取淘宝商品信息
+              <a href="/2018/12/02/爬取空间说说并制作词云图/" rel="next" title="爬取空间说说并制作词云图">
+                <i class="fa fa-chevron-left"></i> 爬取空间说说并制作词云图
               </a>
             
           </div>
@@ -361,8 +361,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/12/02/爬取空间说说并制作词云图/" rel="prev" title="爬取空间说说并制作词云图">
-                爬取空间说说并制作词云图 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/12/04/python爬虫之搭建代理池/" rel="prev" title="python爬虫之搭建代理池">
+                python爬虫之搭建代理池 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -493,7 +493,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#设置代理"><span class="nav-number">1.</span> <span class="nav-text">设置代理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#requests代理设置"><span class="nav-number">1.1.</span> <span class="nav-text">requests代理设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Selenium代理设置"><span class="nav-number">1.2.</span> <span class="nav-text">Selenium代理设置</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代理池的维护"><span class="nav-number">2.</span> <span class="nav-text">代理池的维护</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#付费代理"><span class="nav-number">3.</span> <span class="nav-text">付费代理</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#实验目的"><span class="nav-number">1.</span> <span class="nav-text">实验目的</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实验环境"><span class="nav-number">2.</span> <span class="nav-text">实验环境</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#步骤分析"><span class="nav-number">3.</span> <span class="nav-text">步骤分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实验过程"><span class="nav-number">4.</span> <span class="nav-text">实验过程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实验结果与说明"><span class="nav-number">5.</span> <span class="nav-text">实验结果与说明</span></a></li></ol></div>
             
 
           </div>
