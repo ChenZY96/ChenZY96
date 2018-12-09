@@ -79,18 +79,30 @@
 
 
 
-<meta name="description" content="&amp;emsp;&amp;emsp;有些网站会有反爬虫措施，比如服务器会检测某个IP在单位时间内的请求次数，如果超过某个阈值，那么服务器会拒绝服务，返回错误信息，也就是我们俗称的“封IP”。遇到这种情况，我们就需要使用代理，应对这一封IP的举措。 设置代理&amp;emsp;&amp;emsp;可以自己在本地搭建代理，也可以去网上找免费的或者付费的代理，最好是选择高匿名代理，付费的比免费的好用。&amp;emsp;&amp;emsp;这里，">
+<meta name="description" content="之前都是爬取Web网页的内容，这章学习一下App的爬取。如果要在App端查看各个网络的请求和响应过程，一般要使用抓包软件，常用的有WireShark、Filddler、Charles、mitmproxy、AnyProxy等，通过设置代理的方式将手机处于抓包软件的监听之下，方便查看App在运行过程中发生的所有请求和响应。 Charles的使用Charles是一个网络抓包工具，跨平台支持非常好，可以用">
 <meta name="keywords" content="爬虫,python">
 <meta property="og:type" content="article">
-<meta property="og:title" content="爬虫学习(7)">
-<meta property="og:url" content="http://yoursite.com/2018/12/01/爬虫学习-7/index.html">
+<meta property="og:title" content="爬虫学习(8)">
+<meta property="og:url" content="http://yoursite.com/2018/12/09/爬虫学习-8/index.html">
 <meta property="og:site_name" content="国民大可爱、">
-<meta property="og:description" content="&amp;emsp;&amp;emsp;有些网站会有反爬虫措施，比如服务器会检测某个IP在单位时间内的请求次数，如果超过某个阈值，那么服务器会拒绝服务，返回错误信息，也就是我们俗称的“封IP”。遇到这种情况，我们就需要使用代理，应对这一封IP的举措。 设置代理&amp;emsp;&amp;emsp;可以自己在本地搭建代理，也可以去网上找免费的或者付费的代理，最好是选择高匿名代理，付费的比免费的好用。&amp;emsp;&amp;emsp;这里，">
+<meta property="og:description" content="之前都是爬取Web网页的内容，这章学习一下App的爬取。如果要在App端查看各个网络的请求和响应过程，一般要使用抓包软件，常用的有WireShark、Filddler、Charles、mitmproxy、AnyProxy等，通过设置代理的方式将手机处于抓包软件的监听之下，方便查看App在运行过程中发生的所有请求和响应。 Charles的使用Charles是一个网络抓包工具，跨平台支持非常好，可以用">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-12-01T06:06:50.122Z">
+<meta property="og:image" content="http://yoursite.com/2018/12/09/爬虫学习-8/install.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/12/09/爬虫学习-8/ios.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/12/09/爬虫学习-8/connect.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/12/09/爬虫学习-8/charles.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/12/09/爬虫学习-8/comment.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/12/09/爬虫学习-8/fenxi1.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/12/09/爬虫学习-8/fenxi2.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/12/09/爬虫学习-8/mimca.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/12/09/爬虫学习-8/ca.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/12/09/爬虫学习-8/mimios.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/12/09/爬虫学习-8/test.jpg">
+<meta property="og:updated_time" content="2018-12-09T08:04:23.394Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="爬虫学习(7)">
-<meta name="twitter:description" content="&amp;emsp;&amp;emsp;有些网站会有反爬虫措施，比如服务器会检测某个IP在单位时间内的请求次数，如果超过某个阈值，那么服务器会拒绝服务，返回错误信息，也就是我们俗称的“封IP”。遇到这种情况，我们就需要使用代理，应对这一封IP的举措。 设置代理&amp;emsp;&amp;emsp;可以自己在本地搭建代理，也可以去网上找免费的或者付费的代理，最好是选择高匿名代理，付费的比免费的好用。&amp;emsp;&amp;emsp;这里，">
+<meta name="twitter:title" content="爬虫学习(8)">
+<meta name="twitter:description" content="之前都是爬取Web网页的内容，这章学习一下App的爬取。如果要在App端查看各个网络的请求和响应过程，一般要使用抓包软件，常用的有WireShark、Filddler、Charles、mitmproxy、AnyProxy等，通过设置代理的方式将手机处于抓包软件的监听之下，方便查看App在运行过程中发生的所有请求和响应。 Charles的使用Charles是一个网络抓包工具，跨平台支持非常好，可以用">
+<meta name="twitter:image" content="http://yoursite.com/2018/12/09/爬虫学习-8/install.jpg">
 
 
 
@@ -120,13 +132,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/12/01/爬虫学习-7/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/12/09/爬虫学习-8/"/>
 
 
 
 
 
-  <title>爬虫学习(7) | 国民大可爱、</title>
+  <title>爬虫学习(8) | 国民大可爱、</title>
   
 
 
@@ -233,7 +245,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/01/爬虫学习-7/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/09/爬虫学习-8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Chen Zhaoyun">
@@ -250,7 +262,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">爬虫学习(7)</h1>
+          <h1 class="post-title" itemprop="name headline">爬虫学习(8)</h1>
         
 
         <div class="post-meta">
@@ -262,8 +274,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-01T12:53:48+08:00">
-                2018-12-01
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-09T13:52:57+08:00">
+                2018-12-09
               </time>
             
 
@@ -281,8 +293,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/12/01/爬虫学习-7/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/12/01/爬虫学习-7/" itemprop="commentCount"></span>
+                <a href="/2018/12/09/爬虫学习-8/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/12/09/爬虫学习-8/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -310,15 +322,26 @@
       
 
       
-        <p>&emsp;&emsp;有些网站会有反爬虫措施，比如服务器会检测某个IP在单位时间内的请求次数，如果超过某个阈值，那么服务器会拒绝服务，返回错误信息，也就是我们俗称的“封IP”。遇到这种情况，我们就需要使用<strong>代理</strong>，应对这一封IP的举措。</p>
-<h1 id="设置代理"><a href="#设置代理" class="headerlink" title="设置代理"></a>设置代理</h1><p>&emsp;&emsp;可以自己在本地搭建代理，也可以去网上找免费的或者付费的代理，最好是选择高匿名代理，付费的比免费的好用。<br>&emsp;&emsp;这里，我从<a href="https://www.kuaidaili.com/free/" target="_blank" rel="noopener">https://www.kuaidaili.com/free/</a> 上查找可用的免费代理，但是不保证时效性，使用之前需要自己先试验。</p>
-<h2 id="requests代理设置"><a href="#requests代理设置" class="headerlink" title="requests代理设置"></a>requests代理设置</h2><p>&emsp;&emsp;requests的代理设置非常简单，只需要构造代理字典，通过proxies传参即可。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">proxy = <span class="string">'221.218.102.146:42667'</span></span><br><span class="line">proxies = &#123;</span><br><span class="line">    <span class="string">'http'</span>:<span class="string">'http://'</span>+proxy,</span><br><span class="line">    <span class="string">'https'</span>:<span class="string">'https://'</span>+proxy,</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    response = requests.get(<span class="string">'http://httpbin.org/get'</span>,proxies=proxies)</span><br><span class="line">    print(response.text)</span><br><span class="line"><span class="keyword">except</span> requests.exceptions.ConnectionError <span class="keyword">as</span> e:</span><br><span class="line">    print(<span class="string">'Error'</span>,e.args)</span><br><span class="line">···</span><br><span class="line">运行结果如下:</span><br><span class="line">```html</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"args"</span>: &#123;&#125;, </span><br><span class="line">  <span class="string">"headers"</span>: &#123;</span><br><span class="line">    <span class="string">"Accept"</span>: <span class="string">"*/*"</span>, </span><br><span class="line">    <span class="string">"Accept-Encoding"</span>: <span class="string">"gzip, deflate"</span>, </span><br><span class="line">    <span class="string">"Connection"</span>: <span class="string">"close"</span>, </span><br><span class="line">    <span class="string">"Host"</span>: <span class="string">"httpbin.org"</span>, </span><br><span class="line">    <span class="string">"User-Agent"</span>: <span class="string">"python-requests/2.18.4"</span></span><br><span class="line">  &#125;, </span><br><span class="line">  <span class="string">"origin"</span>: <span class="string">"221.218.102.146"</span>, </span><br><span class="line">  <span class="string">"url"</span>: <span class="string">"http://httpbin.org/get"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>&emsp;&emsp;可以看到origin显示的是代理的ip，这说明代理已经设置成功</p>
-<h2 id="Selenium代理设置"><a href="#Selenium代理设置" class="headerlink" title="Selenium代理设置"></a>Selenium代理设置</h2><p>&emsp;&emsp;这里以常用的Chrome为例，通过ChromeOptions设置代理，在创建Chrome对象时用chrome_options传参。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line">proxy = <span class="string">'221.218.102.146:42667'</span></span><br><span class="line">chrome_options = webdriver.ChromeOptions()</span><br><span class="line">chrome_options.add_argument(<span class="string">'--proxy-server=http://'</span>+proxy)</span><br><span class="line">browser = webdriver.Chrome(chrome_options=chrome_options)</span><br><span class="line">browser.get(<span class="string">'http://httpbin.org/get'</span>)</span><br></pre></td></tr></table></figure></p>
-<p>运行结果如下<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  "args": &#123;&#125;, </span><br><span class="line">  "headers": &#123;</span><br><span class="line">    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8", </span><br><span class="line">    "Accept-Encoding": "gzip, deflate", </span><br><span class="line">    "Accept-Language": "zh-CN,zh;q=0.9", </span><br><span class="line">    "Connection": "close", </span><br><span class="line">    "Host": "httpbin.org", </span><br><span class="line">    "Upgrade-Insecure-Requests": "1", </span><br><span class="line">    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36"</span><br><span class="line">  &#125;, </span><br><span class="line">  "origin": "221.218.102.146", </span><br><span class="line">  "url": "http://httpbin.org/get"</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>&emsp;&emsp;origin就是我们使用的代理地址，设置成功。</p>
-<h1 id="代理池的维护"><a href="#代理池的维护" class="headerlink" title="代理池的维护"></a>代理池的维护</h1><p>&emsp;&emsp;有时候，我们会需要一个代理池来保证爬虫的有效进行。设置代理池主要分为四个模块：<br>1.存储模块:存储抓取的代理，保证不重复，并且可以标识可用程度，推荐使用Redis，可以用Sorted Set实现排序<br>2.获取模块:从各大代理网站抓取代理，IP+端口的形式，尽量抓取高匿代理<br>3.检测模块:定时检测数据库中的代理，是否可用，可以设置一个检测链接<br>4.接口模块:可以提供一个Web API接口，通过访问接口拿到可用代理，还可以设置随机返回某个可用代理；这一功能可以直接从数据库中选择可用代理，只不过是要配置连接数据库，不是特别安全和方便</p>
-<h1 id="付费代理"><a href="#付费代理" class="headerlink" title="付费代理"></a>付费代理</h1><p>&emsp;&emsp;相对于免费代理来说，付费代理稳定性更高，所以更推荐。</p>
+        <p>之前都是爬取Web网页的内容，这章学习一下App的爬取。<br>如果要在App端查看各个网络的请求和响应过程，一般要使用抓包软件，常用的有WireShark、Filddler、Charles、mitmproxy、AnyProxy等，通过设置代理的方式将手机处于抓包软件的监听之下，方便查看App在运行过程中发生的所有请求和响应。</p>
+<h1 id="Charles的使用"><a href="#Charles的使用" class="headerlink" title="Charles的使用"></a>Charles的使用</h1><p>Charles是一个网络抓包工具，跨平台支持非常好，可以用来做App的抓包工具，得到网络请求响应内容，相当于Web浏览器的开发者工具Network部分看到的内容。</p>
+<h2 id="下载与配置"><a href="#下载与配置" class="headerlink" title="下载与配置"></a>下载与配置</h2><p>从官网直接下载:<a href="https://www.charlesproxy.com/download/" target="_blank" rel="noopener">https://www.charlesproxy.com/download/</a></p>
+<p>激活：自己从网上找激活账号，或者免费试用30天，后续还是可以免费试用的，只不过有时间限制</p>
+<p>配置证书:如果想要做HTTPS抓包，还需要配置相关的SSL证书。<br>Mac系统:<br>点击Help-SSL Proxying-Install Charles Root Certificate，即进入证书的安装页面。找到证书并双击，设置为“始终信任”。<br><img src="/2018/12/09/爬虫学习-8/install.jpg" alt=""><br>IOS系统:<br>查看Proxy-Proxy Settings,打开代理设置页面，确保HTTP代理开启，<br><img src="/2018/12/09/爬虫学习-8/ios.jpg" alt=""></p>
+<p>将手机和电脑连在同一局域网下，将手机的代理设置为和电脑IP一样。<br><img src="/2018/12/09/爬虫学习-8/connect.jpg" alt=""><br>点击 Allow，这样手机和PC连在同一局域网了，并且设置了Charles的代理，此时Charles可以抓取到流经App的数据包了。</p>
+<p>安装Charles的HTPPS证书:手机浏览器中打开chls.pro/ssl下载证书并安装。 </p>
+<p>开启SSL监听:点击Proxy-SSLProxying Settings,在弹出的窗口点击Add，添加需要监听的地址和端口，如果需要监听所有的HTTPS请求，直接将地址和端口设置为*</p>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>设置手机代理为Charles的代理地址，这样手机访问互联网的数据包就会流经Charles，Charles再转发这些数据包到真实的服务器，服务器返回的数据包再经由Charles转发回手机，相当于祈祷一个中间人的作用。Charles还有权利对请求和应用进行修改。</p>
+<h2 id="抓包"><a href="#抓包" class="headerlink" title="抓包"></a>抓包</h2><p>打开手机京东，搜索ipad，打开商品评论页面：</p>
+<p>不断下拉加载评论，可以看到Charles捕获到这个过程中京东App内发生的所有网络请求:<br><img src="/2018/12/09/爬虫学习-8/charles.jpg" alt=""><br>在api.m.jd.com中查看一条条目，切换到contents选项卡，发现一些JSON数据，核对一下结果，发现正好是我们正在App上看到的评论：<br><img src="/2018/12/09/爬虫学习-8/comment.jpg" alt=""><br>所以该接口就是获取商品评论的接口。这样我们就成功捕获到了在下拉刷新过程中发生的请求和响应内容。</p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>回到该请求的Overview选项卡，显示了该接口的URL、响应状态码、请求方式等:<br><img src="/2018/12/09/爬虫学习-8/fenxi1.jpg" alt=""><br>点击contents选项卡，查看该请求和响应的详情信息:<br><img src="/2018/12/09/爬虫学习-8/fenxi2.jpg" alt=""><br>上半部分显示Request信息，下半部分是Response信息。</p>
+<h2 id="重发"><a href="#重发" class="headerlink" title="重发"></a>重发</h2><p>这是Charles的一个强大的功能，可以修改捕获到的请求并进行重发，通过该功能，可以通过修改参数、接口等来测试不同请求的响应状态，判断哪些参数是必要的，以及参数规律。</p>
+<h1 id="mitmproxy的使用"><a href="#mitmproxy的使用" class="headerlink" title="mitmproxy的使用"></a>mitmproxy的使用</h1><p> mitmproxy是一个支持HTTP与HTTPS的抓包程序，通过控制台操作。它有两个关联组件:mitmdump和mitmweb。mitmdump是mitmproxy的命令行接口，可以对接python脚本，实现监听后的处理；mitmweb是一个Web程序，可以观察mitmproxy捕获的请求。</p>
+<h2 id="安装方式"><a href="#安装方式" class="headerlink" title="安装方式"></a>安装方式</h2><figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install mitmproxy</span><br></pre></td></tr></table></figure>
+<p>执行完毕后即可完成安装，附带安装了mitmdump和mitmweb这两个组件。</p>
+<h2 id="证书配置"><a href="#证书配置" class="headerlink" title="证书配置"></a>证书配置</h2><p>mitmproxy在安装后会提供一套CA证书，只需要信任，就可以通过它获取HTTPS请求的具体内容。<br>产生CA证书:<br><figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mitmdump</span><br></pre></td></tr></table></figure></p>
+<p>一共有五个证书:<br><img src="/2018/12/09/爬虫学习-8/mimca.jpg" alt=""><br>mac环境下证书配置过程如下：<br>点击mitmproxy-ca-cert.pem，弹出钥匙串管理页面，找到mitmproxy证书，打开设置选项，选择“始终信任”:<br><img src="/2018/12/09/爬虫学习-8/ca.jpg" alt=""><br>mac环境下证书配置过程如下：<br>将电脑和手机连接同一局域网，设置手机代理为电脑ip,端口号为8080<br>然后手机访问mitm.it,下载对于手机系统的证书。<br><img src="/2018/12/09/爬虫学习-8/mimios.jpg" alt=""></p>
+<h2 id="mitmproxy的使用-1"><a href="#mitmproxy的使用-1" class="headerlink" title="mitmproxy的使用"></a>mitmproxy的使用</h2><p>运行mitmproxy:<br><figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mitmproxy</span><br></pre></td></tr></table></figure></p>
+<p>运行成功后，只需要在手机浏览器上访问任意网页或浏览任意App,mitmproxy页面上就会呈现出手机的所有请求：<br><img src="/2018/12/09/爬虫学习-8/test.jpg" alt=""><br>这就相当于在浏览器中打开开发者工具监听到的请求。</p>
 
       
     </div>
@@ -351,8 +374,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/11/29/Selenium-爬取淘宝商品信息/" rel="next" title="Selenium:爬取淘宝商品信息">
-                <i class="fa fa-chevron-left"></i> Selenium:爬取淘宝商品信息
+              <a href="/2018/12/07/微信公众号文章爬取实战/" rel="next" title="微信公众号文章爬取实战">
+                <i class="fa fa-chevron-left"></i> 微信公众号文章爬取实战
               </a>
             
           </div>
@@ -361,8 +384,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/12/02/爬取空间说说并制作词云图/" rel="prev" title="爬取空间说说并制作词云图">
-                爬取空间说说并制作词云图 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/12/09/爬虫实战之北京空气质量年度数据/" rel="prev" title="爬虫实战之北京空气质量年度数据">
+                爬虫实战之北京空气质量年度数据 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -493,7 +516,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#设置代理"><span class="nav-number">1.</span> <span class="nav-text">设置代理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#requests代理设置"><span class="nav-number">1.1.</span> <span class="nav-text">requests代理设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Selenium代理设置"><span class="nav-number">1.2.</span> <span class="nav-text">Selenium代理设置</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代理池的维护"><span class="nav-number">2.</span> <span class="nav-text">代理池的维护</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#付费代理"><span class="nav-number">3.</span> <span class="nav-text">付费代理</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Charles的使用"><span class="nav-number">1.</span> <span class="nav-text">Charles的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#下载与配置"><span class="nav-number">1.1.</span> <span class="nav-text">下载与配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原理"><span class="nav-number">1.2.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#抓包"><span class="nav-number">1.3.</span> <span class="nav-text">抓包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分析"><span class="nav-number">1.4.</span> <span class="nav-text">分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重发"><span class="nav-number">1.5.</span> <span class="nav-text">重发</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#mitmproxy的使用"><span class="nav-number">2.</span> <span class="nav-text">mitmproxy的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装方式"><span class="nav-number">2.1.</span> <span class="nav-text">安装方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#证书配置"><span class="nav-number">2.2.</span> <span class="nav-text">证书配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mitmproxy的使用-1"><span class="nav-number">2.3.</span> <span class="nav-text">mitmproxy的使用</span></a></li></ol></li></ol></div>
             
 
           </div>
