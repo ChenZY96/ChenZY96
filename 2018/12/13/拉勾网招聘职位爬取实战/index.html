@@ -92,7 +92,7 @@
 <meta property="og:image" content="http://yoursite.com/2018/12/13/拉勾网招聘职位爬取实战/return.jpg">
 <meta property="og:image" content="http://yoursite.com/2018/12/13/拉勾网招聘职位爬取实战/result2.jpg">
 <meta property="og:image" content="http://yoursite.com/2018/12/13/拉勾网招聘职位爬取实战/result.jpg">
-<meta property="og:updated_time" content="2018-12-14T07:28:21.143Z">
+<meta property="og:updated_time" content="2018-12-14T07:42:20.104Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="拉勾网招聘职位爬取实战">
 <meta name="twitter:description" content="实验目的&amp;emsp;&amp;emsp;本次实验的目的是以北京的Python职位为例，爬取拉勾网相关职位的招聘信息。 实验环境python3主要用到requests、pyquery、pandas等库 爬取分析&amp;emsp;&amp;emsp;以北京地区的Python职位为例，其URL为:https://www.lagou.com/jobs/list_Python?city=%E5%8C%97%E4%BA%AC&amp;em">
@@ -330,6 +330,7 @@
 <p>&emsp;&emsp;以追加形式写入csv，并规定编码方式，否则会出现中文乱码的情况。</p>
 <h2 id="异常处理"><a href="#异常处理" class="headerlink" title="异常处理"></a>异常处理</h2><p>&emsp;&emsp;由于网站的反爬虫机制，我们的爬虫在爬取数据的过程中很大可能会被识别，所以可以将写入csv文件的位置放在爬虫结束的地方，下次爬取从本次停止的页数开始，将结果继续追加写入文件。</p>
 <h1 id="结果说明"><a href="#结果说明" class="headerlink" title="结果说明"></a>结果说明</h1><p>&emsp;&emsp;完整代码见<a href="https://github.com/ChenZY96/SpiderStudy/blob/master/lagou_job.py" target="_blank" rel="noopener">lagou_job.py</a></p>
+<p>&emsp;&emsp;运行本代码前，要先去获得自己的登录cookie，以及x-anti-forge-code和x-anti-forge-token的值，并填入代码中，<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#获取x-anti-forge-code和x-anti-forge-token的值</span></span><br><span class="line">r1 = requests.get(<span class="string">'https://passport.lagou.com/login/login.html'</span>,headers=&#123;<span class="string">'User-Agent'</span>: <span class="string">'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36'</span>,&#125;,)</span><br><span class="line">X_Anti_Forge_Token = re.findall(<span class="string">"X_Anti_Forge_Token = '(.*?)'"</span>, r1.text, re.S)[<span class="number">0</span>]</span><br><span class="line">X_Anti_Forge_Code = re.findall(<span class="string">"X_Anti_Forge_Code = '(.*?)'"</span>, r1.text, re.S)[<span class="number">0</span>]</span><br><span class="line">print(X_Anti_Forge_Token,X_Anti_Forge_Code)</span><br></pre></td></tr></table></figure></p>
 <p>&emsp;&emsp;以杭州地区的python岗位为例，运行代码,得到的结果如下:<br><img src="/2018/12/13/拉勾网招聘职位爬取实战/result2.jpg" alt=""><br>&emsp;&emsp;该搜索条件一共有137页结果，部分结果如下图所示：<br><img src="/2018/12/13/拉勾网招聘职位爬取实战/result.jpg" alt=""></p>
 <p>&emsp;&emsp;如果想要获取其他城市其他职位的招聘信息，只需要修改city和position两个参数即可。</p>
 <p>&emsp;&emsp;爬取到结果后，可以对数据进行进一步分析，得到更多信息。</p>
