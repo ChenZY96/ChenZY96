@@ -90,8 +90,9 @@
 <meta property="og:image" content="http://yoursite.com/2018/12/13/拉勾网招聘职位爬取实战/post.jpg">
 <meta property="og:image" content="http://yoursite.com/2018/12/13/拉勾网招聘职位爬取实战/lagou.jpg">
 <meta property="og:image" content="http://yoursite.com/2018/12/13/拉勾网招聘职位爬取实战/return.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/12/13/拉勾网招聘职位爬取实战/result2.jpg">
 <meta property="og:image" content="http://yoursite.com/2018/12/13/拉勾网招聘职位爬取实战/result.jpg">
-<meta property="og:updated_time" content="2018-12-14T06:29:30.248Z">
+<meta property="og:updated_time" content="2018-12-14T07:28:21.143Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="拉勾网招聘职位爬取实战">
 <meta name="twitter:description" content="实验目的&amp;emsp;&amp;emsp;本次实验的目的是以北京的Python职位为例，爬取拉勾网相关职位的招聘信息。 实验环境python3主要用到requests、pyquery、pandas等库 爬取分析&amp;emsp;&amp;emsp;以北京地区的Python职位为例，其URL为:https://www.lagou.com/jobs/list_Python?city=%E5%8C%97%E4%BA%AC&amp;em">
@@ -329,8 +330,9 @@
 <p>&emsp;&emsp;以追加形式写入csv，并规定编码方式，否则会出现中文乱码的情况。</p>
 <h2 id="异常处理"><a href="#异常处理" class="headerlink" title="异常处理"></a>异常处理</h2><p>&emsp;&emsp;由于网站的反爬虫机制，我们的爬虫在爬取数据的过程中很大可能会被识别，所以可以将写入csv文件的位置放在爬虫结束的地方，下次爬取从本次停止的页数开始，将结果继续追加写入文件。</p>
 <h1 id="结果说明"><a href="#结果说明" class="headerlink" title="结果说明"></a>结果说明</h1><p>&emsp;&emsp;完整代码见<a href="https://github.com/ChenZY96/SpiderStudy/blob/master/lagou_job.py" target="_blank" rel="noopener">lagou_job.py</a></p>
-<p>&emsp;&emsp;以杭州地区的python岗位为例，运行代码，得到的结果如下:<br><img src="/2018/12/13/拉勾网招聘职位爬取实战/result.jpg" alt=""></p>
-<p>&emsp;&emsp;如果想要获取其他城市其他职位的招聘信息，只需要修改city和position两个参数即可</p>
+<p>&emsp;&emsp;以杭州地区的python岗位为例，运行代码,得到的结果如下:<br><img src="/2018/12/13/拉勾网招聘职位爬取实战/result2.jpg" alt=""><br>&emsp;&emsp;该搜索条件一共有137页结果，部分结果如下图所示：<br><img src="/2018/12/13/拉勾网招聘职位爬取实战/result.jpg" alt=""></p>
+<p>&emsp;&emsp;如果想要获取其他城市其他职位的招聘信息，只需要修改city和position两个参数即可。</p>
+<p>&emsp;&emsp;爬取到结果后，可以对数据进行进一步分析，得到更多信息。</p>
 
       
     </div>
